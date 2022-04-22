@@ -364,21 +364,15 @@ Numero subclass: #Entero
 	poolDictionaries: ''
 	category: 'Numero-Exercise'!
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'edrr 4/20/2022 19:07:48'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:10:03'!
 * aMultiplier 
 	
-	(aMultiplier isKindOf: self class) 
-		ifTrue: [	^self class with: value * aMultiplier integerValue]
-		ifFalse: [^self * aMultiplier numerator / aMultiplier denominator].
-	! !
+	^aMultiplier multiplyByEntero: self.! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'edrr 4/20/2022 19:07:15'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:18:35'!
 + anAdder 
 	
-	(anAdder isKindOf: self class) 
-		ifTrue: [	^self class with: value + anAdder integerValue] 
-		ifFalse: [^anAdder denominator * self + anAdder numerator / anAdder denominator].
-! !
+	^anAdder isAddedByEntero: self.! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'edrr 4/20/2022 19:03:43'!
 - aSubtrahend 
@@ -417,6 +411,22 @@ fibonacci
 greatestCommonDivisorWith: anEntero 
 	
 	^self class with: (value gcd: anEntero integerValue)! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:18:35'!
+isAddedByEntero: anEntero
+	^anEntero class with: anEntero integerValue + self integerValue.! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:21:08'!
+isAddedByFraccion: aFraccion
+	^aFraccion numerator + (self * aFraccion denominator) / aFraccion denominator! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:08:14'!
+multiplyByEntero: aEntero
+	^aEntero class with: (aEntero integerValue * self integerValue).! !
+
+!Entero methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:12:43'!
+multiplyByFraccion: aFraccion
+	^self * aFraccion.! !
 
 
 !Entero methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 21:01'!
@@ -491,28 +501,15 @@ Numero subclass: #Fraccion
 	poolDictionaries: ''
 	category: 'Numero-Exercise'!
 
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'edrr 4/20/2022 18:02:29'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:14:35'!
 * aMultiplier 
 	
-	(aMultiplier isKindOf: self class)
-		ifTrue: [	^(numerator * aMultiplier numerator) / (denominator * aMultiplier denominator)] 
-		ifFalse: [^aMultiplier * self].
-	"ifFalse: [^aMultiplier * self numerator / self denominator]"
+	^aMultiplier multiplyByFraccion: self.! !
 
-	! !
-
-!Fraccion methodsFor: 'arithmetic operations' stamp: 'edrr 4/20/2022 17:57:25'!
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:21:42'!
 + anAdder 
 	
-	| newNumerator newDenominator |
-	(anAdder isKindOf: self class) ifTrue: [
-		newNumerator := (numerator * anAdder denominator) + (denominator * anAdder numerator).
-		newDenominator := denominator * anAdder denominator.
-	
-		^newNumerator / newDenominator] 
-		ifFalse: [^anAdder + self].
-	"ifFalse: [^self numerator + (anAdder * self denominator) / self denominator]"
-	
+	^anAdder isAddedByFraccion: self.
 	! !
 
 !Fraccion methodsFor: 'arithmetic operations' stamp: 'edrr 4/20/2022 19:06:16'!
@@ -533,6 +530,26 @@ Numero subclass: #Fraccion
 	(aDivisor isKindOf: self class) 
 		ifTrue: [	^(numerator * aDivisor denominator) / (denominator * aDivisor numerator)]
 		ifFalse: [^numerator / (denominator * aDivisor)].! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:18:35'!
+isAddedByEntero: anEntero
+	^self denominator * anEntero + self numerator / self denominator! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:20:33'!
+isAddedByFraccion: aFraccion
+	| newNumerator newDenominator |
+	newNumerator := (aFraccion numerator * self denominator) + (aFraccion denominator * self numerator).
+	newDenominator := aFraccion denominator * self denominator.
+	
+	^newNumerator / newDenominator! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:04:43'!
+multiplyByEntero: aEntero
+	^aEntero * numerator / denominator! !
+
+!Fraccion methodsFor: 'arithmetic operations' stamp: 'edrr 4/21/2022 21:13:52'!
+multiplyByFraccion: aFraccion
+	^(aFraccion numerator * self numerator) / (aFraccion denominator * self denominator)! !
 
 
 !Fraccion methodsFor: 'comparing' stamp: 'HernanWilkinson 5/7/2016 20:42'!
