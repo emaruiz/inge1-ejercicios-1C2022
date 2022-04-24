@@ -287,6 +287,116 @@ setUp
 	! !
 
 
+!classDefinition: #CalculadorFibonacci category: 'Numero-Exercise'!
+Object subclass: #CalculadorFibonacci
+	instanceVariableNames: 'entero'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!CalculadorFibonacci methodsFor: 'operations' stamp: 'JEO 4/23/2022 20:53:54'!
+calcular
+
+	self subclassResponsibility.! !
+
+
+!CalculadorFibonacci methodsFor: 'initialization' stamp: 'JEO 4/23/2022 20:46:18'!
+initializePara: anEntero 
+
+	entero := anEntero! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'CalculadorFibonacci class' category: 'Numero-Exercise'!
+CalculadorFibonacci class
+	instanceVariableNames: ''!
+
+!CalculadorFibonacci class methodsFor: 'calculador subclass search' stamp: 'JEO 4/23/2022 21:01:25'!
+calculadorPara: anEntero
+	| calculadorClass |
+	calculadorClass _ self subclasses detect: [ :unCalculadorClass | unCalculadorClass delTipoDe: anEntero ].
+	
+	^ calculadorClass para: anEntero.! !
+
+!CalculadorFibonacci class methodsFor: 'calculador subclass search' stamp: 'JEO 4/23/2022 20:50:18'!
+delTipoDe: anEntero
+	self subclassResponsibility.! !
+
+
+!CalculadorFibonacci class methodsFor: 'instance creation' stamp: 'JEO 4/23/2022 20:50:29'!
+para: anEntero
+	^self new initializePara: anEntero! !
+
+
+!classDefinition: #CalculadorFibonacciNegative category: 'Numero-Exercise'!
+CalculadorFibonacci subclass: #CalculadorFibonacciNegative
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!CalculadorFibonacciNegative methodsFor: 'operations' stamp: 'JEO 4/23/2022 20:53:54'!
+calcular
+	^ self error: Entero negativeFibonacciErrorDescription! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'CalculadorFibonacciNegative class' category: 'Numero-Exercise'!
+CalculadorFibonacciNegative class
+	instanceVariableNames: ''!
+
+!CalculadorFibonacciNegative class methodsFor: 'calculador subclass search' stamp: 'JEO 4/23/2022 20:50:49'!
+delTipoDe: anEntero
+	^ anEntero isNegative.! !
+
+
+!classDefinition: #CalculadorFibonacciPositiveGreaterThanOne category: 'Numero-Exercise'!
+CalculadorFibonacci subclass: #CalculadorFibonacciPositiveGreaterThanOne
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!CalculadorFibonacciPositiveGreaterThanOne methodsFor: 'operations' stamp: 'JEO 4/23/2022 20:53:54'!
+calcular
+	| one two |
+	one := Entero with: 1.
+	two := Entero with: 2.
+	^ (CalculadorFibonacci calculadorPara: (entero - one)) calcular + (CalculadorFibonacci calculadorPara: (entero - two)) calcular. ! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'CalculadorFibonacciPositiveGreaterThanOne class' category: 'Numero-Exercise'!
+CalculadorFibonacciPositiveGreaterThanOne class
+	instanceVariableNames: ''!
+
+!CalculadorFibonacciPositiveGreaterThanOne class methodsFor: 'calculador subclass search' stamp: 'JEO 4/23/2022 20:52:23'!
+delTipoDe: anEntero
+	^ anEntero isPositiveGreaterThanOne.! !
+
+
+!classDefinition: #CalculadorFibonacciZeroOrOne category: 'Numero-Exercise'!
+CalculadorFibonacci subclass: #CalculadorFibonacciZeroOrOne
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!CalculadorFibonacciZeroOrOne methodsFor: 'operations' stamp: 'JEO 4/23/2022 20:53:54'!
+calcular
+	^ Entero with: 1.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'CalculadorFibonacciZeroOrOne class' category: 'Numero-Exercise'!
+CalculadorFibonacciZeroOrOne class
+	instanceVariableNames: ''!
+
+!CalculadorFibonacciZeroOrOne class methodsFor: 'calculador subclass search' stamp: 'JEO 4/23/2022 20:52:01'!
+delTipoDe: anEntero
+	^ anEntero isOne or: anEntero isZero.! !
+
+
 !classDefinition: #Numero category: 'Numero-Exercise'!
 Object subclass: #Numero
 	instanceVariableNames: ''
@@ -323,6 +433,39 @@ invalidNumberType
 negated
 	
 	^self * (Entero with: -1)! !
+
+
+!Numero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:35:06'!
+addToEntero: anEntero
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:35:29'!
+addToFraccion: aFraccion
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:35:50'!
+divideAFraccion: aFraccion
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:36:18'!
+divideAnEntero: anEntero
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:38:48'!
+multiplyToEntero: anEntero
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:38:40'!
+multiplyToFraccion: aFraccion
+	self subclassResponsibility.! !
+
+!Numero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:39:52'!
+substractFromEntero: anEntero
+	self subclassResponsibility! !
+
+!Numero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:40:20'!
+substractFromFraccion: aFraccion
+	self subclassResponsibility.! !
 
 
 !Numero methodsFor: 'testing' stamp: 'NR 9/23/2018 23:36:49'!
@@ -364,36 +507,36 @@ Numero subclass: #Entero
 	poolDictionaries: ''
 	category: 'Numero-Exercise'!
 
-!Entero methodsFor: 'dispach' stamp: 'JEO 4/23/2022 17:40:22'!
+!Entero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 17:40:22'!
 addToEntero: anEntero
 	^anEntero class with: anEntero integerValue + self integerValue.! !
 
-!Entero methodsFor: 'dispach' stamp: 'JEO 4/23/2022 17:41:03'!
+!Entero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 17:41:03'!
 addToFraccion: aFraccion
 	^aFraccion numerator + (self * aFraccion denominator) / aFraccion denominator! !
 
-!Entero methodsFor: 'dispach' stamp: 'JEO 4/23/2022 18:15:39'!
+!Entero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 18:15:39'!
 divideAFraccion: aFraccion
 	^aFraccion numerator / (aFraccion denominator * self).! !
 
-!Entero methodsFor: 'dispach' stamp: 'JEO 4/23/2022 18:08:26'!
+!Entero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 18:08:26'!
 divideAnEntero: anEntero
 
 	^Fraccion with: anEntero over: self.! !
 
-!Entero methodsFor: 'dispach' stamp: 'JEO 4/23/2022 17:41:56'!
-multiplyToEntero: aEntero
-	^aEntero class with: (aEntero integerValue * self integerValue).! !
+!Entero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:39:14'!
+multiplyToEntero: anEntero
+	^anEntero class with: (anEntero integerValue * self integerValue).! !
 
-!Entero methodsFor: 'dispach' stamp: 'JEO 4/23/2022 17:42:22'!
+!Entero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:07:22'!
 multiplyToFraccion: aFraccion
-	^self * aFraccion.! !
+	^aFraccion numerator * self / aFraccion denominator.! !
 
-!Entero methodsFor: 'dispach' stamp: 'JEO 4/23/2022 17:59:22'!
+!Entero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 17:59:22'!
 substractFromEntero: anEntero
 	^ anEntero class with: (anEntero integerValue - self integerValue).! !
 
-!Entero methodsFor: 'dispach' stamp: 'JEO 4/23/2022 17:53:07'!
+!Entero methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 17:53:07'!
 substractFromFraccion: aFraccion
 	^ aFraccion numerator - (self * aFraccion denominator) / aFraccion denominator.! !
 
@@ -421,19 +564,9 @@ substractFromFraccion: aFraccion
 	
 	^self class with: value // aDivisor integerValue! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'HAW 9/24/2018 08:47:50'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'JEO 4/23/2022 21:03:41'!
 fibonacci
-
-	| one two |
-	
-	one := Entero with: 1.
-	two := Entero with: 2.
-	
-	self isNegative ifTrue: [self error: Entero negativeFibonacciErrorDescription ].	
-	(self isZero or: [self isOne]) ifTrue: [^one].
-	
-	^ (self - one) fibonacci + (self - two) fibonacci
-		! !
+	^ (CalculadorFibonacci calculadorPara: self) calcular.! !
 
 !Entero methodsFor: 'arithmetic operations' stamp: 'HernanWilkinson 5/7/2016 21:00'!
 greatestCommonDivisorWith: anEntero 
@@ -482,6 +615,10 @@ isOne
 	
 	^value = 1! !
 
+!Entero methodsFor: 'testing' stamp: 'JEO 4/23/2022 20:52:52'!
+isPositiveGreaterThanOne
+	^ value > 1.! !
+
 !Entero methodsFor: 'testing' stamp: 'HernanWilkinson 5/7/2016 20:12'!
 isZero
 	
@@ -513,9 +650,9 @@ Numero subclass: #Fraccion
 	poolDictionaries: ''
 	category: 'Numero-Exercise'!
 
-!Fraccion methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 17:40:22'!
+!Fraccion methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:18:52'!
 addToEntero: anEntero
-	^self denominator * anEntero + self numerator / self denominator! !
+	^ self + anEntero.! !
 
 !Fraccion methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 17:41:03'!
 addToFraccion: aFraccion
@@ -534,9 +671,9 @@ divideAnEntero: anEntero
 
 	^Fraccion with: (self denominator * anEntero) over: self numerator.! !
 
-!Fraccion methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 17:41:56'!
-multiplyToEntero: aEntero
-	^aEntero * numerator / denominator! !
+!Fraccion methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 21:17:02'!
+multiplyToEntero: anEntero
+	^ self * anEntero.! !
 
 !Fraccion methodsFor: 'dispatch' stamp: 'JEO 4/23/2022 17:42:22'!
 multiplyToFraccion: aFraccion
