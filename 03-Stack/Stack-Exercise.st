@@ -172,69 +172,87 @@ test01EmptyStack
 	sentenceFinder := SentenceFinderByPrefix new initializeWith: emptyStack.
 	self assert: (sentenceFinder find: 'Sent') equals: emptyCollection.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'JEO 4/26/2022 20:23:53'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'edrr 4/27/2022 18:16:11'!
 test02FoundInStackWithOneSentence
-	self assert: ((SentenceFinderByPrefix new initializeWith: stackWithOneSentence) find: '1Sent') equals: collectionWithSentenceOne.! !
+	| sentenceFinder |
+	sentenceFinder := SentenceFinderByPrefix new initializeWith: stackWithOneSentence.
+	self assert: (sentenceFinder find: '1Sent') equals: collectionWithSentenceOne.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'JEO 4/26/2022 19:48:41'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'edrr 4/27/2022 18:17:36'!
 test03NotFoundInStackWithOneSentence
-	self assert: ((SentenceFinderByPrefix new initializeWith: stackWithOneSentence) find: 'Two') equals: emptyCollection.! !
+	| sentenceFinder |
+	sentenceFinder := SentenceFinderByPrefix new initializeWith: stackWithOneSentence.
+	self assert: (sentenceFinder find: 'Two') equals: emptyCollection.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'JEO 4/26/2022 20:24:08'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'edrr 4/27/2022 18:18:15'!
 test04FoundIsFirstInStackWithTwoSentences
-	self assert: ((SentenceFinderByPrefix new initializeWith: stackWithTwoSentences) find: '1Sentence') equals: collectionWithSentenceOne.! !
+	| sentenceFinder |
+	sentenceFinder := SentenceFinderByPrefix new initializeWith: stackWithTwoSentences.
+	self assert: (sentenceFinder find: '1Sentence') equals: collectionWithSentenceOne.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'JEO 4/26/2022 20:24:17'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'edrr 4/27/2022 18:18:52'!
 test05FoundIsLastInStackWithTwoSentences
-	self assert: ((SentenceFinderByPrefix new initializeWith: stackWithTwoSentences) find: '2Sentence') equals: collectionWithSentenceTwo.! !
+	| sentenceFinder |
+	sentenceFinder := SentenceFinderByPrefix new initializeWith: stackWithTwoSentences.
+	self assert: (sentenceFinder find: '2Sentence') equals: collectionWithSentenceTwo.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'JEO 4/26/2022 20:26:54'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'edrr 4/27/2022 18:19:29'!
 test06FoundAllInStackWithThreeSentences
-	self assert: ((SentenceFinderByPrefix new initializeWith: stackWithIdenticalSentences) find: '1Sent') equals: collectionWithIdenticalSentences.! !
+	| sentenceFinder |
+	sentenceFinder := SentenceFinderByPrefix new initializeWith: stackWithIdenticalSentences.
+	self assert: (sentenceFinder find: '1Sent') equals: collectionWithIdenticalSentences.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'JEO 4/26/2022 20:27:14'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'edrr 4/27/2022 18:20:06'!
 test07NotFoundBecauseCaseSensitive
-	self assert: ((SentenceFinderByPrefix new initializeWith: stackWithThreeSentences) find: '1sentence') equals: emptyCollection.! !
+	| sentenceFinder |
+	sentenceFinder := SentenceFinderByPrefix new initializeWith: stackWithThreeSentences.
+	self assert: (sentenceFinder find: '1sentence') equals: emptyCollection.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'JEO 4/26/2022 20:11:07'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'edrr 4/27/2022 18:21:20'!
 test08EmptyPrefixRaisesError
 
+	| sentenceFinder |
+	sentenceFinder := SentenceFinderByPrefix new initializeWith: stackWithThreeSentences.
 	self
-		should: [ (SentenceFinderByPrefix new initializeWith: stackWithThreeSentences) find: ''. ]
+		should: [ sentenceFinder find: ''. ]
 		raise: Error 
 		withExceptionDo: [ :anError |
 			self assert: anError messageText = SentenceFinderByPrefix prefixEmptyErrorDescription ]
 		
 ! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'JEO 4/26/2022 20:28:06'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'edrr 4/27/2022 18:22:02'!
 test09PrefixWithSpacesRaisesError
 
+	| sentenceFinder |
+	sentenceFinder := SentenceFinderByPrefix new initializeWith: stackWithThreeSentences.
 	self
-		should: [ (SentenceFinderByPrefix new initializeWith: stackWithThreeSentences) find: '1Sentence one'. ]
+		should: [ sentenceFinder find: '1Sentence one'. ]
 		raise: Error 
 		withExceptionDo: [ :anError |
 			self assert: anError messageText = SentenceFinderByPrefix prefixWithSpacesErrorDescription ]
 		
 ! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'JEO 4/26/2022 20:41:37'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'edrr 4/27/2022 18:22:40'!
 test10FindMatchesAllAndMantainsSameOrderAsStack
 
-	| stack collection |
+	| stack collection sentenceFinder |
 	stack := ((OOStack new push: '-Hola'	) push: '-Que') push: '-Tal'.
 	collection := OrderedCollection with: '-Hola' with: '-Que' with: '-Tal'.
+	sentenceFinder := SentenceFinderByPrefix new initializeWith: stack.
 	
-	self assert: ((SentenceFinderByPrefix new initializeWith: stack) find: '-') equals: collection. 	! !
+	self assert: (sentenceFinder find: '-') equals: collection. 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'JEO 4/26/2022 20:45:01'!
+!SentenceFinderByPrefixTest methodsFor: 'tests' stamp: 'edrr 4/27/2022 18:23:12'!
 test11FindDoesntMatchAllAndMantainsSameOrderAsStack
 
-	| stack collection |
+	| stack collection sentenceFinder |
 	stack := ((OOStack new push: '-Hola'	) push: 'Que') push: '-Tal'.
 	collection := OrderedCollection with: '-Hola' with: '-Tal'.
+	sentenceFinder := SentenceFinderByPrefix new initializeWith: stack.
 	
-	self assert: ((SentenceFinderByPrefix new initializeWith: stack) find: '-') equals: collection. 	! !
+	self assert: (sentenceFinder find: '-') equals: collection. 	! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -264,37 +282,33 @@ initialize
 	content := OrderedCollection new.! !
 
 
-!OOStack methodsFor: 'error handling' stamp: 'JEO 4/26/2022 18:51:21'!
-stackEmptyError
+!OOStack methodsFor: 'error handling' stamp: 'edrr 4/27/2022 18:37:24'!
+raiseErrorEmptyStack
 	self error: self class stackEmptyErrorDescription.! !
 
 
-!OOStack methodsFor: 'dispatch' stamp: 'JEO 4/26/2022 18:45:37'!
-createPopTopExecutor
-	^PopTopExecutor selectForStack: self.! !
-
-!OOStack methodsFor: 'dispatch' stamp: 'JEO 4/26/2022 18:52:07'!
+!OOStack methodsFor: 'dispatch' stamp: 'edrr 4/27/2022 18:37:24'!
 popWithEmptyContent
-	self stackEmptyError.! !
+	self raiseErrorEmptyStack.! !
 
 !OOStack methodsFor: 'dispatch' stamp: 'JEO 4/26/2022 18:29:41'!
 popWithNotEmptyContent
 	^ content removeLast.! !
 
-!OOStack methodsFor: 'dispatch' stamp: 'JEO 4/26/2022 18:52:14'!
+!OOStack methodsFor: 'dispatch' stamp: 'edrr 4/27/2022 18:37:24'!
 topWithEmptyContent
-	self stackEmptyError.! !
+	self raiseErrorEmptyStack.! !
 
 !OOStack methodsFor: 'dispatch' stamp: 'JEO 4/26/2022 18:30:20'!
 topWithNotEmptyContent
 	^ content last.! !
 
 
-!OOStack methodsFor: 'operations' stamp: 'JEO 4/26/2022 18:45:37'!
+!OOStack methodsFor: 'operations' stamp: 'edrr 4/27/2022 19:02:45'!
 pop
-	^(PopTopExecutor selectForStack: self) executePopInStack.! !
+	^(OOStackTopPopDispatcher newForStack: self) doPopInStack.! !
 
-!OOStack methodsFor: 'operations' stamp: 'JEO 4/26/2022 18:00:26'!
+!OOStack methodsFor: 'operations' stamp: 'edrr 4/27/2022 19:09:45'!
 push: elementToPush 
 	content add: elementToPush.! !
 
@@ -302,9 +316,9 @@ push: elementToPush
 size
 	^content size.! !
 
-!OOStack methodsFor: 'operations' stamp: 'JEO 4/26/2022 18:45:37'!
+!OOStack methodsFor: 'operations' stamp: 'edrr 4/27/2022 19:02:45'!
 top
-	^(PopTopExecutor selectForStack: self) executeTopInStack.! !
+	^(OOStackTopPopDispatcher newForStack: self) doTopInStack.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -318,92 +332,92 @@ stackEmptyErrorDescription
 	^ 'stack is empty!!!!!!'! !
 
 
-!classDefinition: #PopTopExecutor category: 'Stack-Exercise'!
-Object subclass: #PopTopExecutor
+!classDefinition: #OOStackTopPopDispatcher category: 'Stack-Exercise'!
+Object subclass: #OOStackTopPopDispatcher
 	instanceVariableNames: 'stack'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!PopTopExecutor methodsFor: 'operations' stamp: 'JEO 4/26/2022 18:54:30'!
-executePopInStack
+!OOStackTopPopDispatcher methodsFor: 'operations' stamp: 'edrr 4/27/2022 19:00:27'!
+doPopInStack
 	self subclassResponsibility.! !
 
-!PopTopExecutor methodsFor: 'operations' stamp: 'JEO 4/26/2022 18:54:38'!
-executeTopInStack
+!OOStackTopPopDispatcher methodsFor: 'operations' stamp: 'edrr 4/27/2022 19:00:43'!
+doTopInStack
 	self subclassResponsibility.! !
 
 
-!PopTopExecutor methodsFor: 'initialization' stamp: 'JEO 4/26/2022 18:05:45'!
+!OOStackTopPopDispatcher methodsFor: 'initialization' stamp: 'JEO 4/26/2022 18:05:45'!
 initializeWith: anOOStack
 	stack := anOOStack.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'PopTopExecutor class' category: 'Stack-Exercise'!
-PopTopExecutor class
+!classDefinition: 'OOStackTopPopDispatcher class' category: 'Stack-Exercise'!
+OOStackTopPopDispatcher class
 	instanceVariableNames: ''!
 
-!PopTopExecutor class methodsFor: 'class initialization' stamp: 'JEO 4/26/2022 18:47:05'!
+!OOStackTopPopDispatcher class methodsFor: 'class initialization' stamp: 'JEO 4/26/2022 18:47:05'!
 isTypeOfStackState: anOOStack
 	self subclassResponsibility.! !
 
-!PopTopExecutor class methodsFor: 'class initialization' stamp: 'JEO 4/26/2022 18:47:05'!
-selectForStack: anOOStack
+!OOStackTopPopDispatcher class methodsFor: 'class initialization' stamp: 'edrr 4/27/2022 19:02:45'!
+newForStack: anOOStack
 	| subclass |
 	subclass := self subclasses detect: [:aSubclass | aSubclass isTypeOfStackState: anOOStack].
 	
 	^ subclass new initializeWith: anOOStack.! !
 
 
-!classDefinition: #PopTopExecutorStateEmpty category: 'Stack-Exercise'!
-PopTopExecutor subclass: #PopTopExecutorStateEmpty
+!classDefinition: #OOStackTopPopDispatcherForEmpty category: 'Stack-Exercise'!
+OOStackTopPopDispatcher subclass: #OOStackTopPopDispatcherForEmpty
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!PopTopExecutorStateEmpty methodsFor: 'operations' stamp: 'JEO 4/26/2022 18:35:30'!
-executePopInStack
+!OOStackTopPopDispatcherForEmpty methodsFor: 'operations' stamp: 'edrr 4/27/2022 19:00:27'!
+doPopInStack
 	^stack popWithEmptyContent.! !
 
-!PopTopExecutorStateEmpty methodsFor: 'operations' stamp: 'JEO 4/26/2022 18:35:57'!
-executeTopInStack
+!OOStackTopPopDispatcherForEmpty methodsFor: 'operations' stamp: 'edrr 4/27/2022 19:00:44'!
+doTopInStack
 	^stack topWithEmptyContent.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'PopTopExecutorStateEmpty class' category: 'Stack-Exercise'!
-PopTopExecutorStateEmpty class
+!classDefinition: 'OOStackTopPopDispatcherForEmpty class' category: 'Stack-Exercise'!
+OOStackTopPopDispatcherForEmpty class
 	instanceVariableNames: ''!
 
-!PopTopExecutorStateEmpty class methodsFor: 'class initialization' stamp: 'JEO 4/26/2022 18:47:05'!
+!OOStackTopPopDispatcherForEmpty class methodsFor: 'class initialization' stamp: 'JEO 4/26/2022 18:47:05'!
 isTypeOfStackState: anOOStack
 	^ anOOStack isEmpty.! !
 
 
-!classDefinition: #PopTopExecutorStateNotEmpty category: 'Stack-Exercise'!
-PopTopExecutor subclass: #PopTopExecutorStateNotEmpty
+!classDefinition: #OOStackTopPopDispatcherForNotEmpty category: 'Stack-Exercise'!
+OOStackTopPopDispatcher subclass: #OOStackTopPopDispatcherForNotEmpty
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!PopTopExecutorStateNotEmpty methodsFor: 'operations' stamp: 'JEO 4/26/2022 18:35:30'!
-executePopInStack
+!OOStackTopPopDispatcherForNotEmpty methodsFor: 'operations' stamp: 'edrr 4/27/2022 19:00:27'!
+doPopInStack
 	^ stack popWithNotEmptyContent.! !
 
-!PopTopExecutorStateNotEmpty methodsFor: 'operations' stamp: 'JEO 4/26/2022 18:35:57'!
-executeTopInStack
+!OOStackTopPopDispatcherForNotEmpty methodsFor: 'operations' stamp: 'edrr 4/27/2022 19:00:44'!
+doTopInStack
 	^ stack topWithNotEmptyContent.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'PopTopExecutorStateNotEmpty class' category: 'Stack-Exercise'!
-PopTopExecutorStateNotEmpty class
+!classDefinition: 'OOStackTopPopDispatcherForNotEmpty class' category: 'Stack-Exercise'!
+OOStackTopPopDispatcherForNotEmpty class
 	instanceVariableNames: ''!
 
-!PopTopExecutorStateNotEmpty class methodsFor: 'class initialization' stamp: 'JEO 4/26/2022 18:47:05'!
+!OOStackTopPopDispatcherForNotEmpty class methodsFor: 'class initialization' stamp: 'JEO 4/26/2022 18:47:05'!
 isTypeOfStackState: anOOStack
 	^ anOOStack isNotEmpty.! !
 
@@ -415,19 +429,26 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'operations' stamp: 'JEO 4/26/2022 20:49:57'!
+!SentenceFinderByPrefix methodsFor: 'operations' stamp: 'edrr 4/27/2022 19:35:53'!
 find: aPrefix
-	| results element |
-	results := OrderedCollection new.
 	
-	aPrefix = '' ifTrue: [self error: self class prefixEmptyErrorDescription].
-	(aPrefix findString: ' ') > 0 ifTrue: [self error: self class prefixWithSpacesErrorDescription].
+	self raiseErrorIfPrefixNotEmpty: aPrefix.
+	self raiseErrorIfPrefixHasSpaces: aPrefix.
+	
+	^self select: [:anElement | anElement beginsWith: aPrefix].! !
+
+!SentenceFinderByPrefix methodsFor: 'operations' stamp: 'edrr 4/27/2022 19:35:42'!
+select: aConditionBlock 
+	| element results stackElements |
+	results := OrderedCollection new.
+	stackElements := OrderedCollection new.
 	
 	[stack isNotEmpty] whileTrue: 
 		[element := stack pop.
-		 (element beginsWith: aPrefix) ifTrue: [results addFirst: element].
+		 (aConditionBlock value: element) ifTrue: [results addFirst: element].
+		stackElements addFirst: element.
 		].
-	
+	stackElements do: [:anElement | stack push: anElement ].
 	^results.! !
 
 
@@ -436,16 +457,27 @@ initializeWith: anOOStack
 
 	stack := anOOStack! !
 
+
+!SentenceFinderByPrefix methodsFor: 'validation' stamp: 'edrr 4/27/2022 17:43:46'!
+raiseErrorIfPrefixHasSpaces: aPrefix
+
+	^ (aPrefix findString: ' ') > 0 ifTrue: [self error: self class prefixWithSpacesErrorDescription]! !
+
+!SentenceFinderByPrefix methodsFor: 'validation' stamp: 'edrr 4/27/2022 17:43:05'!
+raiseErrorIfPrefixNotEmpty: aPrefix
+
+	^ aPrefix = '' ifTrue: [self error: self class prefixEmptyErrorDescription]! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'SentenceFinderByPrefix class' category: 'Stack-Exercise'!
 SentenceFinderByPrefix class
 	instanceVariableNames: ''!
 
-!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'JEO 4/26/2022 20:10:47'!
+!SentenceFinderByPrefix class methodsFor: 'error descriptions' stamp: 'JEO 4/26/2022 20:10:47'!
 prefixEmptyErrorDescription
 	^ 'empty prefix not allowed'.! !
 
-!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'JEO 4/26/2022 20:15:35'!
+!SentenceFinderByPrefix class methodsFor: 'error descriptions' stamp: 'JEO 4/26/2022 20:15:35'!
 prefixWithSpacesErrorDescription
 	^ 'prefix with empty spaces not allowed'.! !
