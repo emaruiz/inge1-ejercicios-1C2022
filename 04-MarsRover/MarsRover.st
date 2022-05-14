@@ -273,15 +273,15 @@ test25MarsRoverRecievesAnotherInvalidCommandStops
 	self assert: (marsrover isAt: 0@0 heading: self northOrientation).! !
 
 
-!MarsRoverTest methodsFor: 'setUp' stamp: 'jeo 5/13/2022 20:23:38'!
+!MarsRoverTest methodsFor: 'setUp' stamp: 'jeo 5/14/2022 15:48:07'!
 createMarsRoverHeadingNorth
 
-	^ MarsRover at: 0@0 heading: NorthOrientation new.! !
+	^ MarsRover at: 0@0 heading: NorthOrientation.! !
 
-!MarsRoverTest methodsFor: 'setUp' stamp: 'jeo 5/13/2022 20:23:25'!
+!MarsRoverTest methodsFor: 'setUp' stamp: 'jeo 5/14/2022 15:48:13'!
 createMarsRoverHeadingSouth
 
-	^ MarsRover at: 0@0 heading: SouthOrientation new.! !
+	^ MarsRover at: 0@0 heading: SouthOrientation.! !
 
 
 !MarsRoverTest methodsFor: 'orientations' stamp: 'jeo 5/13/2022 20:13:35'!
@@ -312,80 +312,133 @@ Object subclass: #MarsRover
 	poolDictionaries: ''
 	category: 'MarsRover'!
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:34:30'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:46:31'!
+headingEast
+
+	^ heading:=EastOrientation new! !
+
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:46:44'!
+headingNorth
+
+	^ heading:=NorthOrientation new! !
+
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:46:55'!
+headingSouth
+
+	^ heading:=SouthOrientation new! !
+
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:47:08'!
+headingWest
+
+	^ heading:=WestOrientation new! !
+
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:38:00'!
 moveBackwardsFromEast
 	
-	position := (position x - 1) @ position y! !
+	self moveWest! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:41:28'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:37:48'!
 moveBackwardsFromNorth
-	position := position x @ (position y-1)! !
+	self moveSouth! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:27:19'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:37:08'!
 moveBackwardsFromSouth
 	
-	position := position x @ (position y+1)! !
+	self moveNorth! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:36:58'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:37:34'!
 moveBackwardsFromWest
 	
-	position := (position x + 1) @ position y! !
+	self moveEast! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:33:29'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:37:34'!
+moveEast
+
+	^ position := (position x + 1) @ position y! !
+
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:37:34'!
 moveForwardFromEast
 	
-	position := (position x + 1) @ position y! !
+	self moveEast! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:42:19'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:37:08'!
 moveForwardFromNorth
-	position := position x @ (position y+1)! !
+	self moveNorth! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:26:12'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:37:48'!
 moveForwardFromSouth
 	
-	position := position x @ (position y-1)! !
+	self moveSouth! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:36:10'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:38:00'!
 moveForwardFromWest
 	
-	position := (position x - 1) @ position y! !
+	self moveWest! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:30:01'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:37:08'!
+moveNorth
+
+	^ position := position x @ (position y+1)! !
+
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:37:48'!
+moveSouth
+	position := position x @ (position y-1)! !
+
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:38:00'!
+moveWest
+
+	^ position := (position x - 1) @ position y! !
+
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:46:44'!
 rotateLeftFromEast
 	
-	heading:=NorthOrientation new.! !
+	self headingNorth.! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:37:53'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:47:08'!
 rotateLeftFromNorth
-	heading:=WestOrientation new! !
+	self headingWest! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:28:45'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:46:31'!
 rotateLeftFromSouth
 	
-	heading:=EastOrientation new! !
+	self headingEast! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:38:46'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:46:55'!
 rotateLeftFromWest
 	
-	heading:=SouthOrientation new! !
+	self headingSouth! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:40:34'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:46:55'!
 rotateRightFromEast
-	heading := SouthOrientation new! !
+	self headingSouth.! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:39:47'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:46:31'!
 rotateRightFromNorth
 	
-	heading :=EastOrientation new! !
+	self headingEast.! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:31:01'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:47:08'!
 rotateRightFromSouth
-	heading :=WestOrientation new.! !
+	self headingWest! !
 
-!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/13/2022 20:32:46'!
+!MarsRover methodsFor: 'commands-private' stamp: 'jeo 5/14/2022 15:46:44'!
 rotateRightFromWest
-	heading :=NorthOrientation new.! !
+	self headingNorth! !
 
+
+!MarsRover methodsFor: 'commands' stamp: 'jeo 5/14/2022 15:44:24'!
+executeValidCommandSequence: validCommandSequence
+
+	validCommandSequence do: [:aSingleCommand | 	 
+		aSingleCommand = $f ifTrue: [self moveForward].
+		aSingleCommand = $b ifTrue: [self moveBackwards].
+		aSingleCommand = $l 		ifTrue: [self rotateLeft].
+		aSingleCommand = $r ifTrue: [self rotateRight].]! !
+
+!MarsRover methodsFor: 'commands' stamp: 'jeo 5/14/2022 15:53:20'!
+isValidCommand: aSingleCommand
+	
+	^ self validCommands anySatisfy: [:aCommand | aSingleCommand = aCommand].! !
 
 !MarsRover methodsFor: 'commands' stamp: 'jeo 5/13/2022 20:50:00'!
 moveBackwards
@@ -397,23 +450,21 @@ moveForward
 	
 	heading moveForwardWithMarsRover: self.! !
 
-!MarsRover methodsFor: 'commands' stamp: 'jeo 5/13/2022 20:51:48'!
-processCommand: aCommand 
-	
-	"REFACTORIZAR"
-	
-	aCommand = '' ifTrue: [^self].
-	
-	(1 to: aCommand size) do: [:index | 	 
-		(aCommand at: index) = $f 
-			ifTrue: [self moveForward]
-			ifFalse: [	(aCommand at: index) = $b 
-				ifTrue: [self moveBackwards]
-				ifFalse: [	(aCommand at: index) = $l 
-					ifTrue: [self rotateLeft]
-					ifFalse: [	(aCommand at: index) = $r 
-						ifTrue: [self rotateRight]
-						ifFalse: [^self]]]]].! !
+!MarsRover methodsFor: 'commands' stamp: 'jeo 5/14/2022 15:44:07'!
+processCommand: aCommandSequence 
+	| validCommandSequence |
+	validCommandSequence := self processValidCommandSequence: aCommandSequence.
+	self executeValidCommandSequence: validCommandSequence.! !
+
+!MarsRover methodsFor: 'commands' stamp: 'jeo 5/14/2022 15:45:24'!
+processValidCommandSequence: aCommandSequence 
+	| validCommandSequence |
+	validCommandSequence := ''.
+	aCommandSequence do: [:aSingleCommand | 
+		(self isValidCommand: aSingleCommand)
+			ifTrue: [validCommandSequence := validCommandSequence , aSingleCommand asString.]
+			ifFalse: [^validCommandSequence]].
+	^validCommandSequence.! !
 
 !MarsRover methodsFor: 'commands' stamp: 'jeo 5/13/2022 20:47:28'!
 rotateLeft
@@ -425,20 +476,23 @@ rotateRight
 
 	heading rotateRightWithMarsRover: self.! !
 
+!MarsRover methodsFor: 'commands' stamp: 'jeo 5/14/2022 15:53:03'!
+validCommands
 
-!MarsRover methodsFor: 'position' stamp: 'jeo 5/13/2022 20:51:21'!
-isAt: aPosition heading: aHeading 
+	^ #($f $b $l $r)! !
+
+
+!MarsRover methodsFor: 'position' stamp: 'jeo 5/14/2022 15:56:21'!
+isAt: aPosition heading: aOrientationClass 
 	
-	" CAMBIAR EL isKindOf"
-	
-	^position = aPosition and: (heading isKindOf: aHeading).! !
+	^position = aPosition and: (heading isKindOf: aOrientationClass).! !
 
 
-!MarsRover methodsFor: 'initialization' stamp: 'edrr 5/12/2022 20:58:25'!
-initializeAt: aPosition heading: aHeading 
+!MarsRover methodsFor: 'initialization' stamp: 'jeo 5/14/2022 15:56:48'!
+initializeAt: aPosition heading: aOrientationClass 
 	
 	position := aPosition.
-	heading := aHeading.! !
+	heading := aOrientationClass new.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -446,10 +500,10 @@ initializeAt: aPosition heading: aHeading
 MarsRover class
 	instanceVariableNames: ''!
 
-!MarsRover class methodsFor: 'instance creation' stamp: 'edrr 5/12/2022 20:58:03'!
-at: aPosition heading: aHeading 
+!MarsRover class methodsFor: 'instance creation' stamp: 'jeo 5/14/2022 15:56:36'!
+at: aPosition heading: aOrientationClass 
 	
-	^self new initializeAt: aPosition heading: aHeading ! !
+	^self new initializeAt: aPosition heading: aOrientationClass ! !
 
 
 !classDefinition: #MarsRoverOrientation category: 'MarsRover'!
