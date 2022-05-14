@@ -414,15 +414,13 @@ processCommand: aCommandSequence
 	validCommandSequence := self processValidCommandSequence: aCommandSequence.
 	self executeValidCommandSequence: validCommandSequence.! !
 
-!MarsRover methodsFor: 'commands' stamp: 'jeo 5/14/2022 15:45:24'!
+!MarsRover methodsFor: 'commands' stamp: 'edrr 5/14/2022 16:20:22'!
 processValidCommandSequence: aCommandSequence 
-	| validCommandSequence |
-	validCommandSequence := ''.
-	aCommandSequence do: [:aSingleCommand | 
+
+	^aCommandSequence inject: '' into: [:validCommandSequence :aSingleCommand |
 		(self isValidCommand: aSingleCommand)
-			ifTrue: [validCommandSequence := validCommandSequence , aSingleCommand asString.]
-			ifFalse: [^validCommandSequence]].
-	^validCommandSequence.! !
+			ifTrue: [validCommandSequence , aSingleCommand asString.]
+			ifFalse: [^validCommandSequence]].! !
 
 !MarsRover methodsFor: 'commands' stamp: 'jeo 5/13/2022 20:47:28'!
 rotateLeft
@@ -574,16 +572,6 @@ rotateLeftWithMarsRover: aMarsRover
 rotateRightWithMarsRover: aMarsRover 
 	
 	aMarsRover rotateRightFromSouth.! !
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'SouthOrientation class' category: 'MarsRover'!
-SouthOrientation class
-	instanceVariableNames: ''!
-
-!SouthOrientation class methodsFor: 'as yet unclassified' stamp: 'jeo 5/13/2022 20:22:15'!
-moveForwardWithMarsRover: aMarsRover 
-	self shouldBeImplemented.! !
 
 
 !classDefinition: #WestOrientation category: 'MarsRover'!
