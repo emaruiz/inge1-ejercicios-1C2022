@@ -14,260 +14,218 @@ test01MarsRoverStaysStillWhenRecivesEmptyComand
 	
 	self assert: (marsrover isAt: 0@0 heading: self southOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:12:44'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:01:58'!
 test02MarsRoverMovesForwardWhenRecivesFComand
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'f'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 0@-1 heading: self southOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:12:44'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:02:12'!
 test03MarsRoverMovesForwardTwoTimesWhenRecivesTwoFComand
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'ff'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 0@-2 heading: self southOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:12:44'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:02:22'!
 test04MarsRoverMovesBackwardsWhenRecivesBComand
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'b'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 0@1 heading: self southOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:12:44'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:02:28'!
 test05MarsRoverMovesBackwardsTwoTimesWhenRecivesTwoBComand
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'bb'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 0@2 heading: self southOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:25'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:02:36'!
 test06MarsRoverRotatesLeftWhenRecivesLComand
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'l'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 0@0 heading: self eastOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:56'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:02:42'!
 test07MarsRoverRotatesTwoTimesLeftWhenRecivesTwoLComand
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'll'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 0@0 heading: self northOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:22:46'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:02:48'!
 test08MarsRoverRotatesRightWhenRecivesRComand
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'r'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 0@0 heading: self westOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:56'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:02:55'!
 test09MarsRoverRotatesTwoTimesRightWhenRecivesTwoRComand
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'rr'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 0@0 heading: self northOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:25'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:03:02'!
 test10MarsRoverRotateLeftThenMovesForward
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'lf'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 1@0 heading: self eastOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:25'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:03:09'!
 test11MarsRoverRotateLeftThenMovesBackwards
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'lb'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: -1@0 heading: self eastOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:22:46'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:03:17'!
 test12MarsRoverRotateRightThenMovesForward
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'rf'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: -1@0 heading: self westOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:22:46'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:03:24'!
 test13MarsRoverRotateRightThenMovesBackwards
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'rb'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 1@0 heading: self westOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:25'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:03:30'!
 test14MarsRoverRotateLeftThenMovesForwardTwoTimes
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'lff'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 2@0 heading: self eastOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:25'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:03:38'!
 test15MarsRoverRotateLeftThenMovesBackwardsTwoTimes
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'lbb'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: -2@0 heading: self eastOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:22:46'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:03:45'!
 test16MarsRoverRotateRightThenMovesForwardTwoTimes
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'rff'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: -2@0 heading: self westOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:22:46'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:03:53'!
 test17MarsRoverRotateRightThenMovesBackwardsTwoTimes
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'rbb'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 2@0 heading: self westOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:22:46'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:04:02'!
 test18MarsRoverRotatesThreeTimesLeft
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'lll'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 0@0 heading: self westOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:12:44'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:04:07'!
 test19MarsRoverRotatesFourTimesLeft
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'llll'.
 	
 	self assert: (marsrover isAt: 0@0 heading: self southOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:25'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:04:16'!
 test20MarsRoverRotatesThreeTimesRight
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'rrr'.
 	
-	self deny: (marsrover isAt: 0@0 heading: self southOrientation).
 	self assert: (marsrover isAt: 0@0 heading: self eastOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:12:44'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:04:21'!
 test21MarsRoverRotatesFourTimesRight
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingSouth.
-	
 	marsrover processCommand: 'rrrr'.
 	
 	self assert: (marsrover isAt: 0@0 heading: self southOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:56'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:04:27'!
 test22MarsRoverHeadingNorthThenMovesBackwards
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingNorth.
-	
 	marsrover processCommand: 'b'.
 	
 	self assert: (marsrover isAt: 0@-1 heading: self northOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:56'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:04:32'!
 test23MarsRoverHeadingNorthThenMovesForward
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingNorth.
-	
 	marsrover processCommand: 'f'.
 	
 	self assert: (marsrover isAt: 0@1 heading: self northOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:56'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:04:37'!
 test24MarsRoverRecievesInvalidCommandThenStops
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingNorth.
-	
 	marsrover processCommand: 'qf'.
 	
 	self assert: (marsrover isAt: 0@0 heading: self northOrientation).! !
 
-!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/13/2022 20:13:56'!
+!MarsRoverTest methodsFor: 'tests' stamp: 'jeo 5/14/2022 16:04:42'!
 test25MarsRoverRecievesAnotherInvalidCommandStops
 	|marsrover|
 	
 	marsrover := self createMarsRoverHeadingNorth.
-	
 	marsrover processCommand: '-f'.
 	
 	self assert: (marsrover isAt: 0@0 heading: self northOrientation).! !
