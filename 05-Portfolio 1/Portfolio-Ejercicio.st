@@ -9,7 +9,7 @@ TestCase subclass: #PortfolioTest
 test01NewPortfolioBalanceIsZero
 	self assert: (Portfolio new balance) equals: 0.! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:11'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:36:28'!
 test02PortfolioWithReceptiveAccountCalculatesBalance
 	
 	| portfolio account |
@@ -17,11 +17,11 @@ test02PortfolioWithReceptiveAccountCalculatesBalance
 	account := ReceptiveAccount new.
 	Deposit register: 100 on: account.
 	
-	portfolio registerAccount: account.
+	portfolio register: account.
 	
 	self assert: (portfolio balance) equals: 100.! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:11'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:36:38'!
 test03PortfolioWithTwoReceptiveAccountCalculatesBalance
 	
 	| portfolio firstAccount secondAccount |
@@ -31,23 +31,23 @@ test03PortfolioWithTwoReceptiveAccountCalculatesBalance
 	secondAccount := ReceptiveAccount new.
 	Deposit register: 100 on: secondAccount.
 	
-	portfolio registerAccount: firstAccount.
-	portfolio registerAccount: secondAccount.
+	portfolio register: firstAccount.
+	portfolio register: secondAccount.
 	
 	self assert: (portfolio balance) equals: 200.! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:25'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:36:45'!
 test04PortfolioWithEmptyPortfolioBalanceIsZero
 	
 	| firstPortfolio secondPortfolio |
 	firstPortfolio := Portfolio new.
 	secondPortfolio := Portfolio new.
 	
-	firstPortfolio registerPortfolio: secondPortfolio.
+	firstPortfolio register: secondPortfolio.
 	
 	self assert: (firstPortfolio balance) equals: 0.! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:25'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:36:53'!
 test05PortfolioWithPortfolioCalculatesBalance
 	
 	| firstPortfolio secondPortfolio account |
@@ -56,12 +56,12 @@ test05PortfolioWithPortfolioCalculatesBalance
 	account := ReceptiveAccount new.
 	Deposit register: 100 on: account.
 	
-	secondPortfolio registerAccount: account.
-	firstPortfolio registerPortfolio: secondPortfolio.
+	secondPortfolio register: account.
+	firstPortfolio register: secondPortfolio.
 	
 	self assert: (firstPortfolio balance) equals: 100.! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:25'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:37:07'!
 test06PortfolioWithTwoPortfoliosCalculatesBalance
 	
 	| firstPortfolio secondPortfolio thirdPortfolio firstAccount  secondAccount |
@@ -73,10 +73,10 @@ test06PortfolioWithTwoPortfoliosCalculatesBalance
 	secondAccount := ReceptiveAccount new.
 	Deposit register: 100 on: secondAccount.
 	
-	secondPortfolio registerAccount: firstAccount.
-	thirdPortfolio registerAccount: secondAccount.
-	firstPortfolio registerPortfolio: secondPortfolio.
-	firstPortfolio registerPortfolio: thirdPortfolio.
+	secondPortfolio register: firstAccount.
+	thirdPortfolio register: secondAccount.
+	firstPortfolio register: secondPortfolio.
+	firstPortfolio register: thirdPortfolio.
 	
 	self assert: (firstPortfolio balance) equals: 200.! !
 
@@ -84,7 +84,7 @@ test06PortfolioWithTwoPortfoliosCalculatesBalance
 test07NewPortfolioTransactionsIsEmpty
 	self assert: (Portfolio new transactions) equals: OrderedCollection new.! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:11'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:37:15'!
 test08PortfolioWithReceptiveAccountTransactions
 	
 	| portfolio account transaction transactions|
@@ -95,11 +95,11 @@ test08PortfolioWithReceptiveAccountTransactions
 	transaction := Deposit register: 100 on: account.
 	transactions add: transaction.
 	
-	portfolio registerAccount: account.
+	portfolio register: account.
 	
 	self assert: (portfolio transactions) equals: transactions.! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:11'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:37:26'!
 test09PortfolioTransactionsWithTwoReceptiveAccounts
 	
 	| portfolio firstAccount secondAccount firstTransaction secondTransaction transactions|
@@ -114,12 +114,12 @@ test09PortfolioTransactionsWithTwoReceptiveAccounts
 	transactions add: firstTransaction.
 	transactions add: secondTransaction.
 	
-	portfolio registerAccount: firstAccount.
-	portfolio registerAccount: secondAccount.
+	portfolio register: firstAccount.
+	portfolio register: secondAccount.
 	
 	self assert: (portfolio transactions) equals: transactions.! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:25'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:37:36'!
 test10PortfolioTransactionsWithPortfolioWithReceptiveAccount
 	
 	| firstPortfolio secondPortfolio account transactions transaction |
@@ -133,12 +133,12 @@ test10PortfolioTransactionsWithPortfolioWithReceptiveAccount
 
 	transactions add: transaction.
 	
-	secondPortfolio registerAccount: account.
-	firstPortfolio registerPortfolio: secondPortfolio.
+	secondPortfolio register: account.
+	firstPortfolio register: secondPortfolio.
 	
 	self assert: (firstPortfolio transactions) equals: transactions.! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:25'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:37:45'!
 test11PortfolioTransactionsWithTwoPortfolioWithReceptiveAccounts
 	
 	| firstPortfolio secondPortfolio thirdPortfolio firstAccount secondAccount transactions transaction |
@@ -155,10 +155,10 @@ test11PortfolioTransactionsWithTwoPortfolioWithReceptiveAccounts
 	transaction := Deposit register: 100 on: secondAccount.
 	transactions add: transaction.
 	
-	secondPortfolio registerAccount: firstAccount.
-	thirdPortfolio registerAccount: secondAccount.
-	firstPortfolio registerPortfolio: secondPortfolio.
-	firstPortfolio registerPortfolio: thirdPortfolio.
+	secondPortfolio register: firstAccount.
+	thirdPortfolio register: secondAccount.
+	firstPortfolio register: secondPortfolio.
+	firstPortfolio register: thirdPortfolio.
 	
 	self assert: (firstPortfolio transactions) equals: transactions.! !
 
@@ -174,7 +174,7 @@ test12NewPortfolioHasNotRegisteredTransaction
 	
 	self deny: (portfolio hasRegistered: transaction).! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:11'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:37:53'!
 test13PortfolioWithReceptiveAccountHasRegisteredTransaction
 	
 	| portfolio account transaction |
@@ -183,11 +183,11 @@ test13PortfolioWithReceptiveAccountHasRegisteredTransaction
 	account := ReceptiveAccount new.
 	
 	transaction := Deposit register: 100 on: account.
-	portfolio registerAccount: account.
+	portfolio register: account.
 	
 	self assert: (portfolio hasRegistered: transaction).! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:11'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:38:02'!
 test14PortfolioWithTwoReceptiveAccountHasRegisteredTransactions
 	
 	| portfolio firstAccount secondAccount firstTransaction secondTransaction |
@@ -198,13 +198,13 @@ test14PortfolioWithTwoReceptiveAccountHasRegisteredTransactions
 	
 	firstTransaction := Deposit register: 100 on: firstAccount.
 	secondTransaction := Deposit register: 200 on: secondAccount.
-	portfolio registerAccount: firstAccount.
-	portfolio registerAccount: secondAccount.
+	portfolio register: firstAccount.
+	portfolio register: secondAccount.
 	
 	self assert: (portfolio hasRegistered: firstTransaction).
 	self assert: (portfolio hasRegistered: secondTransaction).! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:25'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:38:10'!
 test15PortfolioWithEmptyPortfolioHasNotRegisteredTransaction
 	
 	| firstPortfolio secondPortfolio account transaction |
@@ -215,11 +215,11 @@ test15PortfolioWithEmptyPortfolioHasNotRegisteredTransaction
 	
 	transaction := Deposit register: 100 on: account.
 	
-	firstPortfolio registerPortfolio: secondPortfolio.
+	firstPortfolio register: secondPortfolio.
 	
 	self deny: (firstPortfolio hasRegistered: transaction).! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:25'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:38:17'!
 test16PortfolioWithPortfolioHasRegisteredTransaction
 	
 	| firstPortfolio secondPortfolio account transaction |
@@ -230,12 +230,12 @@ test16PortfolioWithPortfolioHasRegisteredTransaction
 	
 	transaction := Deposit register: 100 on: account.
 	
-	secondPortfolio registerAccount: account.
-	firstPortfolio registerPortfolio: secondPortfolio.
+	secondPortfolio register: account.
+	firstPortfolio register: secondPortfolio.
 	
 	self assert: (firstPortfolio hasRegistered: transaction).! !
 
-!PortfolioTest methodsFor: 'tests' stamp: 'jeo 5/18/2022 19:32:25'!
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/19/2022 20:38:30'!
 test17PortfolioWithTwoPortfolioHasRegisteredTransactions
 	
 	| firstPortfolio secondPortfolio thirdPortfolio firstAccount secondAccount firstTransaction secondTransaction |
@@ -248,14 +248,100 @@ test17PortfolioWithTwoPortfolioHasRegisteredTransactions
 	firstTransaction := Deposit register: 100 on: firstAccount.
 	secondTransaction := Deposit register: 200 on: secondAccount.	
 	
-	secondPortfolio registerAccount: firstAccount.
-	thirdPortfolio registerAccount: secondAccount.
+	secondPortfolio register: firstAccount.
+	thirdPortfolio register: secondAccount.
 	
-	firstPortfolio registerPortfolio: secondPortfolio.
-	firstPortfolio registerPortfolio: thirdPortfolio.
+	firstPortfolio register: secondPortfolio.
+	firstPortfolio register: thirdPortfolio.
 	
 	self assert: (firstPortfolio hasRegistered: firstTransaction).
 	self assert: (firstPortfolio hasRegistered: secondTransaction).! !
+
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/21/2022 18:36:19'!
+test18PortfolioCannotRegisterDuplicatedReceptiveAccount
+	
+	| portfolio account |
+	
+	portfolio := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	Deposit register: 100 on: account.
+	
+	portfolio register: account.
+	
+	self should: [portfolio register: account.] 
+		raise: Error 
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Portfolio canNotAddDuplicatedReceptiveAccountErrorDescription]. ! !
+
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/21/2022 18:36:00'!
+test19PortfolioWithPortfolioCannotRegisterDuplicatedReceptiveAccount
+	
+	| firstPortfolio secondPortfolio account |
+	
+	firstPortfolio := Portfolio new.
+	secondPortfolio := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	Deposit register: 100 on: account.
+	
+	firstPortfolio register: secondPortfolio.
+	secondPortfolio register: account.
+	
+	self should: [firstPortfolio register: account.] 
+		raise: Error 
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Portfolio canNotAddDuplicatedReceptiveAccountErrorDescription]. ! !
+
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/21/2022 20:14:57'!
+test20PortfolioCannotRegisterPortfolioThatContainsDuplicatedReceptiveAccount
+	
+	| firstPortfolio secondPortfolio account |
+	
+	firstPortfolio := Portfolio new.
+	secondPortfolio := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	Deposit register: 100 on: account.
+	
+	firstPortfolio register: account.
+	secondPortfolio register: account.
+	
+	self should: [firstPortfolio register: secondPortfolio.] 
+		raise: Error 
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Portfolio canNotAddDuplicatedReceptiveAccountErrorDescription]. ! !
+
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/21/2022 19:39:03'!
+test21LevelOneNonRootPortfolioCannotRegisterDuplicatedReceptiveAccount
+	
+	| firstPortfolio secondPortfolio account |
+	
+	firstPortfolio := Portfolio new.
+	secondPortfolio := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	firstPortfolio register: account.
+	firstPortfolio register: secondPortfolio.
+	
+	self should: [secondPortfolio register: account.] 
+		raise: Error 
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Portfolio canNotAddDuplicatedReceptiveAccountErrorDescription]. ! !
+
+!PortfolioTest methodsFor: 'tests' stamp: 'edrr 5/21/2022 19:39:14'!
+test22LevelTwoNonRootPortfolioCannotRegisterDuplicatedReceptiveAccount
+	
+	| firstPortfolio secondPortfolio account thirdPortfolio |
+	
+	firstPortfolio := Portfolio new.
+	secondPortfolio := Portfolio new.
+	thirdPortfolio := Portfolio new.
+	account := ReceptiveAccount new.
+	
+	firstPortfolio register: account.
+	firstPortfolio register: secondPortfolio.
+	secondPortfolio register: thirdPortfolio.
+	
+	self should: [thirdPortfolio register: account.] 
+		raise: Error 
+		withExceptionDo: [ :anError | self assert: anError messageText equals: Portfolio canNotAddDuplicatedReceptiveAccountErrorDescription]. ! !
 
 
 !classDefinition: #ReceptiveAccountTest category: 'Portfolio-Ejercicio'!
@@ -351,26 +437,37 @@ test07AccountKnowsItsTransactions
 
 !classDefinition: #AccountTransaction category: 'Portfolio-Ejercicio'!
 Object subclass: #AccountTransaction
-	instanceVariableNames: ''
+	instanceVariableNames: 'value'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!AccountTransaction methodsFor: 'value' stamp: 'HernanWilkinson 9/12/2011 12:25'!
+!AccountTransaction methodsFor: 'value' stamp: 'edrr 5/21/2022 20:38:28'!
 value 
 
-	self subclassResponsibility ! !
+	^ value! !
 
 
 !AccountTransaction methodsFor: 'operations' stamp: 'edrr 5/16/2022 20:25:30'!
 processInto: aBalance 
 	self subclassResponsibility.! !
 
+
+!AccountTransaction methodsFor: 'initialization' stamp: 'edrr 5/21/2022 20:39:51'!
+initializeFor: aValue
+
+	value := aValue ! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'AccountTransaction class' category: 'Portfolio-Ejercicio'!
 AccountTransaction class
 	instanceVariableNames: ''!
+
+!AccountTransaction class methodsFor: 'instance creation' stamp: 'edrr 5/21/2022 20:40:47'!
+for: aValue
+
+	^ self new initializeFor: aValue ! !
 
 !AccountTransaction class methodsFor: 'instance creation' stamp: 'NR 10/17/2019 03:22:00'!
 register: aValue on: account
@@ -385,134 +482,185 @@ register: aValue on: account
 
 !classDefinition: #Deposit category: 'Portfolio-Ejercicio'!
 AccountTransaction subclass: #Deposit
-	instanceVariableNames: 'value'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
-
-!Deposit methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:45'!
-initializeFor: aValue
-
-	value := aValue ! !
-
-
-!Deposit methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:38'!
-value
-
-	^ value! !
-
 
 !Deposit methodsFor: 'operations' stamp: 'edrr 5/16/2022 20:25:30'!
 processInto: aBalance
 	 ^aBalance + value.! !
 
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'Deposit class' category: 'Portfolio-Ejercicio'!
-Deposit class
-	instanceVariableNames: ''!
-
-!Deposit class methodsFor: 'instance creation' stamp: 'HernanWilkinson 7/13/2011 18:38'!
-for: aValue
-
-	^ self new initializeFor: aValue ! !
-
 
 !classDefinition: #Withdraw category: 'Portfolio-Ejercicio'!
 AccountTransaction subclass: #Withdraw
-	instanceVariableNames: 'value'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
-
-!Withdraw methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:46'!
-initializeFor: aValue
-
-	value := aValue ! !
-
-
-!Withdraw methodsFor: 'value' stamp: 'HernanWilkinson 7/13/2011 18:33'!
-value
-
-	^ value! !
-
 
 !Withdraw methodsFor: 'operations' stamp: 'edrr 5/16/2022 20:25:30'!
 processInto: aBalance 
 	^aBalance - value.! !
 
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'Withdraw class' category: 'Portfolio-Ejercicio'!
-Withdraw class
-	instanceVariableNames: ''!
-
-!Withdraw class methodsFor: 'instance creation' stamp: 'HernanWilkinson 7/13/2011 18:33'!
-for: aValue
-
-	^ self new initializeFor: aValue ! !
-
 
-!classDefinition: #Portfolio category: 'Portfolio-Ejercicio'!
-Object subclass: #Portfolio
-	instanceVariableNames: 'accounts portfolios'
+!classDefinition: #PortfolioItem category: 'Portfolio-Ejercicio'!
+Object subclass: #PortfolioItem
+	instanceVariableNames: 'parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!Portfolio methodsFor: 'balance' stamp: 'jeo 5/18/2022 17:52:01'!
+!PortfolioItem methodsFor: 'balance' stamp: 'edrr 5/19/2022 20:30:52'!
+balance
+	self subclassResponsibility.! !
+
+
+
+!PortfolioItem methodsFor: 'register' stamp: 'edrr 5/19/2022 21:22:02'!
+register: aPortfolioItem 
+	self subclassResponsibility.! !
+
+
+!PortfolioItem methodsFor: 'register-private' stamp: 'edrr 5/21/2022 19:11:05'!
+addParent: aPortfolio 
+	parent := aPortfolio.! !
+
+!PortfolioItem methodsFor: 'register-private' stamp: 'edrr 5/21/2022 19:46:27'!
+getRootPortfolio
+	self subclassResponsibility.! !
+
+
+!PortfolioItem methodsFor: 'testing' stamp: 'edrr 5/19/2022 20:31:16'!
+hasRegistered: aAccountTransaction 
+	self subclassResponsibility.! !
+
+
+!PortfolioItem methodsFor: 'transactions' stamp: 'edrr 5/19/2022 20:32:52'!
+transactions
+	self subclassResponsibility.! !
+
+
+!classDefinition: #NullPortfolio category: 'Portfolio-Ejercicio'!
+PortfolioItem subclass: #NullPortfolio
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!NullPortfolio methodsFor: 'register-private' stamp: 'edrr 5/21/2022 19:56:49'!
+getRootPortfolioFor: aPortfolioItem
+	
+	^aPortfolioItem.! !
+
+!NullPortfolio methodsFor: 'register-private' stamp: 'edrr 5/21/2022 19:49:00'!
+includes: aPortfolioItem 
+	^false.! !
+
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio'!
+PortfolioItem subclass: #Portfolio
+	instanceVariableNames: 'portfolioItems'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!Portfolio methodsFor: 'balance' stamp: 'edrr 5/19/2022 21:19:39'!
 balance
 
-	^(accounts sum: [:anAccount | anAccount balance] ifEmpty: [0]) + (portfolios sum: [:aPortfolio | aPortfolio balance] ifEmpty: [0]).! !
+	^portfolioItems sum:[:aPortfolioItem | aPortfolioItem balance] ifEmpty: [0].! !
 
 
-!Portfolio methodsFor: 'initialization' stamp: 'edrr 5/16/2022 21:40:51'!
+!Portfolio methodsFor: 'initialization' stamp: 'edrr 5/21/2022 19:46:52'!
 initialize
-	accounts := OrderedCollection new.
-	portfolios := OrderedCollection new.! !
+	portfolioItems := OrderedCollection new.
+	parent := NullPortfolio new.! !
 
 
-!Portfolio methodsFor: 'register' stamp: 'jeo 5/18/2022 19:32:11'!
-registerAccount: aReceptiveAccount 
-	accounts add: aReceptiveAccount.! !
+!Portfolio methodsFor: 'assertions' stamp: 'edrr 5/21/2022 20:31:03'!
+assertPortfolioItemIsNotDuplicated: aPortfolioItem
 
-!Portfolio methodsFor: 'register' stamp: 'jeo 5/18/2022 19:32:25'!
-registerPortfolio: aPortfolio
-	portfolios add: aPortfolio.! !
+	|portfolioRoot|
+	portfolioRoot := self getRootPortfolio.
+	(portfolioRoot includes: aPortfolioItem) ifTrue: [self error: self class canNotAddDuplicatedReceptiveAccountErrorDescription]! !
 
 
-!Portfolio methodsFor: 'transactions' stamp: 'jeo 5/18/2022 19:27:16'!
+!Portfolio methodsFor: 'register' stamp: 'edrr 5/21/2022 20:29:12'!
+register: aPortfolioItem 
+	self assertPortfolioItemIsNotDuplicated: aPortfolioItem.
+	
+	aPortfolioItem addParent: self.
+	portfolioItems add: aPortfolioItem! !
+
+
+!Portfolio methodsFor: 'register-private' stamp: 'edrr 5/21/2022 19:57:46'!
+getRootPortfolio
+	
+	^parent getRootPortfolioFor: self.! !
+
+!Portfolio methodsFor: 'register-private' stamp: 'edrr 5/21/2022 19:54:36'!
+getRootPortfolioFor: aPortfolioItem
+	
+	^parent getRootPortfolioFor: self.! !
+
+!Portfolio methodsFor: 'register-private' stamp: 'edrr 5/21/2022 19:02:53'!
+includes: aNewPortfolioItem 
+	^portfolioItems anySatisfy: [:portfolioItem | | result| 
+		(portfolioItem isKindOf: aNewPortfolioItem class)
+			ifTrue: [result := portfolioItem == aNewPortfolioItem]
+			ifFalse: [
+				(portfolioItem isKindOf: Portfolio) ifTrue: [		result := portfolioItem includes: aNewPortfolioItem].
+				(aNewPortfolioItem isKindOf: Portfolio) ifTrue: [result := aNewPortfolioItem includes: portfolioItem]].
+		result]! !
+
+
+!Portfolio methodsFor: 'testing' stamp: 'edrr 5/21/2022 20:32:21'!
 hasRegistered: aAccountTransaction 
-	| hasRegisteredInAccount hasRegisteredInPortfolio |
-	(accounts isEmpty and: (portfolios isEmpty)) ifTrue: [^false].
-	hasRegisteredInAccount := accounts anySatisfy: [:account | account hasRegistered: aAccountTransaction.].
-	hasRegisteredInPortfolio := portfolios anySatisfy: [:portfolio | portfolio hasRegistered: aAccountTransaction.]..
-	^ hasRegisteredInAccount or: hasRegisteredInPortfolio.
-	! !
+	^portfolioItems anySatisfy: [:aPortfolioItem | aPortfolioItem hasRegistered: aAccountTransaction.].! !
 
-!Portfolio methodsFor: 'transactions' stamp: 'jeo 5/18/2022 18:53:31'!
+
+!Portfolio methodsFor: 'transactions' stamp: 'edrr 5/21/2022 20:34:02'!
 transactions
 	| transactions |
 	transactions := OrderedCollection new.
-	((accounts isEmpty) and: (portfolios isEmpty)) ifTrue: [^ transactions].
-	(accounts isEmpty not) ifTrue: [
-		accounts do: [:account | transactions addAllLast: account transactions.		].].
-	(portfolios isEmpty not) ifTrue: [ 
-		portfolios do: [:portfolio | transactions addAllLast: portfolio transactions.		].].
+	portfolioItems do: [:aPortfolioItem | transactions addAllLast: aPortfolioItem transactions.		].
 	^transactions.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'Portfolio class' category: 'Portfolio-Ejercicio'!
+Portfolio class
+	instanceVariableNames: ''!
+
+!Portfolio class methodsFor: 'error descriptions' stamp: 'edrr 5/21/2022 18:02:41'!
+canNotAddDuplicatedReceptiveAccountErrorDescription
+	^'duplicated receptive account'! !
 
 
 !classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio'!
-Object subclass: #ReceptiveAccount
+PortfolioItem subclass: #ReceptiveAccount
 	instanceVariableNames: 'transactions'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
+!ReceptiveAccount methodsFor: 'balance' stamp: 'edrr 5/16/2022 20:25:30'!
+balance
+
+	^transactions inject: 0 into: [:balance :aTransaction | 		aTransaction processInto: balance].! !
+
+
 !ReceptiveAccount methodsFor: 'initialization' stamp: 'NR 10/17/2019 15:06:56'!
 initialize
 
 	transactions := OrderedCollection new.! !
+
+
+!ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/17/2019 03:28:43'!
+hasRegistered: aTransaction
+
+	^ transactions includes: aTransaction 
+! !
 
 
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'HernanWilkinson 7/13/2011 18:37'!
@@ -525,16 +673,3 @@ register: aTransaction
 transactions 
 
 	^ transactions copy! !
-
-
-!ReceptiveAccount methodsFor: 'balance' stamp: 'edrr 5/16/2022 20:25:30'!
-balance
-
-	^transactions inject: 0 into: [:balance :aTransaction | 		aTransaction processInto: balance].! !
-
-
-!ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/17/2019 03:28:43'!
-hasRegistered: aTransaction
-
-	^ transactions includes: aTransaction 
-! !
