@@ -5,8 +5,8 @@ TestCase subclass: #AccountSummaryTest
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio2'!
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'jeo 5/28/2022 19:57:59'!
-test01AccountWithoutTransactionsPrintsEmptyString
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:14:47'!
+test01AccountWithoutTransactionsPrintsBalanceZero
 	| account accountSummary |
 	account := ReceptiveAccount new.
 	accountSummary := AccountSummary for: account.
@@ -14,8 +14,8 @@ test01AccountWithoutTransactionsPrintsEmptyString
 	self assert: accountSummary process equals: 'Balance = 0.'.
 	! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'jeo 5/28/2022 19:28:46'!
-test02AccountWithDepositPrintsCorrectly
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:34:42'!
+test02AccountWithDeposit
 	| account accountSummary |
 	account := ReceptiveAccount new.
 	Deposit register: 100 on: account.
@@ -25,8 +25,8 @@ test02AccountWithDepositPrintsCorrectly
 	self assert: 'Deposito por 100.Balance = 100.' equals: accountSummary process.
 	! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'jeo 5/28/2022 19:28:46'!
-test03AccountWithWithdrawPrintsCorrectly
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:35:33'!
+test03AccountWithWithdraw
 	| account accountSummary |
 	account := ReceptiveAccount new.
 	Withdraw register: 50 on: account.
@@ -36,8 +36,8 @@ test03AccountWithWithdrawPrintsCorrectly
 	self assert: 'Extraccion por 50.Balance = -50.' equals: accountSummary process.
 	! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'jeo 5/28/2022 19:28:46'!
-test04AccountWithOutboundTransferPrintsCorrectly
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:36:00'!
+test04AccountWithOutboundTransfer
 	| account1 account2 accountSummary |
 	account1 := ReceptiveAccount new.
 	account2 := ReceptiveAccount new.
@@ -48,8 +48,8 @@ test04AccountWithOutboundTransferPrintsCorrectly
 	self assert: 'Salida por transferencia de 20.Balance = -20.' equals: accountSummary process.
 	! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'jeo 5/28/2022 19:28:46'!
-test05AccountWithInboundTransferPrintsCorrectly
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:36:15'!
+test05AccountWithInboundTransfer
 	| account1 account2 accountSummary |
 	account1 := ReceptiveAccount new.
 	account2 := ReceptiveAccount new.
@@ -60,25 +60,13 @@ test05AccountWithInboundTransferPrintsCorrectly
 	self assert: 'Entrada por transferencia de 30.Balance = 30.' equals: accountSummary process.
 	! !
 
-!AccountSummaryTest methodsFor: 'tests' stamp: 'jeo 5/28/2022 19:28:46'!
-test06AccountWithTwoTransactionsPrintsCorrectly
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:36:51'!
+test06AccountWithTwoTransactions
 	| account  accountSummary |
 	account := ReceptiveAccount new.
 	Deposit register: 100 on: account.
 	Withdraw register: 50 on: account. 	 
 
-	accountSummary := AccountSummary for: account.
-	
-	self assert: 	'Deposito por 100.Extraccion por 50.Balance = 50.' equals: accountSummary process.
-	! !
-
-!AccountSummaryTest methodsFor: 'tests' stamp: 'jeo 5/28/2022 19:28:46'!
-test07AccountWithTransactionsPrintsBalanceCorrectly
-	| account  accountSummary |
-	account := ReceptiveAccount new.
-	Deposit register: 100 on: account.
-	Withdraw register: 50 on: account. 
-	
 	accountSummary := AccountSummary for: account.
 	
 	self assert: 	'Deposito por 100.Extraccion por 50.Balance = 50.' equals: accountSummary process.
@@ -463,89 +451,112 @@ TestCase subclass: #TransferTest
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio2'!
 
-!TransferTest methodsFor: 'tests' stamp: 'jeo 5/28/2022 21:25:59'!
-test01TransferZeroFromAToB
-	|a b|
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:27:49'!
+test01TransferZeroFromAToBRaiseError
+	|accountA accountB|
 	
-	a := ReceptiveAccount new.
-	b := ReceptiveAccount new.
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
 	
-	self should: [Transfer from: a to: b withValue: 0.] 
+	self should: [Transfer from: accountA to: accountB withValue: 0.] 
 		raise: Error 
 		withExceptionDo: [:anError | self assert: (Transfer canNotTransferZeroErrorMessage) equals: anError messageText.].! !
 
-!TransferTest methodsFor: 'tests' stamp: 'jeo 5/25/2022 16:46:33'!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:22:26'!
 test02TransferOneFromAToB
-	|a b|
+	|accountA accountB|
 	
-	a := ReceptiveAccount new.
-	b := ReceptiveAccount new.
-	Deposit register: 5 on: a.
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
 	
-	Transfer from: a to: b withValue: 1.
+	Transfer from: accountA to: accountB withValue: 1.
 	
-	self assert: 4 equals: a balance.
-	self assert: 1 equals: b balance.! !
+	self assert: 4 equals: accountA balance.
+	self assert: 1 equals: accountB balance.! !
 
-!TransferTest methodsFor: 'tests' stamp: 'jeo 5/25/2022 19:39:16'!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:29:37'!
 test03TransferFromAToBDeposit
-	|a b transfer|
+	|accountA accountB transfer|
 	
-	a := ReceptiveAccount new.
-	b := ReceptiveAccount new.
-	Deposit register: 5 on: a.
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
 	
-	transfer := Transfer from: a to: b withValue: 1.
+	transfer := Transfer from: accountA to: accountB withValue: 1.
 	
-	self assert: (transfer deposit isKindOf: TransferDeposit).! !
+	self assert: (transfer deposit isKindOf: TransferDeposit).
+	self assert: (accountB hasRegistered: transfer deposit).! !
 
-!TransferTest methodsFor: 'tests' stamp: 'jeo 5/25/2022 19:39:22'!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:29:51'!
 test04TransferFromAToBWithdraw
-	|a b transfer|
+	|accountA accountB transfer|
 	
-	a := ReceptiveAccount new.
-	b := ReceptiveAccount new.
-	Deposit register: 5 on: a.
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
 	
-	transfer := Transfer from: a to: b withValue: 1.
+	transfer := Transfer from: accountA to: accountB withValue: 1.
 	
-	self assert: (transfer withdraw isKindOf: TransferWithdraw).! !
+	self assert: (transfer withdraw isKindOf: TransferWithdraw).
+	self assert: (accountA hasRegistered: transfer withdraw).! !
 
-!TransferTest methodsFor: 'tests' stamp: 'jeo 5/25/2022 16:49:35'!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:23:20'!
 test05TransferFromAToBValue
-	|a b transfer|
+	|accountA accountB transfer|
 	
-	a := ReceptiveAccount new.
-	b := ReceptiveAccount new.
-	Deposit register: 5 on: a.
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
 	
-	transfer := Transfer from: a to: b withValue: 1.
+	transfer := Transfer from: accountA to: accountB withValue: 1.
 	
 	self assert: (transfer value) equals: 1.! !
 
-!TransferTest methodsFor: 'tests' stamp: 'jeo 5/25/2022 16:51:37'!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:23:40'!
 test06TransferFromAToBDepositTransfer
-	|a b transfer|
+	|accountA accountB transfer|
 	
-	a := ReceptiveAccount new.
-	b := ReceptiveAccount new.
-	Deposit register: 5 on: a.
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
 	
-	transfer := Transfer from: a to: b withValue: 1.
+	transfer := Transfer from: accountA to: accountB withValue: 1.
 	
 	self assert: (transfer deposit transfer) equals: transfer.! !
 
-!TransferTest methodsFor: 'tests' stamp: 'jeo 5/25/2022 16:55:02'!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:24:00'!
 test07TransferFromAToBWithdrawTransfer
-	|a b transfer|
+	|accountA accountB transfer|
 	
-	a := ReceptiveAccount new.
-	b := ReceptiveAccount new.
-	Deposit register: 5 on: a.
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
 	
-	transfer := Transfer from: a to: b withValue: 1.
+	transfer := Transfer from: accountA to: accountB withValue: 1.
 	
 	self assert: (transfer withdraw transfer) equals: transfer.! !
+
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:21:24'!
+test08TransferNegativeValueFromAToBRaiseError
+	|accountA accountB|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	
+	self should: [Transfer from: accountA to: accountB withValue: -1.] 
+		raise: Error 
+		withExceptionDo: [:anError | self assert: (Transfer canNotTransferNegativeValueErrorMessage) equals: anError messageText.].! !
+
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:44:40'!
+test09TransferBetweenSameAccountRaiseError
+	|accountA |
+	
+	accountA := ReceptiveAccount new.
+	
+	self should: [Transfer from: accountA to: accountA withValue: 1.] 
+		raise: Error 
+		withExceptionDo: [:anError | self assert: (Transfer canNotTransferBetweenSameAccountErrorMessage) equals: anError messageText.].! !
 
 
 !classDefinition: #Account category: 'Portfolio-Ejercicio2'!
@@ -712,14 +723,14 @@ canNotAddAccountErrorMessage
 	^'Can not add repeated account to a portfolio'! !
 
 
-!Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:18:21'!
+!Portfolio class methodsFor: 'instance creation' stamp: 'HAW 5/25/2019 11:18:21'!
 with: anAccount
 
 	^self new 
 		add: anAccount;
 		yourself! !
 
-!Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:23:59'!
+!Portfolio class methodsFor: 'instance creation' stamp: 'HAW 5/25/2019 11:23:59'!
 with: anAccount with: anotherAccount
 
 	^self new 
@@ -743,6 +754,11 @@ initialize
 	lastTransaction := NullTransaction new.! !
 
 
+!ReceptiveAccount methodsFor: 'process' stamp: 'jeo 5/28/2022 21:01:23'!
+processTransactionsFor: anAccountOperation
+	lastTransaction processFor: anAccountOperation.! !
+
+
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'HAW 5/25/2019 11:38:52'!
 addTransactionsTo: aCollectionOfTransactions
 
@@ -752,10 +768,6 @@ addTransactionsTo: aCollectionOfTransactions
 lastTransaction
 
 	^ lastTransaction! !
-
-!ReceptiveAccount methodsFor: 'transactions' stamp: 'jeo 5/28/2022 21:01:23'!
-processTransactionsFor: anAccountOperation
-	lastTransaction processFor: anAccountOperation.! !
 
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'jeo 5/28/2022 20:25:43'!
 register: aTransaction
@@ -814,43 +826,35 @@ Object subclass: #AccountOperations
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio2'!
 
-!AccountOperations methodsFor: 'process' stamp: 'jeo 5/28/2022 19:30:21'!
-process
-	self subclassResponsibility.! !
-
-!AccountOperations methodsFor: 'process' stamp: 'jeo 5/28/2022 19:30:35'!
-processForDeposit: aDeposit 
-	self subclassResponsibility.! !
-
-!AccountOperations methodsFor: 'process' stamp: 'jeo 5/28/2022 19:30:51'!
-processForTransferDeposit: aTransferDeposit
-	self subclassResponsibility.! !
-
-!AccountOperations methodsFor: 'process' stamp: 'jeo 5/28/2022 19:31:04'!
-processForTransferWithdraw: aTransferWithdraw 
-	self subclassResponsibility.! !
-
-!AccountOperations methodsFor: 'process' stamp: 'jeo 5/28/2022 19:31:20'!
-processForWithdraw: aWithdraw 
-	self subclassResponsibility.! !
-
-!AccountOperations methodsFor: 'process' stamp: 'jeo 5/28/2022 20:49:43'!
-processTransactions
-	| current |
-	current := account lastTransaction.
-	
-	[current isNil not] 
-	whileTrue: [current processFor: self.
-		current := current previous].! !
-
-
 !AccountOperations methodsFor: 'initialization' stamp: 'jeo 5/28/2022 20:00:09'!
 initializeFor: aReceptiveAccount 
 	
 	account := aReceptiveAccount.! !
 
-!AccountOperations methodsFor: 'initialization' stamp: 'jeo 5/28/2022 20:18:49'!
+
+!AccountOperations methodsFor: 'process' stamp: 'jeo 5/28/2022 19:30:21'!
+process
+	self subclassResponsibility.! !
+
+
+!AccountOperations methodsFor: 'process-private' stamp: 'jeo 5/28/2022 20:18:49'!
 initializeProcess
+	self subclassResponsibility.! !
+
+!AccountOperations methodsFor: 'process-private' stamp: 'jeo 5/28/2022 19:30:35'!
+processForDeposit: aDeposit 
+	self subclassResponsibility.! !
+
+!AccountOperations methodsFor: 'process-private' stamp: 'jeo 5/28/2022 19:30:51'!
+processForTransferDeposit: aTransferDeposit
+	self subclassResponsibility.! !
+
+!AccountOperations methodsFor: 'process-private' stamp: 'jeo 5/28/2022 19:31:04'!
+processForTransferWithdraw: aTransferWithdraw 
+	self subclassResponsibility.! !
+
+!AccountOperations methodsFor: 'process-private' stamp: 'jeo 5/28/2022 19:31:20'!
+processForWithdraw: aWithdraw 
 	self subclassResponsibility.! !
 
 
@@ -861,18 +865,6 @@ AccountOperations subclass: #AccountSummary
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio2'!
 
-!AccountSummary methodsFor: 'process' stamp: 'jeo 5/28/2022 21:24:27'!
-createSummary
-	| summaryString | 
-	summaryString := summary inject: '' into: [:aSummaryString :aTransactionString | aTransactionString , aSummaryString		].
-	summaryString := summaryString , 'Balance = ' , (account balance) asString , '.'.
-	^summaryString.! !
-
-!AccountSummary methodsFor: 'process' stamp: 'jeo 5/28/2022 21:22:40'!
-initializeProcess
-
-	summary := OrderedCollection new! !
-
 !AccountSummary methodsFor: 'process' stamp: 'jeo 5/28/2022 21:19:03'!
 process
 
@@ -882,22 +874,35 @@ process
 	
 	^ self createSummary.! !
 
-!AccountSummary methodsFor: 'process' stamp: 'jeo 5/28/2022 20:03:51'!
+
+!AccountSummary methodsFor: 'process-private' stamp: 'jeo 5/28/2022 21:24:27'!
+createSummary
+	| summaryString | 
+	summaryString := summary inject: '' into: [:aSummaryString :aTransactionString | aTransactionString , aSummaryString		].
+	summaryString := summaryString , 'Balance = ' , (account balance) asString , '.'.
+	^summaryString.! !
+
+!AccountSummary methodsFor: 'process-private' stamp: 'jeo 5/28/2022 21:22:40'!
+initializeProcess
+
+	summary := OrderedCollection new! !
+
+!AccountSummary methodsFor: 'process-private' stamp: 'jeo 5/28/2022 20:03:51'!
 processForDeposit: aDeposit 
 	
 	summary add: 'Deposito por ' , aDeposit value asString , '.'.! !
 
-!AccountSummary methodsFor: 'process' stamp: 'jeo 5/28/2022 20:03:51'!
+!AccountSummary methodsFor: 'process-private' stamp: 'jeo 5/28/2022 20:03:51'!
 processForTransferDeposit: aTransferDeposit 
 	
 	summary add: 'Entrada por transferencia de ' , aTransferDeposit value asString , '.'.! !
 
-!AccountSummary methodsFor: 'process' stamp: 'jeo 5/28/2022 20:03:52'!
+!AccountSummary methodsFor: 'process-private' stamp: 'jeo 5/28/2022 20:03:52'!
 processForTransferWithdraw: aTransferWithdraw 
 
 	summary add: 'Salida por transferencia de ' , aTransferWithdraw value asString , '.'.! !
 
-!AccountSummary methodsFor: 'process' stamp: 'jeo 5/28/2022 20:03:52'!
+!AccountSummary methodsFor: 'process-private' stamp: 'jeo 5/28/2022 20:03:52'!
 processForWithdraw: aWithdraw 
 	
 	summary add: 'Extraccion por ' , aWithdraw value asString , '.'.! !
@@ -921,11 +926,6 @@ AccountOperations subclass: #TransferNet
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio2'!
 
-!TransferNet methodsFor: 'process' stamp: 'jeo 5/28/2022 21:22:31'!
-initializeProcess
-
-	transferNet := 0! !
-
 !TransferNet methodsFor: 'process' stamp: 'jeo 5/28/2022 21:19:09'!
 process
 	
@@ -935,25 +935,31 @@ process
 	
 	^transferNet.! !
 
-!TransferNet methodsFor: 'process' stamp: 'jeo 5/28/2022 21:22:22'!
+
+!TransferNet methodsFor: 'process-private' stamp: 'jeo 5/28/2022 21:22:31'!
+initializeProcess
+
+	transferNet := 0! !
+
+!TransferNet methodsFor: 'process-private' stamp: 'jeo 5/28/2022 21:22:22'!
 processForDeposit: aDeposit 
 	! !
 
-!TransferNet methodsFor: 'process' stamp: 'jeo 5/28/2022 21:21:53'!
+!TransferNet methodsFor: 'process-private' stamp: 'jeo 5/28/2022 21:21:53'!
 processForTransfer: aTransfer
 
 	transferNet := aTransfer affectBalance: transferNet! !
 
-!TransferNet methodsFor: 'process' stamp: 'jeo 5/28/2022 21:22:03'!
+!TransferNet methodsFor: 'process-private' stamp: 'jeo 5/28/2022 21:22:03'!
 processForTransferDeposit: aTransferDeposit 
 	self processForTransfer: aTransferDeposit.
 ! !
 
-!TransferNet methodsFor: 'process' stamp: 'jeo 5/28/2022 21:22:09'!
+!TransferNet methodsFor: 'process-private' stamp: 'jeo 5/28/2022 21:22:09'!
 processForTransferWithdraw: aTransferWithdraw 
 	self processForTransfer: aTransferWithdraw.! !
 
-!TransferNet methodsFor: 'process' stamp: 'jeo 5/28/2022 21:22:13'!
+!TransferNet methodsFor: 'process-private' stamp: 'jeo 5/28/2022 21:22:13'!
 processForWithdraw: aWithdraw 
 	! !
 
@@ -976,34 +982,16 @@ Object subclass: #AccountTransaction
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio2'!
 
-
 !AccountTransaction methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:25:39'!
 affectBalance: aBalance
 
 	self subclassResponsibility ! !
 
 
-
 !AccountTransaction methodsFor: 'operations' stamp: 'jeo 5/28/2022 21:08:41'!
 processFor: anAccountOperation
 
 	self subclassResponsibility! !
-
-"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
-
-!classDefinition: 'AccountTransaction class' category: 'Portfolio-Ejercicio2'!
-AccountTransaction class
-	instanceVariableNames: ''!
-
-!AccountTransaction class methodsFor: 'instance creation' stamp: 'NR 10/21/2019 18:54:27'!
-register: aValue on: account
-
-	| transaction |
-	
-	transaction := self for: aValue.
-	account register: transaction.
-		
-	^ transaction! !
 
 
 !classDefinition: #NullTransaction category: 'Portfolio-Ejercicio2'!
@@ -1013,15 +1001,14 @@ AccountTransaction subclass: #NullTransaction
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio2'!
 
-!NullTransaction methodsFor: 'operations' stamp: 'jeo 5/28/2022 21:25:30'!
+!NullTransaction methodsFor: 'balance' stamp: 'jeo 5/28/2022 21:25:30'!
 affectBalance: aBalance
 	! !
+
 
 !NullTransaction methodsFor: 'operations' stamp: 'jeo 5/28/2022 21:25:00'!
 processFor: anAccountOperation
 	! !
-
-
 
 
 !classDefinition: #StandardTransaction category: 'Portfolio-Ejercicio2'!
@@ -1042,9 +1029,25 @@ value
 	self subclassResponsibility ! !
 
 
-!StandardTransaction methodsFor: 'initialization' stamp: 'jeo 5/28/2022 21:15:19'!
+!StandardTransaction methodsFor: 'register' stamp: 'jeo 5/28/2022 21:15:19'!
 addPrev: anTransaction 
 	previous := anTransaction! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'StandardTransaction class' category: 'Portfolio-Ejercicio2'!
+StandardTransaction class
+	instanceVariableNames: ''!
+
+!StandardTransaction class methodsFor: 'instance creation' stamp: 'edrr 5/29/2022 18:13:33'!
+register: aValue on: account
+
+	| transaction |
+	
+	transaction := self for: aValue.
+	account register: transaction.
+		
+	^ transaction! !
 
 
 !classDefinition: #Deposit category: 'Portfolio-Ejercicio2'!
@@ -1237,13 +1240,31 @@ Object subclass: #Transfer
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio2'!
 
-!Transfer methodsFor: 'initialization' stamp: 'jeo 5/25/2022 19:38:44'!
+!Transfer methodsFor: 'initialization' stamp: 'edrr 5/29/2022 18:50:32'!
 initializeFrom: aSourceReceptiveAccount to: aDestinationReceptiveAccount withValue: aValueToTransfer 
 	
-	aValueToTransfer = 0 ifTrue: [self error: self class canNotTransferZeroErrorMessage].
+	self assertTransferValueIsNotZero: aValueToTransfer.
+	self assertTransferValueIsNotNegative: aValueToTransfer.
+	self assertSourceAccount: aSourceReceptiveAccount isDifferentThanDestinationAccount: aDestinationReceptiveAccount.
 	deposit := TransferDeposit registerOn: aDestinationReceptiveAccount forTransfer: self.
 	withdraw := TransferWithdraw registerOn: aSourceReceptiveAccount forTransfer: self.
 	value := aValueToTransfer.! !
+
+
+!Transfer methodsFor: 'assertions' stamp: 'edrr 5/29/2022 18:50:32'!
+assertSourceAccount: aSourceReceptiveAccount isDifferentThanDestinationAccount: aDestinationReceptiveAccount
+
+	^ aSourceReceptiveAccount == aDestinationReceptiveAccount ifTrue: [self error: self class canNotTransferBetweenSameAccountErrorMessage]! !
+
+!Transfer methodsFor: 'assertions' stamp: 'edrr 5/29/2022 18:25:51'!
+assertTransferValueIsNotNegative: aValueToTransfer
+
+	^ aValueToTransfer < 0 ifTrue: [self error: self class canNotTransferNegativeValueErrorMessage]! !
+
+!Transfer methodsFor: 'assertions' stamp: 'edrr 5/29/2022 18:25:19'!
+assertTransferValueIsNotZero: aValueToTransfer
+
+	^ aValueToTransfer = 0 ifTrue: [self error: self class canNotTransferZeroErrorMessage]! !
 
 
 !Transfer methodsFor: 'accessing' stamp: 'jeo 5/25/2022 16:39:55'!
@@ -1272,6 +1293,14 @@ from: aSourceReceptiveAccount to: aDestinationReceptiveAccount withValue: aValue
 	
 	^self new initializeFrom: aSourceReceptiveAccount to: aDestinationReceptiveAccount withValue: aValueToTransfer ! !
 
+
+!Transfer class methodsFor: 'error messages' stamp: 'edrr 5/29/2022 18:47:52'!
+canNotTransferBetweenSameAccountErrorMessage
+	'cannot transfer between same account'! !
+
+!Transfer class methodsFor: 'error messages' stamp: 'edrr 5/29/2022 18:20:27'!
+canNotTransferNegativeValueErrorMessage
+	'cannot transfer negative value'! !
 
 !Transfer class methodsFor: 'error messages' stamp: 'jeo 5/25/2022 16:32:51'!
 canNotTransferZeroErrorMessage

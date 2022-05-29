@@ -13187,3 +13187,833 @@ PASSED!
 PASSED!
 
 ----SNAPSHOT----(28 May 2022 21:26:47) CuisUniversity-5096.image priorSource: 5011895!
+
+----STARTUP---- (29 May 2022 17:48:59) as /home/manuel/Facultad/Inge1_1C2022/Ejercicios/linux64 (3)/CuisUniversity-5096.image!
+
+
+----End fileIn of /home/manuel/Facultad/Inge1_1C2022/Ejercicios/inge1-ejercicios-1C2022/06-Portfolio 2/Portfolio-Ejercicio2.st----!
+
+!methodRemoval: AccountOperations #processTransactions stamp: 'edrr 5/29/2022 18:12:44'!
+processTransactions
+	| current |
+	current := account lastTransaction.
+	
+	[current isNil not] 
+	whileTrue: [current processFor: self.
+		current := current previous].!
+!NullTransaction class methodsFor: 'instance creation' stamp: 'edrr 5/29/2022 18:13:33' overrides: 50475198!
+register: aValue on: account
+
+	| transaction |
+	
+	transaction := self for: aValue.
+	account register: transaction.
+		
+	^ transaction! !
+!StandardTransaction class methodsFor: 'instance creation' stamp: 'edrr 5/29/2022 18:13:33' overrides: 50475198!
+register: aValue on: account
+
+	| transaction |
+	
+	transaction := self for: aValue.
+	account register: transaction.
+		
+	^ transaction! !
+
+!methodRemoval: AccountTransaction class #register:on: stamp: 'edrr 5/29/2022 18:13:33'!
+register: aValue on: account
+
+	| transaction |
+	
+	transaction := self for: aValue.
+	account register: transaction.
+		
+	^ transaction!
+
+!methodRemoval: NullTransaction class #register:on: stamp: 'edrr 5/29/2022 18:13:42'!
+register: aValue on: account
+
+	| transaction |
+	
+	transaction := self for: aValue.
+	account register: transaction.
+		
+	^ transaction!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:14:47'!
+test01AccountWithoutTransactionsPrintsBalanceZero
+	| account accountSummary |
+	account := ReceptiveAccount new.
+	accountSummary := AccountSummary for: account.
+	
+	self assert: accountSummary process equals: 'Balance = 0.'.
+	! !
+
+!methodRemoval: AccountSummaryTest #test01AccountWithoutTransactionsPrintsEmptyString stamp: 'edrr 5/29/2022 18:14:47'!
+test01AccountWithoutTransactionsPrintsEmptyString
+	| account accountSummary |
+	account := ReceptiveAccount new.
+	accountSummary := AccountSummary for: account.
+	
+	self assert: accountSummary process equals: 'Balance = 0.'.
+	!
+
+!methodRemoval: AccountSummaryTest #test07AccountWithTransactionsPrintsBalanceCorrectly stamp: 'edrr 5/29/2022 18:15:28'!
+test07AccountWithTransactionsPrintsBalanceCorrectly
+	| account  accountSummary |
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	Withdraw register: 50 on: account. 
+	
+	accountSummary := AccountSummary for: account.
+	
+	self assert: 	'Deposito por 100.Extraccion por 50.Balance = 50.' equals: accountSummary process.
+	!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:17:04'!
+test08TransferNegativeValueFromAToBRaiseError
+	|a b|
+	
+	a := ReceptiveAccount new.
+	b := ReceptiveAccount new.
+	
+	self should: [Transfer from: a to: b withValue: -1.] 
+		raise: Error 
+		withExceptionDo: [:anError | self assert: (Transfer canNotTransferNegativeValueErrorMessage) equals: anError messageText.].! !
+
+!testRun: #TransferTest #test08TransferNegativeValueFromAToBRaiseError stamp: 'edrr 5/29/2022 18:17:09'!
+FAILURE!
+!Transfer methodsFor: 'initialization' stamp: 'edrr 5/29/2022 18:19:25' prior: 50475472!
+initializeFrom: aSourceReceptiveAccount to: aDestinationReceptiveAccount withValue: aValueToTransfer 
+	
+	aValueToTransfer = 0 ifTrue: [self error: self class canNotTransferZeroErrorMessage].
+	aValueToTransfer < 0 ifTrue: [self error: self class canNotTransferNegativeValueErrorMessage].
+	deposit := TransferDeposit registerOn: aDestinationReceptiveAccount forTransfer: self.
+	withdraw := TransferWithdraw registerOn: aSourceReceptiveAccount forTransfer: self.
+	value := aValueToTransfer.! !
+
+!testRun: #TransferTest #test08TransferNegativeValueFromAToBRaiseError stamp: 'edrr 5/29/2022 18:19:34'!
+ERROR!
+
+!testRun: #TransferTest #test08TransferNegativeValueFromAToBRaiseError stamp: 'edrr 5/29/2022 18:19:34'!
+ERROR!
+!Transfer class methodsFor: 'error messages' stamp: 'edrr 5/29/2022 18:19:42'!
+canNotTransferNegativeValueErrorMessage
+	self shouldBeImplemented.! !
+!Transfer class methodsFor: 'error messages' stamp: 'edrr 5/29/2022 18:20:27' prior: 50475639!
+canNotTransferNegativeValueErrorMessage
+	'cannot transfer negative value'! !
+
+!testRun: #TransferTest #test08TransferNegativeValueFromAToBRaiseError stamp: 'edrr 5/29/2022 18:20:29'!
+FAILURE!
+
+!testRun: #TransferTest #test08TransferNegativeValueFromAToBRaiseError stamp: 'edrr 5/29/2022 18:20:39'!
+PASSED!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:21:24' prior: 50475597!
+test08TransferNegativeValueFromAToBRaiseError
+	|accountA accountB|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	
+	self should: [Transfer from: accountA to: accountB withValue: -1.] 
+		raise: Error 
+		withExceptionDo: [:anError | self assert: (Transfer canNotTransferNegativeValueErrorMessage) equals: anError messageText.].! !
+
+!testRun: #TransferTest #test01TransferZeroFromAToB stamp: 'edrr 5/29/2022 18:21:29'!
+PASSED!
+
+!testRun: #TransferTest #test02TransferOneFromAToB stamp: 'edrr 5/29/2022 18:21:29'!
+PASSED!
+
+!testRun: #TransferTest #test03TransferFromAToBDeposit stamp: 'edrr 5/29/2022 18:21:29'!
+PASSED!
+
+!testRun: #TransferTest #test04TransferFromAToBWithdraw stamp: 'edrr 5/29/2022 18:21:29'!
+PASSED!
+
+!testRun: #TransferTest #test05TransferFromAToBValue stamp: 'edrr 5/29/2022 18:21:29'!
+PASSED!
+
+!testRun: #TransferTest #test06TransferFromAToBDepositTransfer stamp: 'edrr 5/29/2022 18:21:29'!
+PASSED!
+
+!testRun: #TransferTest #test07TransferFromAToBWithdrawTransfer stamp: 'edrr 5/29/2022 18:21:29'!
+PASSED!
+
+!testRun: #TransferTest #test08TransferNegativeValueFromAToBRaiseError stamp: 'edrr 5/29/2022 18:21:29'!
+PASSED!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:21:45' prior: 50474635!
+test01TransferZeroFromAToB
+	|accountA b|
+	
+	accountA := ReceptiveAccount new.
+	b := ReceptiveAccount new.
+	
+	self should: [Transfer from: accountA to: b withValue: 0.] 
+		raise: Error 
+		withExceptionDo: [:anError | self assert: (Transfer canNotTransferZeroErrorMessage) equals: anError messageText.].! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:21:58' prior: 50475697!
+test01TransferZeroFromAToB
+	|accountA accountB|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	
+	self should: [Transfer from: accountA to: accountB withValue: 0.] 
+		raise: Error 
+		withExceptionDo: [:anError | self assert: (Transfer canNotTransferZeroErrorMessage) equals: anError messageText.].! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:22:11' prior: 50474646!
+test02TransferOneFromAToB
+	|accountA b|
+	
+	accountA := ReceptiveAccount new.
+	b := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	Transfer from: accountA to: b withValue: 1.
+	
+	self assert: 4 equals: accountA balance.
+	self assert: 1 equals: b balance.! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:22:26' prior: 50475723!
+test02TransferOneFromAToB
+	|accountA accountB|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	Transfer from: accountA to: accountB withValue: 1.
+	
+	self assert: 4 equals: accountA balance.
+	self assert: 1 equals: accountB balance.! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:22:36' prior: 50474656!
+test03TransferFromAToBDeposit
+	|accountA b transfer|
+	
+	accountA := ReceptiveAccount new.
+	b := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: b withValue: 1.
+	
+	self assert: (transfer deposit isKindOf: TransferDeposit).! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:22:47' prior: 50475747!
+test03TransferFromAToBDeposit
+	|accountA accountB transfer|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: accountB withValue: 1.
+	
+	self assert: (transfer deposit isKindOf: TransferDeposit).! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:22:55' prior: 50474666!
+test04TransferFromAToBWithdraw
+	|accountA b transfer|
+	
+	accountA := ReceptiveAccount new.
+	b := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: b withValue: 1.
+	
+	self assert: (transfer withdraw isKindOf: TransferWithdraw).! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:23:02' prior: 50475771!
+test04TransferFromAToBWithdraw
+	|accountA accountB transfer|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: accountB withValue: 1.
+	
+	self assert: (transfer withdraw isKindOf: TransferWithdraw).! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:23:12' prior: 50474676!
+test05TransferFromAToBValue
+	|accountA b transfer|
+	
+	accountA := ReceptiveAccount new.
+	b := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: b withValue: 1.
+	
+	self assert: (transfer value) equals: 1.! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:23:20' prior: 50475796!
+test05TransferFromAToBValue
+	|accountA accountB transfer|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: accountB withValue: 1.
+	
+	self assert: (transfer value) equals: 1.! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:23:32' prior: 50474686!
+test06TransferFromAToBDepositTransfer
+	|accountA b transfer|
+	
+	accountA := ReceptiveAccount new.
+	b := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: b withValue: 1.
+	
+	self assert: (transfer deposit transfer) equals: transfer.! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:23:40' prior: 50475819!
+test06TransferFromAToBDepositTransfer
+	|accountA accountB transfer|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: accountB withValue: 1.
+	
+	self assert: (transfer deposit transfer) equals: transfer.! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:23:52' prior: 50474697!
+test07TransferFromAToBWithdrawTransfer
+	|accountA b transfer|
+	
+	accountA := ReceptiveAccount new.
+	b := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: b withValue: 1.
+	
+	self assert: (transfer withdraw transfer) equals: transfer.! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:24:00' prior: 50475844!
+test07TransferFromAToBWithdrawTransfer
+	|accountA accountB transfer|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: accountB withValue: 1.
+	
+	self assert: (transfer withdraw transfer) equals: transfer.! !
+
+!testRun: #TransferTest #test01TransferZeroFromAToB stamp: 'edrr 5/29/2022 18:24:07'!
+PASSED!
+
+!testRun: #TransferTest #test02TransferOneFromAToB stamp: 'edrr 5/29/2022 18:24:07'!
+PASSED!
+
+!testRun: #TransferTest #test03TransferFromAToBDeposit stamp: 'edrr 5/29/2022 18:24:07'!
+PASSED!
+
+!testRun: #TransferTest #test04TransferFromAToBWithdraw stamp: 'edrr 5/29/2022 18:24:07'!
+PASSED!
+
+!testRun: #TransferTest #test05TransferFromAToBValue stamp: 'edrr 5/29/2022 18:24:07'!
+PASSED!
+
+!testRun: #TransferTest #test06TransferFromAToBDepositTransfer stamp: 'edrr 5/29/2022 18:24:07'!
+PASSED!
+
+!testRun: #TransferTest #test07TransferFromAToBWithdrawTransfer stamp: 'edrr 5/29/2022 18:24:07'!
+PASSED!
+
+!testRun: #TransferTest #test08TransferNegativeValueFromAToBRaiseError stamp: 'edrr 5/29/2022 18:24:07'!
+PASSED!
+!Transfer methodsFor: 'initialization' stamp: 'edrr 5/29/2022 18:25:19'!
+assertTransferValueIsNotZero: aValueToTransfer
+
+	^ aValueToTransfer = 0 ifTrue: [self error: self class canNotTransferZeroErrorMessage]! !
+!Transfer methodsFor: 'initialization' stamp: 'edrr 5/29/2022 18:25:19' prior: 50475614!
+initializeFrom: aSourceReceptiveAccount to: aDestinationReceptiveAccount withValue: aValueToTransfer 
+	
+	self assertTransferValueIsNotZero: aValueToTransfer.
+	aValueToTransfer < 0 ifTrue: [self error: self class canNotTransferNegativeValueErrorMessage].
+	deposit := TransferDeposit registerOn: aDestinationReceptiveAccount forTransfer: self.
+	withdraw := TransferWithdraw registerOn: aSourceReceptiveAccount forTransfer: self.
+	value := aValueToTransfer.! !
+!Transfer methodsFor: 'initialization' stamp: 'edrr 5/29/2022 18:25:51'!
+assertTransferValueIsNotNegative: aValueToTransfer
+
+	^ aValueToTransfer < 0 ifTrue: [self error: self class canNotTransferNegativeValueErrorMessage]! !
+!Transfer methodsFor: 'initialization' stamp: 'edrr 5/29/2022 18:25:51' prior: 50475902!
+initializeFrom: aSourceReceptiveAccount to: aDestinationReceptiveAccount withValue: aValueToTransfer 
+	
+	self assertTransferValueIsNotZero: aValueToTransfer.
+	self assertTransferValueIsNotNegative: aValueToTransfer.
+	deposit := TransferDeposit registerOn: aDestinationReceptiveAccount forTransfer: self.
+	withdraw := TransferWithdraw registerOn: aSourceReceptiveAccount forTransfer: self.
+	value := aValueToTransfer.! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:27:49'!
+test01TransferZeroFromAToBRaiseError
+	|accountA accountB|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	
+	self should: [Transfer from: accountA to: accountB withValue: 0.] 
+		raise: Error 
+		withExceptionDo: [:anError | self assert: (Transfer canNotTransferZeroErrorMessage) equals: anError messageText.].! !
+
+!methodRemoval: TransferTest #test01TransferZeroFromAToB stamp: 'edrr 5/29/2022 18:27:49'!
+test01TransferZeroFromAToB
+	|accountA accountB|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	
+	self should: [Transfer from: accountA to: accountB withValue: 0.] 
+		raise: Error 
+		withExceptionDo: [:anError | self assert: (Transfer canNotTransferZeroErrorMessage) equals: anError messageText.].!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:28:57' prior: 50475759!
+test03TransferFromAToBDeposit
+	|accountA accountB transfer|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: accountB withValue: 1.
+	
+	self assert: (transfer deposit isKindOf: TransferDeposit).
+	self assert: (accountA hasRegistered: transfer withdraw).! !
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:29:37' prior: 50475970!
+test03TransferFromAToBDeposit
+	|accountA accountB transfer|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: accountB withValue: 1.
+	
+	self assert: (transfer deposit isKindOf: TransferDeposit).
+	self assert: (accountB hasRegistered: transfer deposit).! !
+
+!testRun: #TransferTest #test03TransferFromAToBDeposit stamp: 'edrr 5/29/2022 18:29:40'!
+PASSED!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:29:51' prior: 50475783!
+test04TransferFromAToBWithdraw
+	|accountA accountB transfer|
+	
+	accountA := ReceptiveAccount new.
+	accountB := ReceptiveAccount new.
+	Deposit register: 5 on: accountA.
+	
+	transfer := Transfer from: accountA to: accountB withValue: 1.
+	
+	self assert: (transfer withdraw isKindOf: TransferWithdraw).
+	self assert: (accountA hasRegistered: transfer withdraw).! !
+
+!testRun: #TransferTest #test04TransferFromAToBWithdraw stamp: 'edrr 5/29/2022 18:30:00'!
+PASSED!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:34:42'!
+test02AccountWithDeposit
+	| account accountSummary |
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	
+	accountSummary := AccountSummary for: account.
+	
+	self assert: 'Deposito por 100.Balance = 100.' equals: accountSummary process.
+	! !
+
+!methodRemoval: AccountSummaryTest #test02AccountWithDepositPrintsCorrectly stamp: 'edrr 5/29/2022 18:34:42'!
+test02AccountWithDepositPrintsCorrectly
+	| account accountSummary |
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	
+	accountSummary := AccountSummary for: account.
+	
+	self assert: 'Deposito por 100.Balance = 100.' equals: accountSummary process.
+	!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:35:33'!
+test03AccountWithWithdraw
+	| account accountSummary |
+	account := ReceptiveAccount new.
+	Withdraw register: 50 on: account.
+	 
+	accountSummary := AccountSummary for: account.
+	
+	self assert: 'Extraccion por 50.Balance = -50.' equals: accountSummary process.
+	! !
+
+!methodRemoval: AccountSummaryTest #test03AccountWithWithdrawPrintsCorrectly stamp: 'edrr 5/29/2022 18:35:33'!
+test03AccountWithWithdrawPrintsCorrectly
+	| account accountSummary |
+	account := ReceptiveAccount new.
+	Withdraw register: 50 on: account.
+	 
+	accountSummary := AccountSummary for: account.
+	
+	self assert: 'Extraccion por 50.Balance = -50.' equals: accountSummary process.
+	!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:36:00'!
+test04AccountWithOutboundTransfer
+	| account1 account2 accountSummary |
+	account1 := ReceptiveAccount new.
+	account2 := ReceptiveAccount new.
+	Transfer from: account1 to: account2 withValue: 20. 
+	 
+	accountSummary := AccountSummary for: account1.
+	
+	self assert: 'Salida por transferencia de 20.Balance = -20.' equals: accountSummary process.
+	! !
+
+!methodRemoval: AccountSummaryTest #test04AccountWithOutboundTransferPrintsCorrectly stamp: 'edrr 5/29/2022 18:36:00'!
+test04AccountWithOutboundTransferPrintsCorrectly
+	| account1 account2 accountSummary |
+	account1 := ReceptiveAccount new.
+	account2 := ReceptiveAccount new.
+	Transfer from: account1 to: account2 withValue: 20. 
+	 
+	accountSummary := AccountSummary for: account1.
+	
+	self assert: 'Salida por transferencia de 20.Balance = -20.' equals: accountSummary process.
+	!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:36:15'!
+test05AccountWithInboundTransfer
+	| account1 account2 accountSummary |
+	account1 := ReceptiveAccount new.
+	account2 := ReceptiveAccount new.
+	Transfer from: account1 to: account2 withValue: 30. 
+	 
+	accountSummary := AccountSummary for: account2.
+	
+	self assert: 'Entrada por transferencia de 30.Balance = 30.' equals: accountSummary process.
+	! !
+
+!methodRemoval: AccountSummaryTest #test05AccountWithInboundTransferPrintsCorrectly stamp: 'edrr 5/29/2022 18:36:15'!
+test05AccountWithInboundTransferPrintsCorrectly
+	| account1 account2 accountSummary |
+	account1 := ReceptiveAccount new.
+	account2 := ReceptiveAccount new.
+	Transfer from: account1 to: account2 withValue: 30. 
+	 
+	accountSummary := AccountSummary for: account2.
+	
+	self assert: 'Entrada por transferencia de 30.Balance = 30.' equals: accountSummary process.
+	!
+!AccountSummaryTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:36:51'!
+test06AccountWithTwoTransactions
+	| account  accountSummary |
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	Withdraw register: 50 on: account. 	 
+
+	accountSummary := AccountSummary for: account.
+	
+	self assert: 	'Deposito por 100.Extraccion por 50.Balance = 50.' equals: accountSummary process.
+	! !
+
+!methodRemoval: AccountSummaryTest #test06AccountWithTwoTransactionsPrintsCorrectly stamp: 'edrr 5/29/2022 18:36:51'!
+test06AccountWithTwoTransactionsPrintsCorrectly
+	| account  accountSummary |
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	Withdraw register: 50 on: account. 	 
+
+	accountSummary := AccountSummary for: account.
+	
+	self assert: 	'Deposito por 100.Extraccion por 50.Balance = 50.' equals: accountSummary process.
+	!
+
+accountA := ReceptiveAccount new.!
+
+accountB := ReceptiveAccount new.!
+
+accountA := ReceptiveAccount new.!
+
+accountB := ReceptiveAccount new.!
+
+Deposit register: 100 on: accountA.!
+
+Withdraw register: 50 on: accountA.!
+
+c!
+
+accountA := ReceptiveAccount new.!
+
+accountB := ReceptiveAccount new.!
+
+Deposit register: 100 on: accountA.!
+
+Withdraw register: 50 on: accountA.!
+
+Transfer from: accountA to: accountA withValue: 20.!
+
+Transfer from: accountB to: accountA withValue: 30.!
+
+summary := AccountSummary for: accountA.!
+
+summary process.!
+
+accountA := ReceptiveAccount new.!
+
+o!
+
+accountB := ReceptiveAccount new.
+!
+
+Deposit register: 100 on: accountA.!
+
+Withdraw register: 50 on: accountA.!
+
+Transfer from: accountA to: accountB withValue: 20.!
+
+Transfer from: accountB to: accountA withValue: 30.!
+
+summary := AccountSummary for: accountA.!
+
+summary process.!
+
+transferNet := TransferNet for: accountA.!
+
+transferNet!
+
+transferNet process.!
+!TransferTest methodsFor: 'tests' stamp: 'edrr 5/29/2022 18:44:40'!
+test09TransferBetweenSameAccountRaiseError
+	|accountA |
+	
+	accountA := ReceptiveAccount new.
+	
+	self should: [Transfer from: accountA to: accountA withValue: 1.] 
+		raise: Error 
+		withExceptionDo: [:anError | self assert: (Transfer canNotTransferBetweenSameAccountErrorMessage) equals: anError messageText.].! !
+
+!testRun: #TransferTest #test09TransferBetweenSameAccountRaiseError stamp: 'edrr 5/29/2022 18:44:49'!
+FAILURE!
+!Transfer methodsFor: 'initialization' stamp: 'edrr 5/29/2022 18:46:38' prior: 50475927!
+initializeFrom: aSourceReceptiveAccount to: aDestinationReceptiveAccount withValue: aValueToTransfer 
+	
+	self assertTransferValueIsNotZero: aValueToTransfer.
+	self assertTransferValueIsNotNegative: aValueToTransfer.
+	aSourceReceptiveAccount == aDestinationReceptiveAccount ifTrue: [self error: self class canNotTransferBetweenSameAccountErrorMessage].
+	deposit := TransferDeposit registerOn: aDestinationReceptiveAccount forTransfer: self.
+	withdraw := TransferWithdraw registerOn: aSourceReceptiveAccount forTransfer: self.
+	value := aValueToTransfer.! !
+
+!testRun: #TransferTest #test09TransferBetweenSameAccountRaiseError stamp: 'edrr 5/29/2022 18:47:17'!
+ERROR!
+!Transfer class methodsFor: 'error messages' stamp: 'edrr 5/29/2022 18:47:22'!
+canNotTransferBetweenSameAccountErrorMessage
+	self shouldBeImplemented.! !
+!Transfer class methodsFor: 'error messages' stamp: 'edrr 5/29/2022 18:47:52' prior: 50476220!
+canNotTransferBetweenSameAccountErrorMessage
+	'cannot transfer between same account'! !
+
+!testRun: #TransferTest #test09TransferBetweenSameAccountRaiseError stamp: 'edrr 5/29/2022 18:47:55'!
+FAILURE!
+
+!testRun: #TransferTest #test01TransferZeroFromAToBRaiseError stamp: 'edrr 5/29/2022 18:48:04'!
+PASSED!
+
+!testRun: #TransferTest #test02TransferOneFromAToB stamp: 'edrr 5/29/2022 18:48:04'!
+PASSED!
+
+!testRun: #TransferTest #test03TransferFromAToBDeposit stamp: 'edrr 5/29/2022 18:48:04'!
+PASSED!
+
+!testRun: #TransferTest #test04TransferFromAToBWithdraw stamp: 'edrr 5/29/2022 18:48:04'!
+PASSED!
+
+!testRun: #TransferTest #test05TransferFromAToBValue stamp: 'edrr 5/29/2022 18:48:04'!
+PASSED!
+
+!testRun: #TransferTest #test06TransferFromAToBDepositTransfer stamp: 'edrr 5/29/2022 18:48:04'!
+PASSED!
+
+!testRun: #TransferTest #test07TransferFromAToBWithdrawTransfer stamp: 'edrr 5/29/2022 18:48:04'!
+PASSED!
+
+!testRun: #TransferTest #test08TransferNegativeValueFromAToBRaiseError stamp: 'edrr 5/29/2022 18:48:04'!
+PASSED!
+
+!testRun: #TransferTest #test09TransferBetweenSameAccountRaiseError stamp: 'edrr 5/29/2022 18:48:04'!
+PASSED!
+!Transfer methodsFor: 'initialization' stamp: 'edrr 5/29/2022 18:49:58'!
+assertAccount: aSourceReceptiveAccount isDifferentThanAccount: aDestinationReceptiveAccount
+
+	^ aSourceReceptiveAccount == aDestinationReceptiveAccount ifTrue: [self error: self class canNotTransferBetweenSameAccountErrorMessage]! !
+!Transfer methodsFor: 'initialization' stamp: 'edrr 5/29/2022 18:49:58' prior: 50476196!
+initializeFrom: aSourceReceptiveAccount to: aDestinationReceptiveAccount withValue: aValueToTransfer 
+	
+	self assertTransferValueIsNotZero: aValueToTransfer.
+	self assertTransferValueIsNotNegative: aValueToTransfer.
+	self assertAccount: aSourceReceptiveAccount isDifferentThanAccount: aDestinationReceptiveAccount.
+	deposit := TransferDeposit registerOn: aDestinationReceptiveAccount forTransfer: self.
+	withdraw := TransferWithdraw registerOn: aSourceReceptiveAccount forTransfer: self.
+	value := aValueToTransfer.! !
+!Transfer methodsFor: 'assertions' stamp: 'edrr 5/29/2022 18:50:32'!
+assertSourceAccount: aSourceReceptiveAccount isDifferentThanDestinationAccount: aDestinationReceptiveAccount
+
+	^ aSourceReceptiveAccount == aDestinationReceptiveAccount ifTrue: [self error: self class canNotTransferBetweenSameAccountErrorMessage]! !
+!Transfer methodsFor: 'as yet unclassified' stamp: 'edrr 5/29/2022 18:50:32' prior: 50476275!
+initializeFrom: aSourceReceptiveAccount to: aDestinationReceptiveAccount withValue: aValueToTransfer 
+	
+	self assertTransferValueIsNotZero: aValueToTransfer.
+	self assertTransferValueIsNotNegative: aValueToTransfer.
+	self assertSourceAccount: aSourceReceptiveAccount isDifferentThanDestinationAccount: aDestinationReceptiveAccount.
+	deposit := TransferDeposit registerOn: aDestinationReceptiveAccount forTransfer: self.
+	withdraw := TransferWithdraw registerOn: aSourceReceptiveAccount forTransfer: self.
+	value := aValueToTransfer.! !
+
+!methodRemoval: Transfer #assertAccount:isDifferentThanAccount: stamp: 'edrr 5/29/2022 18:50:32'!
+assertAccount: aSourceReceptiveAccount isDifferentThanAccount: aDestinationReceptiveAccount
+
+	^ aSourceReceptiveAccount == aDestinationReceptiveAccount ifTrue: [self error: self class canNotTransferBetweenSameAccountErrorMessage]!
+
+!testRun: #TransferTest #test01TransferZeroFromAToBRaiseError stamp: 'edrr 5/29/2022 18:50:43'!
+PASSED!
+
+!testRun: #TransferTest #test02TransferOneFromAToB stamp: 'edrr 5/29/2022 18:50:43'!
+PASSED!
+
+!testRun: #TransferTest #test03TransferFromAToBDeposit stamp: 'edrr 5/29/2022 18:50:43'!
+PASSED!
+
+!testRun: #TransferTest #test04TransferFromAToBWithdraw stamp: 'edrr 5/29/2022 18:50:43'!
+PASSED!
+
+!testRun: #TransferTest #test05TransferFromAToBValue stamp: 'edrr 5/29/2022 18:50:43'!
+PASSED!
+
+!testRun: #TransferTest #test06TransferFromAToBDepositTransfer stamp: 'edrr 5/29/2022 18:50:43'!
+PASSED!
+
+!testRun: #TransferTest #test07TransferFromAToBWithdrawTransfer stamp: 'edrr 5/29/2022 18:50:43'!
+PASSED!
+
+!testRun: #TransferTest #test08TransferNegativeValueFromAToBRaiseError stamp: 'edrr 5/29/2022 18:50:43'!
+PASSED!
+
+!testRun: #TransferTest #test09TransferBetweenSameAccountRaiseError stamp: 'edrr 5/29/2022 18:50:43'!
+PASSED!
+
+----SNAPSHOT----(29 May 2022 19:07:10) CuisUniversity-5096.image priorSource: 4557982!
+
+!testRun: #AccountSummaryTest #test01AccountWithoutTransactionsPrintsBalanceZero stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test02AccountWithDeposit stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test03AccountWithWithdraw stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test04AccountWithOutboundTransfer stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test05AccountWithInboundTransfer stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #AccountSummaryTest #test06AccountWithTwoTransactions stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithAccountsIsSumOfAccountsBalance stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #TransferNetTest #test01AccountWithoutTransactionsTransferNet stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #TransferNetTest #test02AccountWithTransferTransferNet stamp: 'edrr 5/29/2022 19:07:32'!
+PASSED!
+
+!testRun: #TransferNetTest #test03AccountWithTransferAndDepositTransferNet stamp: 'edrr 5/29/2022 19:07:33'!
+PASSED!
+
+!testRun: #TransferNetTest #test04AccountWithTransferAndWithdrawTransferNet stamp: 'edrr 5/29/2022 19:07:33'!
+PASSED!
+
+!testRun: #TransferTest #test01TransferZeroFromAToBRaiseError stamp: 'edrr 5/29/2022 19:07:33'!
+PASSED!
+
+!testRun: #TransferTest #test02TransferOneFromAToB stamp: 'edrr 5/29/2022 19:07:33'!
+PASSED!
+
+!testRun: #TransferTest #test03TransferFromAToBDeposit stamp: 'edrr 5/29/2022 19:07:33'!
+PASSED!
+
+!testRun: #TransferTest #test04TransferFromAToBWithdraw stamp: 'edrr 5/29/2022 19:07:33'!
+PASSED!
+
+!testRun: #TransferTest #test05TransferFromAToBValue stamp: 'edrr 5/29/2022 19:07:33'!
+PASSED!
+
+!testRun: #TransferTest #test06TransferFromAToBDepositTransfer stamp: 'edrr 5/29/2022 19:07:33'!
+PASSED!
+
+!testRun: #TransferTest #test07TransferFromAToBWithdrawTransfer stamp: 'edrr 5/29/2022 19:07:33'!
+PASSED!
+
+!testRun: #TransferTest #test08TransferNegativeValueFromAToBRaiseError stamp: 'edrr 5/29/2022 19:07:33'!
+PASSED!
+
+!testRun: #TransferTest #test09TransferBetweenSameAccountRaiseError stamp: 'edrr 5/29/2022 19:07:33'!
+PASSED!
+
+----QUIT----(29 May 2022 19:07:59) CuisUniversity-5096.image priorSource: 4630819!
