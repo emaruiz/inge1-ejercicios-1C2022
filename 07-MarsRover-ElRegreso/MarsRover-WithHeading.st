@@ -1033,7 +1033,7 @@ processForPositionOptionWith: aPosition
 
 !classDefinition: #MarsRoverVisitorsOptions category: 'MarsRover-WithHeading'!
 Object subclass: #MarsRoverVisitorsOptions
-	instanceVariableNames: ''
+	instanceVariableNames: 'visitor'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover-WithHeading'!
@@ -1049,7 +1049,7 @@ processForChangePositionTo: aPosition
 
 !classDefinition: #MarsRoverVisitorHeading category: 'MarsRover-WithHeading'!
 MarsRoverVisitorsOptions subclass: #MarsRoverVisitorHeading
-	instanceVariableNames: 'visitor'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover-WithHeading'!
@@ -1082,7 +1082,7 @@ for: aMarsRoverLogger
 
 !classDefinition: #MarsRoverVisitorPositions category: 'MarsRover-WithHeading'!
 MarsRoverVisitorsOptions subclass: #MarsRoverVisitorPositions
-	instanceVariableNames: 'logger'
+	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'MarsRover-WithHeading'!
@@ -1091,15 +1091,15 @@ MarsRoverVisitorsOptions subclass: #MarsRoverVisitorPositions
 processForChangeHeadingTo: aHeading 
 	! !
 
-!MarsRoverVisitorPositions methodsFor: 'operations' stamp: 'edrr 6/1/2022 20:21:28'!
+!MarsRoverVisitorPositions methodsFor: 'operations' stamp: 'edrr 6/1/2022 20:47:15'!
 processForChangePositionTo: aPosition 
-	logger processForPositionOptionWith: aPosition.! !
+	visitor processForPositionOptionWith: aPosition.! !
 
 
-!MarsRoverVisitorPositions methodsFor: 'initialization' stamp: 'edrr 6/1/2022 19:05:12'!
+!MarsRoverVisitorPositions methodsFor: 'initialization' stamp: 'edrr 6/1/2022 20:47:15'!
 initializeFor: aMarsRoverLogger 
 	
-	logger := aMarsRoverLogger.! !
+	visitor := aMarsRoverLogger.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 

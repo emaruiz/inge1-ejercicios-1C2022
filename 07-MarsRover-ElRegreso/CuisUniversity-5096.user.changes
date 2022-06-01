@@ -11586,3 +11586,163 @@ PASSED!
 PASSED!
 
 ----QUIT----(1 June 2022 20:41:32) CuisUniversity-5096.image priorSource: 4557982!
+
+----STARTUP---- (1 June 2022 20:46:35) as /home/manuel/Facultad/Inge1_1C2022/Ejercicios/linux64 (5)/CuisUniversity-5096.image!
+
+
+!classDefinition: #MarsRoverVisitorPositions category: 'MarsRover-WithHeading' stamp: 'edrr 6/1/2022 20:47:15'!
+MarsRoverVisitorsOptions subclass: #MarsRoverVisitorPositions
+	instanceVariableNames: 'visitor'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+!MarsRoverVisitorPositions methodsFor: 'as yet unclassified' stamp: 'edrr 6/1/2022 20:47:15' prior: 50475921 overrides: 50475943!
+processForChangePositionTo: aPosition 
+	visitor processForPositionOptionWith: aPosition.! !
+!MarsRoverVisitorPositions methodsFor: 'as yet unclassified' stamp: 'edrr 6/1/2022 20:47:15' prior: 50475175!
+initializeFor: aMarsRoverLogger 
+	
+	visitor := aMarsRoverLogger.! !
+
+!classDefinition: #MarsRoverVisitorHeading category: 'MarsRover-WithHeading' stamp: 'edrr 6/1/2022 20:47:23'!
+MarsRoverVisitorsOptions subclass: #MarsRoverVisitorHeading
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classDefinition: #MarsRoverVisitorPositions category: 'MarsRover-WithHeading' stamp: 'edrr 6/1/2022 20:47:24'!
+MarsRoverVisitorsOptions subclass: #MarsRoverVisitorPositions
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classDefinition: #MarsRoverVisitorsOptions category: 'MarsRover-WithHeading' stamp: 'edrr 6/1/2022 20:47:24'!
+Object subclass: #MarsRoverVisitorsOptions
+	instanceVariableNames: 'visitor'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!testRun: #MarsRoverLoggerTest #test01MarsRoverLoggerNoCommands stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverLoggerTest #test02MarsRoverLoggerMoveNorth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverLoggerTest #test03MarsRoverLoggerMoveSouth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverLoggerTest #test04MarsRoverLoggerMoveEast stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverLoggerTest #test05MarsRoverLoggerMoveWest stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverLoggerTest #test06MarsRoverLoggerHeadingEast stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverLoggerTest #test07MarsRoverLoggerHeadingSouth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverLoggerTest #test08MarsRoverLoggerHeadingWest stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverLoggerTest #test09MarsRoverLoggerHeadingNorth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverLoggerTest #test10MarsRoverLoggerOnlyPositions stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverLoggerTest #test11MarsRoverLoggerOnlyHeadings stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverLoggerTest #test12MarsRoverLoggerBothOptions stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test01DoesNotMoveWhenNoCommand stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test02IsAtFailsForDifferentPosition stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test03IsAtFailsForDifferentHeading stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test04IncrementsYAfterMovingForwardWhenHeadingNorth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test06DecrementsYAfterMovingBackwardsWhenHeadingNorth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test07PointToEashAfterRotatingRightWhenHeadingNorth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test08PointsToWestAfterRotatingLeftWhenPointingNorth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test09DoesNotProcessInvalidCommand stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test10CanProcessMoreThanOneCommand stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test11IncrementsXAfterMovingForwareWhenHeadingEast stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test12DecrementsXAfterMovingBackwardWhenHeadingEast stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test13PointsToSouthAfterRotatingRightWhenHeadingEast stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test14PointsToNorthAfterRotatingLeftWhenPointingEast stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test15ForwardBackwardsAndRotateRightWorkAsExpectedWhenPointingSouth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverTest #test16ForwardBackwardsAndRotateRightWorkAsExpectedWhenPointingWest stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverVisitorsTest #test01MarsRoverTwoVisitors stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test01MarsRoverWindowNoCommands stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test02MarsRoverWindowMoveNorth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test03MarsRoverWindowMoveSouth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test04MarsRoverWindowMoveEast stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test05MarsRoverWindowMoveWest stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test06MarsRoverWindowHeadingEast stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test07MarsRoverWindowHeadingSouth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test08MarsRoverWindowHeadingWest stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test09MarsRoverWindowHeadingNorth stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test10MarsRoverWindowOnlyPosition stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test11MarsRoverWindowOnlyHeading stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+!testRun: #MarsRoverWindowTest #test12MarsRoverWindowBothOptions stamp: 'edrr 6/1/2022 20:47:28'!
+PASSED!
+
+----QUIT----(1 June 2022 20:47:44) CuisUniversity-5096.image priorSource: 4688465!
