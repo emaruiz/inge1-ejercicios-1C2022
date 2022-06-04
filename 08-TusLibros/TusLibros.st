@@ -5,7 +5,7 @@ TestCase subclass: #CartTest
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!CartTest methodsFor: 'creations' stamp: 'jeo 6/4/2022 18:57:46'!
+!CartTest methodsFor: 'creations' stamp: 'jeo 6/4/2022 19:25:10'!
 createCart
 
 	^ Cart withCatalog: testCatalog.! !
@@ -84,12 +84,12 @@ test08NewCartListsNoAddedBooks
 	cart := self createCart.
 	self assert: (OrderedCollection new) equals: (cart addedBooks).! !
 
-!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:57:46'!
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 19:24:57'!
 test09CartListsAddedBooks
 	| cart |
 	cart := self createCart.
 	cart add: 'book1' quantity: 1.
-	self assert: (OrderedCollection withCatalog: 'book1') equals: (cart addedBooks).! !
+	self assert: (OrderedCollection with: 'book1') equals: (cart addedBooks).! !
 
 
 !classDefinition: #Cart category: 'TusLibros'!

@@ -2792,3 +2792,85 @@ cannotAddNotRegisteredBookErrorDescription
 	^ 'cannot add a book that is not included in the catalog'.!
 
 ----QUIT----(4 June 2022 19:15:35) CuisUniversity-5096.image priorSource: 5137149!
+
+----STARTUP---- (4 June 2022 19:24:08) as /home/javier/Documents/UBA Exactas/Actual/8_Ingenieria de Software I/1_Practica/CUIS_2/CuisUniversity-5096.image!
+
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 19:24:21'!
+ERROR!
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 19:24:21'!
+ERROR!
+!CartTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 19:24:57' prior: 50497313!
+createCart
+
+	^ Cart with: testCatalog.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 19:24:57' prior: 50497318!
+test09CartListsAddedBooks
+	| cart |
+	cart := self createCart.
+	cart add: 'book1' quantity: 1.
+	self assert: (OrderedCollection with: 'book1') equals: (cart addedBooks).! !
+!CartTest methodsFor: 'creations' stamp: 'jeo 6/4/2022 19:25:10' prior: 50497391!
+createCart
+
+	^ Cart withCatalog: testCatalog.! !
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 19:25:13'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 19:25:13'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 19:25:13'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 19:25:13'!
+PASSED!
+
+!testRun: #CartTest #test04AddInvalidBookToCartRaisesError stamp: 'jeo 6/4/2022 19:25:13'!
+PASSED!
+
+!testRun: #CartTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 19:25:13'!
+PASSED!
+
+!testRun: #CartTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 19:25:13'!
+PASSED!
+
+!testRun: #CartTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 19:25:13'!
+PASSED!
+
+!testRun: #CartTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 19:25:13'!
+PASSED!
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 19:25:13'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 19:25:17'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 19:25:17'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 19:25:17'!
+PASSED!
+
+!testRun: #CartTest #test04AddInvalidBookToCartRaisesError stamp: 'jeo 6/4/2022 19:25:17'!
+PASSED!
+
+!testRun: #CartTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 19:25:17'!
+PASSED!
+
+!testRun: #CartTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 19:25:17'!
+PASSED!
+
+!testRun: #CartTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 19:25:17'!
+PASSED!
+
+!testRun: #CartTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 19:25:17'!
+PASSED!
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 19:25:17'!
+PASSED!
+
+----QUIT----(4 June 2022 19:25:28) CuisUniversity-5096.image priorSource: 5303246!
