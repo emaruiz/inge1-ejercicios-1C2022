@@ -1,0 +1,2794 @@
+
+
+----STARTUP---- (2 June 2022 20:40:54) as /home/clinux01/Documentos/linux64 (3)/CuisUniversity-5096.image!
+
+
+TestCase subclass: #TusLibros
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CuisUniversity-Tests'!
+
+!classDefinition: #TusLibros category: 'CuisUniversity-Tests' stamp: 'edrr 6/2/2022 20:41:50'!
+TestCase subclass: #TusLibros
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CuisUniversity-Tests'!
+
+----STARTUP---- (2 June 2022 20:42:06) as /home/clinux01/Documentos/linux64 (3)/CuisUniversity-5096.image!
+
+
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #TusLibrosTest category: 'TusLibros' stamp: 'edrr 6/2/2022 20:42:46'!
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'edrr 6/2/2022 20:44:05'!
+Object subclass: #Cart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!TusLibrosTest methodsFor: 'nil' stamp: 'edrr 6/2/2022 20:43:55'!
+test01
+	self assert: Cart new isEmpty.
+	! !
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 20:44:10'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:44:19'!
+isEmpty
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:44:26' prior: 50474117!
+isEmpty
+	^true.! !
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 20:44:29'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 20:44:29'!
+PASSED!
+
+!classDefinition: #Book category: 'TusLibros' stamp: 'edrr 6/2/2022 20:48:35'!
+Object subclass: #Book
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:48:22'!
+test02
+	
+	| book cart |
+	book := Book new.
+	cart := Cart new add: book.
+	self deny: cart isEmpty.! !
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 20:48:43'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:48:50'!
+add: aBook 
+	self shouldBeImplemented.! !
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'edrr 6/2/2022 20:49:27'!
+Object subclass: #Cart
+	instanceVariableNames: 'content'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:49:26' prior: 50474144!
+add: aBook 
+	content := aBook.! !
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 20:49:28'!
+FAILURE!
+
+cart isEmpty!
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 20:49:42'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 20:49:42'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 20:49:42'!
+FAILURE!
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 20:49:42'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:50:19' prior: 50474121!
+isEmpty
+	^content isNil.! !
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 20:50:26'!
+FAILURE!
+
+content isNil!
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 20:50:59'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 20:50:59'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:53:03'!
+test03
+	
+	| book1 book2 cart |
+	book1 := Book new.
+	book2 := Book new.
+	cart := Cart new.
+	 
+	cart add: book1.
+	cart add: book2.
+	
+	self assert: cart size equals: 2.! !
+
+!testRun: #TusLibrosTest #test03 stamp: 'edrr 6/2/2022 20:53:08'!
+ERROR!
+
+!testRun: #TusLibrosTest #test03 stamp: 'edrr 6/2/2022 20:53:46'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:54:21' overrides: 16901663!
+size
+	^content size.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:54:36' prior: 50474155!
+add: aBook 
+	content add: aBook.! !
+!Cart methodsFor: 'nil' stamp: 'edrr 6/2/2022 20:54:55' overrides: 16920235!
+initialize
+	content := OrderedCollection new.! !
+
+!testRun: #TusLibrosTest #test03 stamp: 'edrr 6/2/2022 20:55:00'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 20:55:00'!
+FAILURE!
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 20:55:00'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03 stamp: 'edrr 6/2/2022 20:55:00'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 20:55:00'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:55:25' prior: 50474172!
+isEmpty
+	^content isEmpty.! !
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 20:55:35'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 20:55:37'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03 stamp: 'edrr 6/2/2022 20:55:37'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:59:09'!
+test04
+	
+	| book1  cart |
+	book1 := Book new.
+	cart := Cart new.
+	 
+	cart add: book1.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 20:59:15' prior: 50474234!
+test04
+	
+	| invalidBook  cart |
+	invalidBook := Book new.
+	cart := Cart new.
+	 
+	cart add: invalidBook.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:00:43' prior: 50474240!
+test04
+	
+	| invalidBook  cart |
+	invalidBook := Book new.
+	cart := Cart new.
+	
+	cart add: invalidBook.
+	
+	self assert: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:02:34' prior: 50474247!
+test04
+	
+	| invalidBook  cart catalog |
+	invalidBook := Book new.
+	cart := Cart new.
+	catalog := Catalog new.
+	
+	cart add: invalidBook from:  catalog.
+	
+	self assert: cart isEmpty.! !
+
+!testRun: #TusLibrosTest #test04 stamp: 'edrr 6/2/2022 21:02:44'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:02:57'!
+add: aBook from: aCatalog 
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:03:59' prior: 50474266!
+add: aBook from: aCatalog 
+	! !
+
+!testRun: #TusLibrosTest #test04 stamp: 'edrr 6/2/2022 21:04:01'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 21:04:01'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 21:04:01'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03 stamp: 'edrr 6/2/2022 21:04:01'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04 stamp: 'edrr 6/2/2022 21:04:01'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:04:30'!
+test05
+	
+	| validBook cart catalog |
+	validBook := Book new.
+	cart := Cart new.
+	catalog := Catalog new.
+	
+	cart add: validBook from:  catalog.
+	
+	self assert: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:04:45' prior: 50474287!
+test05
+	
+	| validBook cart catalog |
+	validBook := Book new.
+	cart := Cart new.
+	catalog := Catalog new.
+	
+	cart add: validBook from: catalog.
+	
+	self deny: cart isEmpty.! !
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:04:54'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:06:15' prior: 50474271!
+add: aBook from: aCatalog 
+	(aCatalog includes: aBook) ifTrue: [content add: aBook].! !
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:06:24'!
+ERROR!
+!Catalog methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:06:32'!
+includes: aBook 
+	self shouldBeImplemented.! !
+
+!classDefinition: #Catalog category: 'Tools-Finder-Model' stamp: 'edrr 6/2/2022 21:07:54'!
+Object subclass: #Catalog
+	instanceVariableNames: 'booksCatalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tools-Finder-Model'!
+!Catalog methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:07:51' prior: 50474315!
+includes: aBook 
+	booksCatalog includes: aBook.! !
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:07:56'!
+ERROR!
+
+!methodRemoval: Catalog #includes: stamp: 'edrr 6/2/2022 21:09:18'!
+includes: aBook 
+	booksCatalog includes: aBook.!
+
+!classDefinition: #Catalog category: 'Tools-Finder-Model' stamp: 'edrr 6/2/2022 21:09:49'!
+Object subclass: #Catalog
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tools-Finder-Model'!
+
+!classDefinition: #BookCatalog category: 'TusLibros' stamp: 'edrr 6/2/2022 21:10:16'!
+Object subclass: #BookCatalog
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:10:08' prior: 50474296!
+test05
+	
+	| validBook cart catalog |
+	validBook := Book new.
+	cart := Cart new.
+	catalog := BookCatalog new.
+	
+	cart add: validBook from: catalog.
+	
+	self deny: cart isEmpty.! !
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:10:33'!
+ERROR!
+!BookCatalog methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:10:39'!
+includes: aBook 
+	self shouldBeImplemented.! !
+
+!classDefinition: #BookCatalog category: 'TusLibros' stamp: 'edrr 6/2/2022 21:11:19'!
+Object subclass: #BookCatalog
+	instanceVariableNames: 'content'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!BookCatalog methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:11:16' prior: 50474363!
+includes: aBook 
+	content includes: aBook.! !
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:11:21'!
+ERROR!
+!BookCatalog methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:11:49' overrides: 16920235!
+initialize
+	content := Set new.! !
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:12:00'!
+ERROR!
+!BookCatalog methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:12:22' prior: 50474375!
+includes: aBook 
+	^content includes: aBook.! !
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 21:12:26'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 21:12:26'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03 stamp: 'edrr 6/2/2022 21:12:26'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04 stamp: 'edrr 6/2/2022 21:12:26'!
+ERROR!
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:12:26'!
+FAILURE!
+
+!testRun: #TusLibrosTest #test04 stamp: 'edrr 6/2/2022 21:12:29'!
+ERROR!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:13:01' prior: 50474255!
+test04
+	
+	| invalidBook  cart catalog |
+	invalidBook := Book new.
+	cart := Cart new.
+	catalog := BookCatalog new.
+	
+	cart add: invalidBook from: catalog.
+	
+	self assert: cart isEmpty.! !
+
+!testRun: #TusLibrosTest #test04 stamp: 'edrr 6/2/2022 21:13:03'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:13:03'!
+FAILURE!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:13:53' prior: 50474352!
+test05
+	
+	| validBook cart catalog |
+	validBook := Book new.
+	cart := Cart new.
+	catalog := BookCatalog new.
+	BookCatalog add: validBook.
+	
+	cart add: validBook from: catalog.
+	
+	self deny: cart isEmpty.! !
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:13:57'!
+ERROR!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:14:10' prior: 50474422!
+test05
+	
+	| validBook cart catalog |
+	validBook := Book new.
+	cart := Cart new.
+	catalog := BookCatalog new.
+	catalog add: validBook.
+	
+	cart add: validBook from: catalog.
+	
+	self deny: cart isEmpty.! !
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:14:11'!
+ERROR!
+!BookCatalog methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:14:16'!
+add: aBook 
+	self shouldBeImplemented.! !
+!BookCatalog methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:14:24' prior: 50474446!
+add: aBook 
+	content add: aBook.! !
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:14:26'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01 stamp: 'edrr 6/2/2022 21:14:27'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02 stamp: 'edrr 6/2/2022 21:14:27'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03 stamp: 'edrr 6/2/2022 21:14:27'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04 stamp: 'edrr 6/2/2022 21:14:27'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:14:27'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:16:32'!
+test01NewCartIsEmpty
+	self assert: Cart new isEmpty.
+	! !
+
+!methodRemoval: TusLibrosTest #test01 stamp: 'edrr 6/2/2022 21:16:32'!
+test01
+	self assert: Cart new isEmpty.
+	!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:17:25'!
+test02CartWithOneBookNoEmpty
+	
+	| book cart |
+	book := Book new.
+	cart := Cart new add: book.
+	self deny: cart isEmpty.! !
+
+!methodRemoval: TusLibrosTest #test02 stamp: 'edrr 6/2/2022 21:17:25'!
+test02
+	
+	| book cart |
+	book := Book new.
+	cart := Cart new add: book.
+	self deny: cart isEmpty.!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:17:56'!
+test02CartWithOneBook
+	
+	| book cart |
+	book := Book new.
+	cart := Cart new add: book.
+	self deny: cart isEmpty.! !
+
+!methodRemoval: TusLibrosTest #test02CartWithOneBookNoEmpty stamp: 'edrr 6/2/2022 21:17:56'!
+test02CartWithOneBookNoEmpty
+	
+	| book cart |
+	book := Book new.
+	cart := Cart new add: book.
+	self deny: cart isEmpty.!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:18:12'!
+test03CartWithTwoBooks
+	
+	| book1 book2 cart |
+	book1 := Book new.
+	book2 := Book new.
+	cart := Cart new.
+	 
+	cart add: book1.
+	cart add: book2.
+	
+	self assert: cart size equals: 2.! !
+
+!methodRemoval: TusLibrosTest #test03 stamp: 'edrr 6/2/2022 21:18:12'!
+test03
+	
+	| book1 book2 cart |
+	book1 := Book new.
+	book2 := Book new.
+	cart := Cart new.
+	 
+	cart add: book1.
+	cart add: book2.
+	
+	self assert: cart size equals: 2.!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:18:24' prior: 50474408!
+test04
+	
+	| invalidBook cart catalog |
+	invalidBook := Book new.
+	cart := Cart new.
+	catalog := BookCatalog new.
+	
+	cart add: invalidBook from: catalog.
+	
+	self assert: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:18:56'!
+test04AddInvalidBookToCart
+	
+	| invalidBook cart catalog |
+	invalidBook := Book new.
+	cart := Cart new.
+	catalog := BookCatalog new.
+	
+	cart add: invalidBook from: catalog.
+	
+	self assert: cart isEmpty.! !
+
+!methodRemoval: TusLibrosTest #test04 stamp: 'edrr 6/2/2022 21:18:56'!
+test04
+	
+	| invalidBook cart catalog |
+	invalidBook := Book new.
+	cart := Cart new.
+	catalog := BookCatalog new.
+	
+	cart add: invalidBook from: catalog.
+	
+	self assert: cart isEmpty.!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:19:23'!
+test05AddValidBookToCart
+	
+	| validBook cart catalog |
+	validBook := Book new.
+	cart := Cart new.
+	catalog := BookCatalog new.
+	catalog add: validBook.
+	
+	cart add: validBook from: catalog.
+	
+	self deny: cart isEmpty.! !
+
+!methodRemoval: TusLibrosTest #test05 stamp: 'edrr 6/2/2022 21:19:23'!
+test05
+	
+	| validBook cart catalog |
+	validBook := Book new.
+	cart := Cart new.
+	catalog := BookCatalog new.
+	catalog add: validBook.
+	
+	cart add: validBook from: catalog.
+	
+	self deny: cart isEmpty.!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:26:48'!
+test06CartWithTwoBooks
+	
+	| book1 cart catalog |
+	book1 := 'book1'.
+	cart := Cart new.
+	catalog := Set new.
+	catalog add: book1.
+	
+	cart add: book1 from: catalog quantity: 2.
+	
+	self assert: cart size equals: 2.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:27:54'!
+test06CartAddTwoOfTheSameBook
+	
+	| book1 cart catalog |
+	book1 := 'book1'.
+	cart := Cart new.
+	catalog := Set new.
+	catalog add: book1.
+	
+	cart add: book1 from: catalog quantity: 2.
+	
+	self assert: cart size equals: 2.! !
+
+!methodRemoval: TusLibrosTest #test06CartWithTwoBooks stamp: 'edrr 6/2/2022 21:27:54'!
+test06CartWithTwoBooks
+	
+	| book1 cart catalog |
+	book1 := 'book1'.
+	cart := Cart new.
+	catalog := Set new.
+	catalog add: book1.
+	
+	cart add: book1 from: catalog quantity: 2.
+	
+	self assert: cart size equals: 2.!
+
+!testRun: #TusLibrosTest #test06CartAddTwoOfTheSameBook stamp: 'edrr 6/2/2022 21:28:04'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:28:11'!
+add: aString from: aSet quantity: aSmallInteger 
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:30:30' prior: 50474595!
+add: aBook from: aBookCatalog quantity: aQuantity 
+	(aBookCatalog includes: aBook) ifTrue: [content add: aBook. content add: aBook].
+	! !
+
+!testRun: #TusLibrosTest #test06CartAddTwoOfTheSameBook stamp: 'edrr 6/2/2022 21:30:33'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'edrr 6/2/2022 21:30:33'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'edrr 6/2/2022 21:30:33'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'edrr 6/2/2022 21:30:33'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'edrr 6/2/2022 21:30:33'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05AddValidBookToCart stamp: 'edrr 6/2/2022 21:30:33'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddTwoOfTheSameBook stamp: 'edrr 6/2/2022 21:30:33'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:31:05' prior: 50474528!
+test04AddInvalidBookToCart
+	
+	| invalidBook cart catalog |
+	invalidBook := Book new.
+	cart := Cart new.
+	catalog := Set new.
+	
+	cart add: invalidBook from: catalog.
+	
+	self assert: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:31:12' prior: 50474545!
+test05AddValidBookToCart
+	
+	| validBook cart catalog |
+	validBook := Book new.
+	cart := Cart new.
+	catalog := Set new.
+	catalog add: validBook.
+	
+	cart add: validBook from: catalog.
+	
+	self deny: cart isEmpty.! !
+
+!classRemoval: #BookCatalog stamp: 'edrr 6/2/2022 21:31:18'!
+Object subclass: #BookCatalog
+	instanceVariableNames: 'content'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:31:32' prior: 50474489!
+test02CartWithOneBook
+	
+	| book cart |
+	book := 'book'.
+	cart := Cart new add: book.
+	self deny: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:31:49' prior: 50474502!
+test03CartWithTwoBooks
+	
+	| book1 book2 cart |
+	book1 := 'book1'.
+	book2 := 'book2'.
+	cart := Cart new.
+	 
+	cart add: book1.
+	cart add: book2.
+	
+	self assert: cart size equals: 2.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:32:06' prior: 50474629!
+test04AddInvalidBookToCart
+	
+	| invalidBook cart catalog |
+	invalidBook := 'not valid'.
+	cart := Cart new.
+	catalog := Set new.
+	
+	cart add: invalidBook from: catalog.
+	
+	self assert: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:32:21' prior: 50474639!
+test05AddValidBookToCart
+	
+	| validBook cart catalog |
+	validBook := 'valid book'.
+	cart := Cart new.
+	catalog := Set new.
+	catalog add: validBook.
+	
+	cart add: validBook from: catalog.
+	
+	self deny: cart isEmpty.! !
+
+!classRemoval: #Book stamp: 'edrr 6/2/2022 21:32:26'!
+Object subclass: #Book
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:33:03'!
+createCatalog
+
+	^ Set new! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:33:03' prior: 50474671!
+test04AddInvalidBookToCart
+	
+	| invalidBook cart catalog |
+	invalidBook := 'not valid'.
+	cart := Cart new.
+	catalog := self createCatalog.
+	
+	cart add: invalidBook from: catalog.
+	
+	self assert: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:33:03' prior: 50474573!
+test06CartAddTwoOfTheSameBook
+	
+	| book1 cart catalog |
+	book1 := 'book1'.
+	cart := Cart new.
+	catalog := self createCatalog.
+	catalog add: book1.
+	
+	cart add: book1 from: catalog quantity: 2.
+	
+	self assert: cart size equals: 2.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:33:03' prior: 50474681!
+test05AddValidBookToCart
+	
+	| validBook cart catalog |
+	validBook := 'valid book'.
+	cart := Cart new.
+	catalog := self createCatalog.
+	catalog add: validBook.
+	
+	cart add: validBook from: catalog.
+	
+	self deny: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:33:26'!
+createCart
+
+	^ Cart new! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:33:26' prior: 50474469!
+test01NewCartIsEmpty
+	self assert: self createCart isEmpty.
+	! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:33:26' prior: 50474700!
+test04AddInvalidBookToCart
+	
+	| invalidBook cart catalog |
+	invalidBook := 'not valid'.
+	cart := self createCart.
+	catalog := self createCatalog.
+	
+	cart add: invalidBook from: catalog.
+	
+	self assert: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:33:26' prior: 50474710!
+test06CartAddTwoOfTheSameBook
+	
+	| book1 cart catalog |
+	book1 := 'book1'.
+	cart := self createCart.
+	catalog := self createCatalog.
+	catalog add: book1.
+	
+	cart add: book1 from: catalog quantity: 2.
+	
+	self assert: cart size equals: 2.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:33:26' prior: 50474655!
+test02CartWithOneBook
+	
+	| book cart |
+	book := 'book'.
+	cart := self createCart add: book.
+	self deny: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:33:26' prior: 50474662!
+test03CartWithTwoBooks
+	
+	| book1 book2 cart |
+	book1 := 'book1'.
+	book2 := 'book2'.
+	cart := self createCart.
+	 
+	cart add: book1.
+	cart add: book2.
+	
+	self assert: cart size equals: 2.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:33:26' prior: 50474721!
+test05AddValidBookToCart
+	
+	| validBook cart catalog |
+	validBook := 'valid book'.
+	cart := self createCart.
+	catalog := self createCatalog.
+	catalog add: validBook.
+	
+	cart add: validBook from: catalog.
+	
+	self deny: cart isEmpty.! !
+
+!methodRemoval: Cart #add: stamp: 'edrr 6/2/2022 21:33:55'!
+add: aBook 
+	content add: aBook.!
+
+!methodRemoval: Cart #add:from: stamp: 'edrr 6/2/2022 21:33:57'!
+add: aBook from: aCatalog 
+	(aCatalog includes: aBook) ifTrue: [content add: aBook].!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:34:36' prior: 50474762!
+test02CartWithOneBook
+	
+	| book cart |
+	book := 'book'.
+	cart := self createCart add: book from: self createCatalog quantity: 1.
+	self deny: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:34:58' prior: 50474797!
+test02CartWithOneBook
+	
+	| book cart |
+	book := 'book'.
+	cart := self createCart.
+	 
+	cart add: book from: self createCatalog quantity: 1.
+	
+	self deny: cart isEmpty.! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'edrr 6/2/2022 21:35:02'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'edrr 6/2/2022 21:35:05'!
+FAILURE!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'edrr 6/2/2022 21:35:05'!
+FAILURE!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/2/2022 21:36:11' prior: 50474805!
+test02CartWithOneBook
+	
+	| book cart catalog |
+	book := 'book'.
+	cart := self createCart.
+	catalog := self createCatalog.
+	catalog add: book. 
+	
+	cart add: book from: catalog quantity: 1.
+	
+	self deny: cart isEmpty.! !
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'edrr 6/2/2022 21:36:21'!
+PASSED!
+
+----SNAPSHOT----(2 June 2022 21:47:41) CuisUniversity-5096.image priorSource: 4557982!
+
+----QUIT----(2 June 2022 21:48:08) CuisUniversity-5096.image priorSource: 4581876!
+
+----STARTUP---- (4 June 2022 17:30:26) as /home/javier/Documents/UBA Exactas/Actual/8_Ingenieria de Software I/1_Practica/CUIS_2/CuisUniversity-5096.image!
+
+
+!classRemoval: #MarsRoverWindowPosition stamp: 'jeo 6/4/2022 17:31:12'!
+MarsRoverWindow subclass: #MarsRoverWindowPosition
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverWindowHeading stamp: 'jeo 6/4/2022 17:31:13'!
+MarsRoverWindow subclass: #MarsRoverWindowHeading
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverWindowBoth stamp: 'jeo 6/4/2022 17:31:13'!
+MarsRoverWindow subclass: #MarsRoverWindowBoth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverWindow stamp: 'jeo 6/4/2022 17:31:14'!
+MarsRoverVisitors subclass: #MarsRoverWindow
+	instanceVariableNames: 'position heading'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverLoggerPositions stamp: 'jeo 6/4/2022 17:31:15'!
+MarsRoverLogger subclass: #MarsRoverLoggerPositions
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverLoggerHeadings stamp: 'jeo 6/4/2022 17:31:15'!
+MarsRoverLogger subclass: #MarsRoverLoggerHeadings
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverLoggerBoth stamp: 'jeo 6/4/2022 17:31:16'!
+MarsRoverLogger subclass: #MarsRoverLoggerBoth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverLogger stamp: 'jeo 6/4/2022 17:31:17'!
+MarsRoverVisitors subclass: #MarsRoverLogger
+	instanceVariableNames: 'stream'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverVisitors stamp: 'jeo 6/4/2022 17:31:17'!
+Object subclass: #MarsRoverVisitors
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverHeadingWest stamp: 'jeo 6/4/2022 17:31:18'!
+MarsRoverHeading subclass: #MarsRoverHeadingWest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverHeadingSouth stamp: 'jeo 6/4/2022 17:31:18'!
+MarsRoverHeading subclass: #MarsRoverHeadingSouth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverHeadingNorth stamp: 'jeo 6/4/2022 17:31:19'!
+MarsRoverHeading subclass: #MarsRoverHeadingNorth
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverHeadingEast stamp: 'jeo 6/4/2022 17:31:19'!
+MarsRoverHeading subclass: #MarsRoverHeadingEast
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverHeading stamp: 'jeo 6/4/2022 17:31:20'!
+Object subclass: #MarsRoverHeading
+	instanceVariableNames: 'marsRover'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRover stamp: 'jeo 6/4/2022 17:31:20'!
+Object subclass: #MarsRover
+	instanceVariableNames: 'position head visitors'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverWindowTest stamp: 'jeo 6/4/2022 17:31:21'!
+TestCase subclass: #MarsRoverWindowTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverVisitorsTest stamp: 'jeo 6/4/2022 17:31:21'!
+TestCase subclass: #MarsRoverVisitorsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverTest stamp: 'jeo 6/4/2022 17:31:21'!
+TestCase subclass: #MarsRoverTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+!classRemoval: #MarsRoverLoggerTest stamp: 'jeo 6/4/2022 17:31:22'!
+TestCase subclass: #MarsRoverLoggerTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'MarsRover-WithHeading'!
+
+----End fileIn of /home/javier/Documents/UBA Exactas/Actual/8_Ingenieria de Software I/1_Practica/CUIS_2/TusLibros.st----!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:33:57' prior: 50492339!
+createCart
+	| catalog |
+	catalog := self createCatalog.
+	^ Cart with: catalog.! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:35:33'!
+ERROR!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:35:33'!
+ERROR!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:35:34'!
+ERROR!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:35:34'!
+ERROR!
+
+!testRun: #TusLibrosTest #test05AddValidBookToCart stamp: 'jeo 6/4/2022 17:35:34'!
+ERROR!
+
+!testRun: #TusLibrosTest #test06CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:35:34'!
+ERROR!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:35:37'!
+ERROR!
+!Cart class methodsFor: 'instance creation' stamp: 'jeo 6/4/2022 17:35:42'!
+with: aSet 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWith: aSet ! !
+!Cart class methodsFor: 'instance creation' stamp: 'jeo 6/4/2022 17:35:57' prior: 50492461!
+with: aCatalog
+	^self new initializeWith: aCatalog ! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:35:58'!
+ERROR!
+
+!classDefinition: #Cart category: 'TusLibros' stamp: 'jeo 6/4/2022 17:36:04'!
+Object subclass: #Cart
+	instanceVariableNames: 'content catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart methodsFor: 'initialization' stamp: 'jeo 6/4/2022 17:36:04'!
+initializeWith: aCatalog 
+	self shouldBeImplemented.
+	catalog := aCatalog.! !
+!Cart methodsFor: 'initialization' stamp: 'jeo 6/4/2022 17:36:09' prior: 50492483!
+initializeWith: aCatalog 
+	
+	catalog := aCatalog.! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:36:10'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:36:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:36:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:36:12'!
+ERROR!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:36:12'!
+ERROR!
+
+!testRun: #TusLibrosTest #test05AddValidBookToCart stamp: 'jeo 6/4/2022 17:36:12'!
+ERROR!
+
+!testRun: #TusLibrosTest #test06CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:36:12'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:37:47' prior: 50492343!
+createCatalog
+
+	^ Set with: 'book1' with: 'book2'.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:38:29' prior: 50492352!
+test02CartWithOneBook
+	
+	| cart |
+	cart := self createCart.
+	
+	cart add: 'book1' quantity: 1.
+	
+	self deny: cart isEmpty.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:39:11' prior: 50492519!
+test02CartWithOneBook
+	
+	| cart |
+	cart := self createCart.
+	
+	cart add: 'book1' quantity: 1.
+	
+	self deny: cart isEmpty.
+	self assert: cart containsBook: 'book1'.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:39:21' prior: 50492526!
+test02CartWithOneBook
+	
+	| cart |
+	cart := self createCart.
+	
+	cart add: 'book1' quantity: 1.
+	
+	self deny: cart isEmpty.
+	self assert: (cart containsBook: 'book1').! !
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:39:23'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:39:28'!
+add: aString quantity: aSmallInteger 
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:40:15' prior: 50492546!
+add: aBook quantity: aSmallInteger 
+	(catalog includes: aBook) ifTrue: [content add: aBook. content add: aBook].! !
+
+!methodRemoval: Cart #add:from:quantity: stamp: 'jeo 6/4/2022 17:40:18'!
+add: aBook from: aBookCatalog quantity: aQuantity 
+	(aBookCatalog includes: aBook) ifTrue: [content add: aBook. content add: aBook].
+	!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:40:22'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:40:23'!
+ERROR!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:40:23'!
+ERROR!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:40:23'!
+ERROR!
+
+!testRun: #TusLibrosTest #test05AddValidBookToCart stamp: 'jeo 6/4/2022 17:40:23'!
+ERROR!
+
+!testRun: #TusLibrosTest #test06CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:40:23'!
+ERROR!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:40:25'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:40:33'!
+containsBook: aString 
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:41:01' prior: 50492584!
+containsBook: aBook
+	^content includes: aBook.! !
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:41:02'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:41:03'!
+ERROR!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:42:19' prior: 50492362!
+test03CartWithTwoBooks
+	
+	| cart |
+	cart := self createCart.
+	 
+	cart add: 'book1' quantity: 1.
+	cart add: 'book2' quantity: 1.
+	
+	self assert: cart size equals: 2.
+	self assert: cart containsBook: 'book1'.
+	self assert: cart containsBook: 'book2'.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:42:31' prior: 50492600!
+test03CartWithTwoBooks
+	
+	| cart |
+	cart := self createCart.
+	 
+	cart add: 'book1' quantity: 1.
+	cart add: 'book2' quantity: 1.
+	
+	self assert: cart size equals: 2.
+	self assert: (cart containsBook: 'book1').
+	self assert: (cart containsBook: 'book2').! !
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:42:32'!
+FAILURE!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:42:48'!
+FAILURE!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:42:48'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:43:06' prior: 50492551!
+add: aBook quantity: aSmallInteger 
+	(catalog includes: aBook) ifTrue: [content add: aBook].! !
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:43:10'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:43:43' prior: 50492371!
+test04AddInvalidBookToCart
+	
+	| invalidBook cart |
+	invalidBook := 'not valid'.
+	cart := self createCart.
+	
+	cart add: invalidBook quantity: 1.
+	
+	self assert: cart isEmpty.! !
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:44:00'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:44:00'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:44:00'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:44:00'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:44:00'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05AddValidBookToCart stamp: 'jeo 6/4/2022 17:44:00'!
+ERROR!
+
+!testRun: #TusLibrosTest #test06CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:44:00'!
+ERROR!
+
+!methodRemoval: TusLibrosTest #test05AddValidBookToCart stamp: 'jeo 6/4/2022 17:44:39'!
+test05AddValidBookToCart
+	
+	| validBook cart catalog |
+	validBook := 'valid book'.
+	cart := self createCart.
+	catalog := self createCatalog.
+	catalog add: validBook.
+	
+	cart add: validBook from: catalog.
+	
+	self deny: cart isEmpty.!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:44:44'!
+test05CartAddTwoOfTheSameBook
+	
+	| book1 cart catalog |
+	book1 := 'book1'.
+	cart := self createCart.
+	catalog := self createCatalog.
+	catalog add: book1.
+	
+	cart add: book1 from: catalog quantity: 2.
+	
+	self assert: cart size equals: 2.! !
+
+!methodRemoval: TusLibrosTest #test06CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:44:44'!
+test06CartAddTwoOfTheSameBook
+	
+	| book1 cart catalog |
+	book1 := 'book1'.
+	cart := self createCart.
+	catalog := self createCatalog.
+	catalog add: book1.
+	
+	cart add: book1 from: catalog quantity: 2.
+	
+	self assert: cart size equals: 2.!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:46:43' prior: 50492679!
+test05CartAddTwoOfTheSameBook
+	
+	| cart |
+	cart := self createCart.
+	
+	cart add: 'book1' quantity: 2.
+	
+	self assert: cart size equals: 2.
+	self assert: (cart containsBook: 'book1').
+	self assert: (cart bookQuantity: 'book1') equals: 2.! !
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:46:45'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:48:16' prior: 50492631!
+add: aBook quantity: aSmallInteger 
+	(catalog includes: aBook) ifTrue: [
+		aSmallInteger timesRepeat: [content add: aBook].
+	].! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:50:46'!
+bookQuantity: aBook
+	^content select: [:aContentBook | aContentBook = aBook] size! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:50:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:50:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:50:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:50:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:50:48'!
+ERROR!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:50:48'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:51:28' prior: 50492721!
+bookQuantity: aBook
+	^content select: [:aContentBook | (aContentBook = aBook)] size! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:51:29'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:51:29'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:51:29'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:51:29'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:51:29'!
+ERROR!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:51:29'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:52:19' prior: 50492744!
+bookQuantity: aBook
+	^(content select: [:aContentBook | (aContentBook = aBook)]) size! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:52:20'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:52:20'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:52:20'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:52:20'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:52:20'!
+PASSED!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:53:39' prior: 50492589!
+containsBook: aBook
+	^ (self bookQuantity: aBook > 0).! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:54:06' prior: 50492535!
+test02CartWithOneBook
+	
+	| cart |
+	cart := self createCart.
+	
+	cart add: 'book1' quantity: 1.
+	
+	self deny: cart isEmpty.
+	self assert: (cart bookQuantity: 'book1') equals: 1.! !
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:54:08'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:54:08'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:54:08'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:54:08'!
+ERROR!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:54:08'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:54:08'!
+ERROR!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:54:11'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:54:31' prior: 50492787!
+containsBook: aBook
+	^ (self bookQuantity: aBook) > 0.! !
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:54:32'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:54:34'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:54:43' prior: 50492792!
+test02CartWithOneBook
+	
+	| cart |
+	cart := self createCart.
+	
+	cart add: 'book1' quantity: 1.
+	
+	self deny: cart isEmpty.
+	self assert: (cart bookQuantity: 'book1') equals: 1	.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:55:22' prior: 50492611!
+test03CartWithTwoBooks
+	
+	| cart |
+	cart := self createCart.
+	 
+	cart add: 'book1' quantity: 1.
+	cart add: 'book2' quantity: 1.
+	
+	self assert: cart size equals: 2.
+	self assert: (cart bookQuantity: 'book1') equals: 1.
+	self assert: (cart bookQuantity: 'book2') equals: 1.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:55:34' prior: 50492700!
+test05CartAddTwoOfTheSameBook
+	
+	| cart |
+	cart := self createCart.
+	
+	cart add: 'book1' quantity: 2.
+	
+	self assert: cart size equals: 2.
+	self assert: (cart bookQuantity: 'book1') equals: 2.! !
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:55:35'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:55:35'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:55:35'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:55:35'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:55:35'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:55:35'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:55:55' prior: 50492853!
+test05CartAddTwoOfTheSameBook
+	
+	| cart |
+	cart := self createCart.
+	
+	cart add: 'book1' quantity: 2.
+	
+	self assert: (cart bookQuantity: 'book1') equals: 2.! !
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:55:57'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 17:55:57'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 17:55:57'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 17:55:57'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:55:57'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 17:55:57'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:58:36' prior: 50492640!
+test04AddInvalidBookToCart
+	
+	| invalidBook cart |
+	invalidBook := 'not valid'.
+	cart := self createCart.
+	
+	
+	
+	self should: [cart add: invalidBook quantity: 1.] 
+		raise: Error  
+		withMessageText: Cart cannotAddNotRegisteredBookErrorDescription.! !
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:58:38'!
+ERROR!
+!Cart class methodsFor: 'error description' stamp: 'jeo 6/4/2022 17:58:50'!
+cannotAddNotRegisteredBookErrorDescription
+	self shouldBeImplemented.! !
+!Cart class methodsFor: 'error description' stamp: 'jeo 6/4/2022 17:59:23' prior: 50492920!
+cannotAddNotRegisteredBookErrorDescription
+	^ 'cannot add a book that is not included in the catalog'.! !
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 17:59:24'!
+FAILURE!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 17:59:32' prior: 50492906!
+test04AddInvalidBookToCart
+	
+	| invalidBook cart |
+	invalidBook := 'not valid'.
+	cart := self createCart.
+	
+	self should: [cart add: invalidBook quantity: 1.] 
+		raise: Error  
+		withMessageText: Cart cannotAddNotRegisteredBookErrorDescription.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:00:51' prior: 50492714!
+add: aBook quantity: aSmallInteger 
+	(catalog includes: aBook) ifTrue: [self error: self class cannotAddNotRegisteredBookErrorDescription] .
+	aSmallInteger timesRepeat: [content add: aBook].! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:00:52'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:00:52'!
+ERROR!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:00:52'!
+ERROR!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:00:52'!
+FAILURE!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:00:52'!
+ERROR!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:00:55'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:01:12' prior: 50492947!
+add: aBook quantity: aQuantity 
+	(catalog includes: aBook) ifTrue: [self error: self class cannotAddNotRegisteredBookErrorDescription] .
+	aQuantity timesRepeat: [content add: aBook].! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:01:19' prior: 50492973!
+add: aBook quantity: aQuantity 
+	(catalog includes: aBook) ifFalse: [self error: self class cannotAddNotRegisteredBookErrorDescription] .
+	aQuantity timesRepeat: [content add: aBook].! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:01:20'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:01:20'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:01:20'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:01:20'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:01:20'!
+PASSED!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:02:05'!
+addedQuantityOf: aBook
+	^(content select: [:aContentBook | (aContentBook = aBook)]) size! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:02:05' prior: 50492832!
+test02CartWithOneBook
+	
+	| cart |
+	cart := self createCart.
+	
+	cart add: 'book1' quantity: 1.
+	
+	self deny: cart isEmpty.
+	self assert: (cart addedQuantityOf: 'book1') equals: 1	.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:02:05' prior: 50492880!
+test05CartAddTwoOfTheSameBook
+	
+	| cart |
+	cart := self createCart.
+	
+	cart add: 'book1' quantity: 2.
+	
+	self assert: (cart addedQuantityOf: 'book1') equals: 2.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:02:05' prior: 50492841!
+test03CartWithTwoBooks
+	
+	| cart |
+	cart := self createCart.
+	 
+	cart add: 'book1' quantity: 1.
+	cart add: 'book2' quantity: 1.
+	
+	self assert: cart size equals: 2.
+	self assert: (cart addedQuantityOf: 'book1') equals: 1.
+	self assert: (cart addedQuantityOf: 'book2') equals: 1.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:02:05' prior: 50492821!
+containsBook: aBook
+	^ (self addedQuantityOf: aBook) > 0.! !
+
+!methodRemoval: Cart #bookQuantity: stamp: 'jeo 6/4/2022 18:02:05'!
+bookQuantity: aBook
+	^(content select: [:aContentBook | (aContentBook = aBook)]) size!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:02:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:02:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:02:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:02:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:02:12'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:04:05'!
+test06CartAddsZeroQuantityRaisesError
+	
+	| cart |
+	cart := self createCart.
+	
+	self should: [cart add: 'book1' quantity: 0.]
+		raise: Error! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:04:56' prior: 50493065!
+test06CartAddsZeroQuantityRaisesError
+	
+	| cart |
+	cart := self createCart.
+	
+	self should: [cart add: 'book1' quantity: 0.]
+		raise: Error
+		withMessageText: Cart cannotAddZeroBooksToCartErrorDescription.! !
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:04:58'!
+ERROR!
+!Cart class methodsFor: 'error description' stamp: 'jeo 6/4/2022 18:05:03'!
+cannotAddZeroBooksToCartErrorDescription
+	self shouldBeImplemented.! !
+!Cart class methodsFor: 'error description' stamp: 'jeo 6/4/2022 18:05:20' prior: 50493086!
+cannotAddZeroBooksToCartErrorDescription
+	^ 'cannot add book with zero quantity'! !
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:05:22'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:06:07' prior: 50492982!
+add: aBook quantity: aQuantity 
+	(catalog includes: aBook) ifFalse: [self error: self class cannotAddNotRegisteredBookErrorDescription] .
+	(aQuantity = 0) ifTrue: [self error: self class cannotAddZeroBooksToCartErrorDescription].
+	aQuantity timesRepeat: [content add: aBook].! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:06:13' prior: 50493101!
+add: aBook quantity: aQuantity 
+	(catalog includes: aBook) ifFalse: [self error: self class cannotAddNotRegisteredBookErrorDescription].
+	(aQuantity = 0) ifTrue: [self error: self class cannotAddZeroBooksToCartErrorDescription].
+	aQuantity timesRepeat: [content add: aBook].! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:06:37'!
+assertBookIsRegisteredInCatalog: aBook
+
+	^ (catalog includes: aBook) ifFalse: [self error: self class cannotAddNotRegisteredBookErrorDescription]! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:06:37' prior: 50493113!
+add: aBook quantity: aQuantity 
+	self assertBookIsRegisteredInCatalog: aBook.
+	(aQuantity = 0) ifTrue: [self error: self class cannotAddZeroBooksToCartErrorDescription].
+	aQuantity timesRepeat: [content add: aBook].! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:07:01'!
+assertBookQuantityIsNotZero: aQuantity
+
+	^ (aQuantity = 0) ifTrue: [self error: self class cannotAddZeroBooksToCartErrorDescription]! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:07:01' prior: 50493132!
+add: aBook quantity: aQuantity 
+	self assertBookIsRegisteredInCatalog: aBook.
+	self assertBookQuantityIsNotZero: aQuantity.
+	aQuantity timesRepeat: [content add: aBook].! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:07:08'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:07:08'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:07:08'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:07:08'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:07:08'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:07:08'!
+PASSED!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:07:25'!
+test07CartAddsNegativeQuantityRaisesError
+	
+	| cart |
+	cart := self createCart.
+	
+	self should: [cart add: 'book1' quantity: -1.]
+		raise: Error
+		withMessageText: Cart cannotAddZeroBooksToCartErrorDescription.! !
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:07:30'!
+FAILURE!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:07:46' prior: 50493175!
+test07CartAddsNegativeQuantityRaisesError
+	
+	| cart |
+	cart := self createCart.
+	
+	self should: [cart add: 'book1' quantity: -1.]
+		raise: Error
+		withMessageText: Cart cannotAddZeroOrNegativeBooksToCartErrorDescription.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:08:03' prior: 50493189!
+test07CartAddsNegativeQuantityRaisesError
+	
+	| cart |
+	cart := self createCart.
+	
+	self should: [cart add: 'book1' quantity: -1.]
+		raise: Error
+		withMessageText: Cart cannotAddBookWithInvalidQuantityToCartErrorDescription.! !
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:08:09'!
+ERROR!
+!Cart class methodsFor: 'error description' stamp: 'jeo 6/4/2022 18:08:13'!
+cannotAddBookWithInvalidQuantityToCartErrorDescription
+	self shouldBeImplemented.! !
+!Cart class methodsFor: 'error description' stamp: 'jeo 6/4/2022 18:08:33' prior: 50493213!
+cannotAddBookWithInvalidQuantityToCartErrorDescription
+	^ 'cannot add book with invalid quantity'! !
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:08:34'!
+FAILURE!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:08:55'!
+assertBookQuantityIsValid: aQuantity
+
+	^ (aQuantity = 0) ifTrue: [self error: self class cannotAddZeroBooksToCartErrorDescription]! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:08:55' prior: 50493149!
+add: aBook quantity: aQuantity 
+	self assertBookIsRegisteredInCatalog: aBook.
+	self assertBookQuantityIsValid: aQuantity.
+	aQuantity timesRepeat: [content add: aBook].! !
+
+!methodRemoval: Cart #assertBookQuantityIsNotZero: stamp: 'jeo 6/4/2022 18:08:55'!
+assertBookQuantityIsNotZero: aQuantity
+
+	^ (aQuantity = 0) ifTrue: [self error: self class cannotAddZeroBooksToCartErrorDescription]!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:09:21' prior: 50493228!
+assertBookQuantityIsValid: aQuantity
+
+	^ (aQuantity < 1) ifTrue: [self error: self class cannotAddBookWithInvalidQuantityToCartErrorDescription]! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:09:25'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:09:25'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:09:25'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:09:25'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:09:25'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:09:25'!
+FAILURE!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:09:25'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:09:25'!
+FAILURE!
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:09:51' prior: 50493073!
+test06CartAddsZeroQuantityRaisesError
+	
+	| cart |
+	cart := self createCart.
+	
+	self should: [cart add: 'book1' quantity: 0.]
+		raise: Error
+		withMessageText: Cart cannotAddBookWithInvalidQuantityToCartErrorDescription.! !
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:09:52'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:09:52'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:09:52'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:09:52'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:09:52'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:09:52'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:09:52'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:09:52'!
+PASSED!
+
+!methodRemoval: Cart class #cannotAddZeroBooksToCartErrorDescription stamp: 'jeo 6/4/2022 18:10:13'!
+cannotAddZeroBooksToCartErrorDescription
+	^ 'cannot add book with zero quantity'!
+!TusLibrosTest methodsFor: 'setUp/tearDown' stamp: 'jeo 6/4/2022 18:11:48'!
+setup
+	| cart |
+	cart := self createCart.! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:12:31'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:12:31'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:12:31'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:12:31'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:12:31'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:12:31'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:12:31'!
+PASSED!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:13:52'!
+totalBooks
+	^content size.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:13:52' prior: 50493005!
+addedQuantityOf: aBook
+	^(content select: [:aContentBook | (aContentBook = aBook)]) totalBooks! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:13:52' prior: 50492428 overrides: 16901663!
+size
+	^content totalBooks.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:13:52' prior: 50493029!
+test03CartWithTwoBooks
+	
+	| cart |
+	cart := self createCart.
+	 
+	cart add: 'book1' quantity: 1.
+	cart add: 'book2' quantity: 1.
+	
+	self assert: cart totalBooks equals: 2.
+	self assert: (cart addedQuantityOf: 'book1') equals: 1.
+	self assert: (cart addedQuantityOf: 'book2') equals: 1.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:13:52' prior: 50493347!
+totalBooks
+	^content totalBooks.! !
+
+!methodRemoval: Cart #size stamp: 'jeo 6/4/2022 18:13:52'!
+size
+	^content totalBooks.!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:14:16'!
+totalBooksToCheckout
+	^content totalBooks.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:14:16' prior: 50493374!
+totalBooks
+	^content totalBooksToCheckout.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:14:16' prior: 50493362!
+test03CartWithTwoBooks
+	
+	| cart |
+	cart := self createCart.
+	 
+	cart add: 'book1' quantity: 1.
+	cart add: 'book2' quantity: 1.
+	
+	self assert: cart totalBooksToCheckout equals: 2.
+	self assert: (cart addedQuantityOf: 'book1') equals: 1.
+	self assert: (cart addedQuantityOf: 'book2') equals: 1.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:14:16' prior: 50493351!
+addedQuantityOf: aBook
+	^(content select: [:aContentBook | (aContentBook = aBook)]) totalBooksToCheckout! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:14:16' prior: 50493381!
+totalBooksToCheckout
+	^content totalBooksToCheckout.! !
+
+!methodRemoval: Cart #totalBooks stamp: 'jeo 6/4/2022 18:14:16'!
+totalBooks
+	^content totalBooksToCheckout.!
+!TusLibrosTest methodsFor: 'setUp/tearDown' stamp: 'jeo 6/4/2022 18:15:02' overrides: 16961394!
+setUp
+	| cart |
+	cart := self createCart.! !
+
+!methodRemoval: TusLibrosTest #setup stamp: 'jeo 6/4/2022 18:15:02'!
+setup
+	| cart |
+	cart := self createCart.!
+
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: 'cart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: 'testCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #TusLibrosTest category: 'TusLibros' stamp: 'jeo 6/4/2022 18:15:54'!
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: 'testCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!TusLibrosTest methodsFor: 'setUp/tearDown' stamp: 'jeo 6/4/2022 18:16:06' prior: 50493420 overrides: 16961394!
+setUp
+
+	testCart := self createCart.! !
+
+!classDefinition: #TusLibrosTest category: 'TusLibros' stamp: 'jeo 6/4/2022 18:16:26'!
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: 'testCart testCatalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!TusLibrosTest methodsFor: 'setUp/tearDown' stamp: 'jeo 6/4/2022 18:16:25' prior: 50492436!
+createCart
+
+	testCatalog := self createCatalog.
+	^ Cart with: testCatalog.! !
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:16:41' prior: 50492347!
+test01NewCartIsEmpty
+	self assert: testCart isEmpty.
+	! !
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:17:13' prior: 50493011!
+test02CartWithOneBook
+	
+	testCart add: 'book1' quantity: 1.
+
+	self assert: (testCart addedQuantityOf: 'book1') equals: 1	.! !
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:17:47' prior: 50493391!
+test03CartWithTwoBooks
+	 
+	testCart add: 'book1' quantity: 1.
+	testCart add: 'book2' quantity: 1.
+	
+	self assert: (testCart totalBooksToCheckout) equals: 2.
+	self assert: (testCart addedQuantityOf: 'book1') equals: 1.
+	self assert: (testCart addedQuantityOf: 'book2') equals: 1.! !
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:17:48'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:18:13' prior: 50493411!
+totalBooksToCheckout
+	^content size.! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:18:14'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:18:14'!
+ERROR!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:18:14'!
+ERROR!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:18:14'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:18:14'!
+ERROR!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:18:14'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:18:14'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:18:17'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:18:54' overrides: 16901663!
+size
+	^content size.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:18:54' prior: 50493404!
+addedQuantityOf: aBook
+	^(content select: [:aContentBook | (aContentBook = aBook)]) size! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:18:54' prior: 50493475!
+test03CartWithTwoBooks
+	 
+	testCart add: 'book1' quantity: 1.
+	testCart add: 'book2' quantity: 1.
+	
+	self assert: (testCart size) equals: 2.
+	self assert: (testCart addedQuantityOf: 'book1') equals: 1.
+	self assert: (testCart addedQuantityOf: 'book2') equals: 1.! !
+
+!methodRemoval: Cart #totalBooksToCheckout stamp: 'jeo 6/4/2022 18:18:54'!
+totalBooksToCheckout
+	^content size.!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:19:03'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:19:03'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:19:03'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:19:03'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:19:03'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:19:03'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:19:03'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:19:03'!
+PASSED!
+!Cart methodsFor: 'initialization' stamp: 'jeo 6/4/2022 18:19:55' prior: 50492489!
+initializeWith: aCatalog 
+	content := OrderedCollection new.
+	catalog := aCatalog.! !
+
+!methodRemoval: Cart #initialize stamp: 'jeo 6/4/2022 18:20:01'!
+initialize
+	content := OrderedCollection new.!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:21:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:21:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:21:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:21:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:21:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:21:12'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:21:12'!
+PASSED!
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:25:22'!
+test08NewCartListsNoBooks
+	
+	| cart |
+	cart := self createCart.
+	
+	self should: [cart add: 'book1' quantity: -1.]
+		raise: Error
+		withMessageText: Cart cannotAddBookWithInvalidQuantityToCartErrorDescription.! !
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:25:43' prior: 50492936!
+test04AddInvalidBookToCart
+	
+	| invalidBook |
+	invalidBook := 'not valid'.
+	testCart := self createCart.
+	
+	self should: [testCart add: invalidBook quantity: 1.] 
+		raise: Error  
+		withMessageText: Cart cannotAddNotRegisteredBookErrorDescription.! !
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:25:55' prior: 50493020!
+test05CartAddTwoOfTheSameBook
+	
+	| cart |
+	testCart := self createCart.
+	
+	testCart add: 'book1' quantity: 2.
+	
+	self assert: (cart addedQuantityOf: 'book1') equals: 2.! !
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:26:09' prior: 50493618!
+test05CartAddTwoOfTheSameBook
+	
+	testCart add: 'book1' quantity: 2.
+	
+	self assert: (testCart addedQuantityOf: 'book1') equals: 2.! !
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:26:10'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:26:10'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:26:10'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:26:10'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:26:10'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:26:10'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:26:10'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:26:10'!
+PASSED!
+
+!testRun: #TusLibrosTest #test08NewCartListsNoBooks stamp: 'jeo 6/4/2022 18:26:10'!
+PASSED!
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:26:16' prior: 50493607!
+test04AddInvalidBookToCart
+	
+	| invalidBook |
+	invalidBook := 'not valid'.
+	
+	self should: [testCart add: invalidBook quantity: 1.] 
+		raise: Error  
+		withMessageText: Cart cannotAddNotRegisteredBookErrorDescription.! !
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:26:30' prior: 50493282!
+test06CartAddsZeroQuantityRaisesError
+	
+	self should: [testCart add: 'book1' quantity: 0.]
+		raise: Error
+		withMessageText: Cart cannotAddBookWithInvalidQuantityToCartErrorDescription.! !
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:26:44' prior: 50493660!
+test04AddInvalidBookToCart
+	
+	self should: [testCart add: 'not valid' quantity: 1.] 
+		raise: Error  
+		withMessageText: Cart cannotAddNotRegisteredBookErrorDescription.! !
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:26:54' prior: 50493200!
+test07CartAddsNegativeQuantityRaisesError
+	
+	self should: [testCart add: 'book1' quantity: -1.]
+		raise: Error
+		withMessageText: Cart cannotAddBookWithInvalidQuantityToCartErrorDescription.! !
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:26:55'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:26:55'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:26:55'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:26:55'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:26:55'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:26:55'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:26:55'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:26:55'!
+PASSED!
+
+!testRun: #TusLibrosTest #test08NewCartListsNoBooks stamp: 'jeo 6/4/2022 18:26:55'!
+PASSED!
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:27:42' prior: 50493597!
+test08NewCartListsNoBooks
+	
+	self assert: (testCart addedBooks) equals: OrderedCollection new.! !
+
+!testRun: #TusLibrosTest #test08NewCartListsNoBooks stamp: 'jeo 6/4/2022 18:27:45'!
+ERROR!
+!Cart methodsFor: 'operations' stamp: 'jeo 6/4/2022 18:28:01'!
+addedBooks
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'operations' stamp: 'jeo 6/4/2022 18:28:08' prior: 50493731!
+addedBooks
+	^ OrderedCollection new.! !
+
+!testRun: #TusLibrosTest #test08NewCartListsNoBooks stamp: 'jeo 6/4/2022 18:28:09'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:28:09'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:28:09'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:28:09'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:28:09'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:28:09'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:28:09'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:28:09'!
+PASSED!
+
+!testRun: #TusLibrosTest #test08NewCartListsNoBooks stamp: 'jeo 6/4/2022 18:28:09'!
+PASSED!
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:28:34' prior: 50493723!
+test08NewCartListsNoBooks
+
+	self assert: (testCart addedBooks) equals: OrderedCollection new.! !
+
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: 'testCart testCatalog cart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #TusLibrosTest category: 'TusLibros' stamp: 'jeo 6/4/2022 18:28:44'!
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: 'testCart testCatalog cart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: 'testCart testCatalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #TusLibrosTest category: 'TusLibros' stamp: 'jeo 6/4/2022 18:28:49'!
+TestCase subclass: #TusLibrosTest
+	instanceVariableNames: 'testCart testCatalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:30:03'!
+test08CartListsOneAddedBook
+	
+	testCart add: 'book1' quantity: 1.
+	self assert: (testCart addedBooks) equals: (OrderedCollection with: 'book1').! !
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:30:15'!
+test09CartListsOneAddedBook
+	
+	testCart add: 'book1' quantity: 1.
+	self assert: (testCart addedBooks) equals: (OrderedCollection with: 'book1').! !
+
+!methodRemoval: TusLibrosTest #test08CartListsOneAddedBook stamp: 'jeo 6/4/2022 18:30:15'!
+test08CartListsOneAddedBook
+	
+	testCart add: 'book1' quantity: 1.
+	self assert: (testCart addedBooks) equals: (OrderedCollection with: 'book1').!
+
+!testRun: #TusLibrosTest #test09CartListsOneAddedBook stamp: 'jeo 6/4/2022 18:30:17'!
+FAILURE!
+!Cart methodsFor: 'operations' stamp: 'jeo 6/4/2022 18:30:48' prior: 50493735!
+addedBooks
+	^ content.! !
+
+!testRun: #TusLibrosTest #test09CartListsOneAddedBook stamp: 'jeo 6/4/2022 18:31:32'!
+PASSED!
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:31:32'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:31:32'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:31:32'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:31:32'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:31:32'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:31:32'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:31:32'!
+PASSED!
+
+!testRun: #TusLibrosTest #test08NewCartListsNoBooks stamp: 'jeo 6/4/2022 18:31:32'!
+PASSED!
+
+!testRun: #TusLibrosTest #test09CartListsOneAddedBook stamp: 'jeo 6/4/2022 18:31:32'!
+PASSED!
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:31:57'!
+test09CartListsAddedBooks
+	
+	testCart add: 'book1' quantity: 1.
+	self assert: (testCart addedBooks) equals: (OrderedCollection with: 'book1').! !
+
+!methodRemoval: TusLibrosTest #test09CartListsOneAddedBook stamp: 'jeo 6/4/2022 18:31:57'!
+test09CartListsOneAddedBook
+	
+	testCart add: 'book1' quantity: 1.
+	self assert: (testCart addedBooks) equals: (OrderedCollection with: 'book1').!
+!TusLibrosTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:32:17'!
+test08NewCartListsNoAddedBooks
+
+	self assert: (testCart addedBooks) equals: OrderedCollection new.! !
+
+!methodRemoval: TusLibrosTest #test08NewCartListsNoBooks stamp: 'jeo 6/4/2022 18:32:17'!
+test08NewCartListsNoBooks
+
+	self assert: (testCart addedBooks) equals: OrderedCollection new.!
+!Cart methodsFor: 'operations' stamp: 'jeo 6/4/2022 18:33:59' prior: 50493041!
+containsBook: aBook
+	^ content includes: aBook.! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:34:00'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:34:00'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:34:00'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:34:01'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:34:01'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:34:01'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:34:01'!
+PASSED!
+
+!testRun: #TusLibrosTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 18:34:01'!
+PASSED!
+
+!testRun: #TusLibrosTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 18:34:01'!
+PASSED!
+!Cart methodsFor: 'operations' stamp: 'jeo 6/4/2022 18:34:47'!
+addedQuantityOfBook: aBook
+	^(content select: [:aContentBook | (aContentBook = aBook)]) size! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:34:47' prior: 50493468!
+test02CartWithOneBook
+	
+	testCart add: 'book1' quantity: 1.
+
+	self assert: (testCart addedQuantityOfBook: 'book1') equals: 1	.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:34:47' prior: 50493626!
+test05CartAddTwoOfTheSameBook
+	
+	testCart add: 'book1' quantity: 2.
+	
+	self assert: (testCart addedQuantityOfBook: 'book1') equals: 2.! !
+!TusLibrosTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:34:47' prior: 50493528!
+test03CartWithTwoBooks
+	 
+	testCart add: 'book1' quantity: 1.
+	testCart add: 'book2' quantity: 1.
+	
+	self assert: (testCart size) equals: 2.
+	self assert: (testCart addedQuantityOfBook: 'book1') equals: 1.
+	self assert: (testCart addedQuantityOfBook: 'book2') equals: 1.! !
+
+!methodRemoval: Cart #addedQuantityOf: stamp: 'jeo 6/4/2022 18:34:47'!
+addedQuantityOf: aBook
+	^(content select: [:aContentBook | (aContentBook = aBook)]) size!
+
+----End fileIn of /home/javier/Documents/UBA Exactas/Actual/8_Ingenieria de Software I/1_Practica/CUIS_2/Packages/TerseGuide.pck.st----!
+!Cart methodsFor: 'operations' stamp: 'jeo 6/4/2022 18:36:47' prior: 50493912!
+addedQuantityOfBook: aBook
+	^ content occurrencesOf: aBook.! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:36:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:36:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:36:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:36:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:36:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:36:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:36:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 18:36:48'!
+PASSED!
+
+!testRun: #TusLibrosTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 18:36:48'!
+PASSED!
+!Cart methodsFor: 'operations' stamp: 'jeo 6/4/2022 18:40:17' prior: 50493235!
+add: aBook quantity: aQuantity 
+	self assertBookIsRegisteredInCatalog: aBook.
+	self assertBookQuantityIsValid: aQuantity.
+	content add: aBook withOccurrences: aQuantity.! !
+
+!testRun: #TusLibrosTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:40:19'!
+PASSED!
+
+!testRun: #TusLibrosTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:40:19'!
+PASSED!
+
+!testRun: #TusLibrosTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:40:19'!
+PASSED!
+
+!testRun: #TusLibrosTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:40:19'!
+PASSED!
+
+!testRun: #TusLibrosTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:40:19'!
+PASSED!
+
+!testRun: #TusLibrosTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:40:19'!
+PASSED!
+
+!testRun: #TusLibrosTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:40:19'!
+PASSED!
+
+!testRun: #TusLibrosTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 18:40:19'!
+PASSED!
+
+!testRun: #TusLibrosTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 18:40:19'!
+PASSED!
+
+!classRenamed: #TusLibrosTest as: #CartTest stamp: 'jeo 6/4/2022 18:40:44'!
+Smalltalk renameClassNamed: #TusLibrosTest as: #CartTest!
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:41:19'!
+test04AddInvalidBookToCartRaisesError
+	
+	self should: [testCart add: 'not valid' quantity: 1.] 
+		raise: Error  
+		withMessageText: Cart cannotAddNotRegisteredBookErrorDescription.! !
+
+!methodRemoval: CartTest #test04AddInvalidBookToCart stamp: 'jeo 6/4/2022 18:41:19'!
+test04AddInvalidBookToCart
+	
+	self should: [testCart add: 'not valid' quantity: 1.] 
+		raise: Error  
+		withMessageText: Cart cannotAddNotRegisteredBookErrorDescription.!
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:43:45' prior: 50493919!
+test02CartWithOneBook
+	
+	testCart add: 'book1' quantity: 1.
+
+	self assert: 1 equals: (testCart addedQuantityOfBook: 'book1')	.! !
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:44:16' prior: 50493935!
+test03CartWithTwoBooks
+	 
+	testCart add: 'book1' quantity: 1.
+	testCart add: 'book2' quantity: 1.
+	
+	self assert: 2 equals: (testCart size).
+	self assert: (testCart addedQuantityOfBook: 'book1') equals: 1.
+	self assert: (testCart addedQuantityOfBook: 'book2') equals: 1.! !
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:44:34' prior: 50496967!
+test03CartWithTwoBooks
+	 
+	testCart add: 'book1' quantity: 1.
+	testCart add: 'book2' quantity: 1.
+	
+	self assert: 2 equals: (testCart size).
+	self assert: 1 equals: (testCart addedQuantityOfBook: 'book1').
+	self assert: 1 equals: (testCart addedQuantityOfBook: 'book2').! !
+
+!testRun: #CartTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:44:35'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:44:35'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:44:35'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:44:35'!
+PASSED!
+
+!testRun: #CartTest #test04AddInvalidBookToCartRaisesError stamp: 'jeo 6/4/2022 18:44:35'!
+PASSED!
+
+!testRun: #CartTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:44:35'!
+PASSED!
+
+!testRun: #CartTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:44:35'!
+PASSED!
+
+!testRun: #CartTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:44:35'!
+PASSED!
+
+!testRun: #CartTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 18:44:35'!
+PASSED!
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 18:44:35'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:44:51' prior: 50493927!
+test05CartAddTwoOfTheSameBook
+	
+	testCart add: 'book1' quantity: 2.
+	
+	self assert: 2 equals: (testCart addedQuantityOfBook: 'book1').! !
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:45:24' prior: 50493869!
+test08NewCartListsNoAddedBooks
+
+	self assert: (OrderedCollection new) equals: (testCart addedBooks).! !
+
+!testRun: #CartTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 18:45:25'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:45:25'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:45:25'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:45:25'!
+PASSED!
+
+!testRun: #CartTest #test04AddInvalidBookToCartRaisesError stamp: 'jeo 6/4/2022 18:45:25'!
+PASSED!
+
+!testRun: #CartTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:45:25'!
+PASSED!
+
+!testRun: #CartTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:45:25'!
+PASSED!
+
+!testRun: #CartTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:45:25'!
+PASSED!
+
+!testRun: #CartTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 18:45:25'!
+PASSED!
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 18:45:25'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:46:31' prior: 50493854!
+test09CartListsAddedBooks
+	
+	testCart add: 'book1' quantity: 1.
+	self assert: (OrderedCollection with: 'book1') equals: (testCart addedBooks).! !
+
+!testRun: #CartTest #test04AddInvalidBookToCartRaisesError stamp: 'jeo 6/4/2022 18:47:12'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test04AddInvalidBookToCartRaisesError stamp: 'jeo 6/4/2022 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 18:47:18'!
+PASSED!
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 18:47:18'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:48:29' prior: 50496978!
+test03CartWithTwoBooks
+	 
+	testCart add: 'book1' quantity: 1.
+	testCart add: 'book2' quantity: 1.
+	
+	self assert: 2 equals: (testCart size).
+	self assert: 2 equals: (testCart addedQuantityOfBook: 'book1').
+	self assert: 1 equals: (testCart addedQuantityOfBook: 'book2').! !
+
+!testRun: #CartTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:48:30'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:48:35' prior: 50497097!
+test03CartWithTwoBooks
+	 
+	testCart add: 'book1' quantity: 1.
+	testCart add: 'book2' quantity: 1.
+	
+	self assert: 2 equals: (testCart size).
+	self assert: 1 equals: (testCart addedQuantityOfBook: 'book1').
+	self assert: 1 equals: (testCart addedQuantityOfBook: 'book2').! !
+!CartTest methodsFor: 'creations' stamp: 'jeo 6/4/2022 18:49:51' prior: 50493457!
+createCart
+
+	^ Cart with: testCatalog.! !
+!CartTest methodsFor: 'setUp/tearDown' stamp: 'jeo 6/4/2022 18:49:57' prior: 50493445 overrides: 16961394!
+setUp
+	
+	testCatalog := self createCatalog.
+	testCart := self createCart.! !
+!CartTest methodsFor: 'setUp/tearDown' stamp: 'jeo 6/4/2022 18:50:05' prior: 50497128 overrides: 16961394!
+setUp
+	
+	testCatalog := self createCatalog.! !
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:50:31' prior: 50493463!
+test01NewCartIsEmpty
+	self assert: (self createCart) isEmpty.
+	! !
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:50:34'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:50:34'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:50:34'!
+ERROR!
+
+!testRun: #CartTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:50:34'!
+ERROR!
+
+!testRun: #CartTest #test04AddInvalidBookToCartRaisesError stamp: 'jeo 6/4/2022 18:50:34'!
+FAILURE!
+
+!testRun: #CartTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:50:34'!
+ERROR!
+
+!testRun: #CartTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:50:34'!
+FAILURE!
+
+!testRun: #CartTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:50:34'!
+FAILURE!
+
+!testRun: #CartTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 18:50:34'!
+ERROR!
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 18:50:34'!
+ERROR!
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:51:18' prior: 50496960!
+test02CartWithOneBook
+	| cart |
+	cart := self createCart.
+	cart add: 'book1' quantity: 1.
+
+	self assert: 1 equals: (cart addedQuantityOfBook: 'book1')	.! !
+
+!testRun: #CartTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:51:19'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:51:19'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:51:19'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:51:19'!
+ERROR!
+
+!testRun: #CartTest #test04AddInvalidBookToCartRaisesError stamp: 'jeo 6/4/2022 18:51:19'!
+FAILURE!
+
+!testRun: #CartTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:51:19'!
+ERROR!
+
+!testRun: #CartTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:51:19'!
+FAILURE!
+
+!testRun: #CartTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:51:19'!
+FAILURE!
+
+!testRun: #CartTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 18:51:19'!
+ERROR!
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 18:51:19'!
+ERROR!
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:51:44' prior: 50497111!
+test03CartWithTwoBooks
+	| cart |
+	cart := self createCart.
+	cart add: 'book1' quantity: 1.
+	cart add: 'book2' quantity: 1.
+	
+	self assert: 2 equals: (cart size).
+	self assert: 1 equals: (cart addedQuantityOfBook: 'book1').
+	self assert: 1 equals: (cart addedQuantityOfBook: 'book2').! !
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:51:51' prior: 50496943!
+test04AddInvalidBookToCartRaisesError
+	| cart |
+	cart := self createCart.
+	self should: [cart add: 'not valid' quantity: 1.] 
+		raise: Error  
+		withMessageText: Cart cannotAddNotRegisteredBookErrorDescription.! !
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:52:03' prior: 50497018!
+test05CartAddTwoOfTheSameBook
+	| cart |
+	cart := self createCart.
+	cart add: 'book1' quantity: 2.
+	
+	self assert: 2 equals: (cart addedQuantityOfBook: 'book1').! !
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:52:10' prior: 50493670!
+test06CartAddsZeroQuantityRaisesError
+	| cart |
+	cart := self createCart.
+	self should: [cart add: 'book1' quantity: 0.]
+		raise: Error
+		withMessageText: Cart cannotAddBookWithInvalidQuantityToCartErrorDescription.! !
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:52:16' prior: 50493687!
+test07CartAddsNegativeQuantityRaisesError
+	| cart |
+	cart := self createCart.
+	self should: [cart add: 'book1' quantity: -1.]
+		raise: Error
+		withMessageText: Cart cannotAddBookWithInvalidQuantityToCartErrorDescription.! !
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:52:25' prior: 50497025!
+test08NewCartListsNoAddedBooks
+	| cart |
+	cart := self createCart.
+	self assert: (OrderedCollection new) equals: (cart addedBooks).! !
+!CartTest methodsFor: 'tests' stamp: 'jeo 6/4/2022 18:52:38' prior: 50497060!
+test09CartListsAddedBooks
+	| cart |
+	cart := self createCart.
+	cart add: 'book1' quantity: 1.
+	self assert: (OrderedCollection with: 'book1') equals: (cart addedBooks).! !
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 18:52:39'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartIsEmpty stamp: 'jeo 6/4/2022 18:52:39'!
+PASSED!
+
+!testRun: #CartTest #test02CartWithOneBook stamp: 'jeo 6/4/2022 18:52:39'!
+PASSED!
+
+!testRun: #CartTest #test03CartWithTwoBooks stamp: 'jeo 6/4/2022 18:52:39'!
+PASSED!
+
+!testRun: #CartTest #test04AddInvalidBookToCartRaisesError stamp: 'jeo 6/4/2022 18:52:39'!
+PASSED!
+
+!testRun: #CartTest #test05CartAddTwoOfTheSameBook stamp: 'jeo 6/4/2022 18:52:39'!
+PASSED!
+
+!testRun: #CartTest #test06CartAddsZeroQuantityRaisesError stamp: 'jeo 6/4/2022 18:52:39'!
+PASSED!
+
+!testRun: #CartTest #test07CartAddsNegativeQuantityRaisesError stamp: 'jeo 6/4/2022 18:52:39'!
+PASSED!
+
+!testRun: #CartTest #test08NewCartListsNoAddedBooks stamp: 'jeo 6/4/2022 18:52:39'!
+PASSED!
+
+!testRun: #CartTest #test09CartListsAddedBooks stamp: 'jeo 6/4/2022 18:52:39'!
+PASSED!
+
+!classDefinition: #CartTest category: 'TusLibros' stamp: 'jeo 6/4/2022 18:52:48'!
+TestCase subclass: #CartTest
+	instanceVariableNames: 'testCatalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cart class methodsFor: 'instance creation' stamp: 'jeo 6/4/2022 18:57:46'!
+withCatalog: aCatalog
+	^self new initializeWith: aCatalog ! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:57:46' prior: 50497123!
+createCart
+
+	^ Cart withCatalog: testCatalog.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:57:46' prior: 50497264!
+test09CartListsAddedBooks
+	| cart |
+	cart := self createCart.
+	cart add: 'book1' quantity: 1.
+	self assert: (OrderedCollection withCatalog: 'book1') equals: (cart addedBooks).! !
+
+!methodRemoval: Cart class #with: stamp: 'jeo 6/4/2022 18:57:46'!
+with: aCatalog
+	^self new initializeWith: aCatalog !
+!Cart methodsFor: 'initialization' stamp: 'jeo 6/4/2022 18:58:03'!
+initializeWithCatalog: aCatalog 
+	content := OrderedCollection new.
+	catalog := aCatalog.! !
+!Cart class methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:58:03' prior: 50497308!
+withCatalog: aCatalog
+	^self new initializeWithCatalog: aCatalog ! !
+
+!methodRemoval: Cart #initializeWith: stamp: 'jeo 6/4/2022 18:58:03'!
+initializeWith: aCatalog 
+	content := OrderedCollection new.
+	catalog := aCatalog.!
+!Cart class methodsFor: 'error description' stamp: 'jeo 6/4/2022 18:58:31'!
+cannotAddBookNotRegisteredInCatalogErrorDescription
+	^ 'cannot add a book that is not included in the catalog'.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:58:31' prior: 50493124!
+assertBookIsRegisteredInCatalog: aBook
+
+	^ (catalog includes: aBook) ifFalse: [self error: self class cannotAddBookNotRegisteredInCatalogErrorDescription]! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'jeo 6/4/2022 18:58:31' prior: 50497219!
+test04AddInvalidBookToCartRaisesError
+	| cart |
+	cart := self createCart.
+	self should: [cart add: 'not valid' quantity: 1.] 
+		raise: Error  
+		withMessageText: Cart cannotAddBookNotRegisteredInCatalogErrorDescription.! !
+
+!methodRemoval: Cart class #cannotAddNotRegisteredBookErrorDescription stamp: 'jeo 6/4/2022 18:58:31'!
+cannotAddNotRegisteredBookErrorDescription
+	^ 'cannot add a book that is not included in the catalog'.!
+
+----QUIT----(4 June 2022 19:15:35) CuisUniversity-5096.image priorSource: 5137149!
