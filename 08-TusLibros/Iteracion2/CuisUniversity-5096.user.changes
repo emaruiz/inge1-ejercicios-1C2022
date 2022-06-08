@@ -4707,3 +4707,3171 @@ PASSED!
 PASSED!
 
 ----QUIT----(7 June 2022 21:02:21) CuisUniversity-5096.image priorSource: 5305986!
+
+----STARTUP---- (8 June 2022 17:36:22) as /home/manuel/Facultad/Inge1_1C2022/Ejercicios/linux64 (3)/CuisUniversity-5096.image!
+
+
+----End fileIn of /home/manuel/Facultad/Inge1_1C2022/Ejercicios/inge1-ejercicios-1C2022/08-TusLibros/Iteracion2/TusLibros.st----!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 17:36:45'!
+PASSED!
+
+1111111111111111!
+
+1111111111111111digitLength!
+
+1111111111111111decimalDigitLength!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:32:18'!
+test05CheckoutCartWithOneBook
+	| cart cashier total creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCardTwiceErrorDescription.
+			self assert: 10 equals: total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	
+	! !
+
+!testRun: #CashierTest #test05CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:32:24'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:32:24'!
+FAILURE!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 18:35:06' prior: 50474562!
+checkout: aCart creditCard: aCreditCard 
+	
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartIsNotAlreadyChecked: aCart. 
+	
+	merchantProcessor debitForCart: aCart creditCard: aCreditCard cashier: self.
+	
+	^aCart calculateTotal.! !
+
+!testRun: #CashierTest #test05CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:35:09'!
+ERROR!
+!Cashier methodsFor: 'assertions' stamp: 'edrr 6/8/2022 18:35:16'!
+assertCartIsNotAlreadyChecked: aCart 
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'assertions' stamp: 'edrr 6/8/2022 18:37:30' prior: 50474922!
+assertCartIsNotAlreadyChecked: aCart 
+	(sales includes: aCart) ifTrue: [self error: self class cannotCheckoutSameCardTwiceErrorDescription].! !
+
+!testRun: #CashierTest #test05CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:37:33'!
+ERROR!
+!Cashier class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 18:37:39'!
+cannotCheckoutSameCardTwiceErrorDescription
+	self shouldBeImplemented.! !
+!Cashier class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 18:38:15' prior: 50474937!
+cannotCheckoutSameCardTwiceErrorDescription
+	^'no checkout same cart twice'! !
+
+!testRun: #CashierTest #test05CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:38:16'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:38:19'!
+PASSED!
+!Cashier class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 18:38:34'!
+cannotCheckoutSameCartTwiceErrorDescription
+	^'no checkout same cart twice'! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 18:38:34' prior: 50474927!
+assertCartIsNotAlreadyChecked: aCart 
+	(sales includes: aCart) ifTrue: [self error: self class cannotCheckoutSameCartTwiceErrorDescription].! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 18:38:34' prior: 50474878!
+test05CheckoutCartWithOneBook
+	| cart cashier total creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	
+	! !
+
+!methodRemoval: Cashier class #cannotCheckoutSameCardTwiceErrorDescription stamp: 'edrr 6/8/2022 18:38:34'!
+cannotCheckoutSameCardTwiceErrorDescription
+	^'no checkout same cart twice'!
+
+!testRun: #CashierTest #test05CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:38:38'!
+PASSED!
+!Cashier methodsFor: 'assertions' stamp: 'edrr 6/8/2022 18:39:51'!
+assertCartWasNotCheckedout: aCart 
+	(sales includes: aCart) ifTrue: [self error: self class cannotCheckoutSameCartTwiceErrorDescription].! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 18:39:51' prior: 50474908!
+checkout: aCart creditCard: aCreditCard 
+	
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartWasNotCheckedout: aCart. 
+	
+	merchantProcessor debitForCart: aCart creditCard: aCreditCard cashier: self.
+	
+	^aCart calculateTotal.! !
+
+!methodRemoval: Cashier #assertCartIsNotAlreadyChecked: stamp: 'edrr 6/8/2022 18:39:51'!
+assertCartIsNotAlreadyChecked: aCart 
+	(sales includes: aCart) ifTrue: [self error: self class cannotCheckoutSameCartTwiceErrorDescription].!
+!Cashier methodsFor: 'assertions' stamp: 'edrr 6/8/2022 18:40:08'!
+assertCartWasNotCheckedOut: aCart 
+	(sales includes: aCart) ifTrue: [self error: self class cannotCheckoutSameCartTwiceErrorDescription].! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 18:40:08' prior: 50475008!
+checkout: aCart creditCard: aCreditCard 
+	
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartWasNotCheckedOut: aCart. 
+	
+	merchantProcessor debitForCart: aCart creditCard: aCreditCard cashier: self.
+	
+	^aCart calculateTotal.! !
+
+!methodRemoval: Cashier #assertCartWasNotCheckedout: stamp: 'edrr 6/8/2022 18:40:08'!
+assertCartWasNotCheckedout: aCart 
+	(sales includes: aCart) ifTrue: [self error: self class cannotCheckoutSameCartTwiceErrorDescription].!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:40:43'!
+test05CheckoutCartTwiceRaisesError
+	| cart cashier total creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	
+	! !
+
+!methodRemoval: CashierTest #test05CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:40:43'!
+test05CheckoutCartWithOneBook
+	| cart cashier total creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	
+	!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:41:44'!
+test06CheckoutTwoDifferentCarts
+	| cart cashier total creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	
+	! !
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:42:36' prior: 50475100!
+test06CheckoutTwoDifferentCarts
+	| cart cashier total creditCard cart2 |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cart2 := self createCart.
+	cart2 add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	
+	! !
+!TusLibrosTest methodsFor: 'cart creation' stamp: 'edrr 6/8/2022 18:44:12'!
+createCartWithABook
+	
+	| cart |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	^cart.! !
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:44:37' prior: 50475124!
+test06CheckoutTwoDifferentCarts
+	| cart cashier total creditCard cart2 |
+	cart := self createCartWithABook.
+	cart := self createCartWithABook.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	
+	! !
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:44:45' prior: 50475156!
+test06CheckoutTwoDifferentCarts
+	| cart cashier total creditCard cart2 |
+	cart := self createCartWithABook.
+	cart2 := self createCartWithABook.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	
+	! !
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:44:54' prior: 50475180!
+test06CheckoutTwoDifferentCarts
+	| cart cashier total creditCard cart2 |
+	cart := self createCartWithABook.
+	cart2 := self createCartWithABook.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart2 creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	
+	! !
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:47:36' prior: 50475204!
+test06CheckoutTwoDifferentCarts
+	| cart cashier total creditCard cart2 |
+	cart := self createCartWithABook.
+	cart2 := self createCartWithABook.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	total := total + cashier checkout: cart2 creditCard: creditCard.
+	
+	self assert: 20 equals: total.
+	self assert: cashier sales includes: cart.
+	self assert: cashier sales includes: cart2.
+	self assert: 2 equals: cashier sales size.
+	
+	
+	! !
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 18:47:49'!
+ERROR!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 18:47:49'!
+ERROR!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:48:13' prior: 50475228!
+test06CheckoutTwoDifferentCarts
+	| cart cashier total creditCard cart2 |
+	cart := self createCartWithABook.
+	cart2 := self createCartWithABook.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	total := total + (cashier checkout: cart2 creditCard: creditCard).
+	
+	self assert: 20 equals: total.
+	self assert: cashier sales includes: cart.
+	self assert: cashier sales includes: cart2.
+	self assert: 2 equals: cashier sales size.
+	
+	
+	! !
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 18:48:16'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 18:48:20'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:48:20'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 18:48:20'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 18:48:20'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 18:48:20'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 18:48:20'!
+PASSED!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:49:45' prior: 50475255!
+test06CheckoutTwoDifferentCarts
+	| cart cashier total creditCard cart2 |
+	cart := self createCartWithABook.
+	cart2 := self createCartWithABook.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	total := cashier checkout: cart creditCard: creditCard.
+	total := total + (cashier checkout: cart2 creditCard: creditCard).
+	
+	self assert: 20 equals: cashier total.
+	self assert: cashier sales includes: cart.
+	self assert: cashier sales includes: cart2.
+	self assert: 2 equals: cashier sales size.
+	
+	
+	! !
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:49:58' prior: 50475298!
+test06CheckoutTwoDifferentCarts
+	| cart cashier creditCard cart2 |
+	cart := self createCartWithABook.
+	cart2 := self createCartWithABook.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	cashier checkout: cart2 creditCard: creditCard.
+	
+	self assert: 20 equals: cashier total.
+	self assert: cashier sales includes: cart.
+	self assert: cashier sales includes: cart2.
+	self assert: 2 equals: cashier sales size.
+	
+	
+	! !
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 18:50:03'!
+ERROR!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 18:50:19'!
+total
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 18:51:38' prior: 50475341!
+total
+	sales sum: [:cart | cart calculateTotal].! !
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 18:51:42' prior: 50475345!
+total
+	^sales sum: [:cart | cart calculateTotal].! !
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 18:52:08' prior: 50475350!
+total
+	^sales sum: [:cart | cart calculateTotal] ifEmpty: [0].! !
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 18:52:10'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 18:52:10'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:52:10'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 18:52:10'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 18:52:10'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 18:52:10'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 18:52:10'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 18:52:15'!
+PASSED!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 18:52:53' prior: 50475035!
+checkout: aCart creditCard: aCreditCard 
+	
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartWasNotCheckedOut: aCart. 
+	
+	merchantProcessor debitForCart: aCart creditCard: aCreditCard cashier: self.! !
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 18:52:58'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:52:58'!
+FAILURE!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 18:52:58'!
+FAILURE!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 18:52:58'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 18:52:58'!
+FAILURE!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 18:52:58'!
+PASSED!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:53:14' prior: 50474279!
+test02CheckoutCartWithOneBook
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self assert: 10 equals: cashier total.
+	self assert: cashier sales includes: cart.
+	self assert: 1 equals: cashier sales size.
+	! !
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:53:17'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 18:53:18'!
+FAILURE!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:53:32' prior: 50474295!
+test03CheckoutCartWithTwoBooks
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: 2 of: self itemSellByTheStore .
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self assert: 20 equals: cashier total.
+	self assert: cashier sales includes: cart.
+	self assert: 1 equals: cashier sales size.! !
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 18:53:35'!
+PASSED!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:53:50' prior: 50475053!
+test05CheckoutCartTwiceRaisesError
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: cashier total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	
+	! !
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 18:54:32'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 18:54:45'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 18:54:45'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 18:54:45'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 18:54:49'!
+PASSED!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:07:39'!
+test05CreditCardWithBlankOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: '123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:08:24'!
+test05CreditCardWithNumericOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: '123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+
+!methodRemoval: CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:08:24'!
+test05CreditCardWithBlankOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: '123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumericOwnerRaisesError stamp: 'edrr 6/8/2022 19:08:30'!
+FAILURE!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumericOwnerRaisesError stamp: 'edrr 6/8/2022 19:08:30'!
+FAILURE!
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:10:31' prior: 50474658!
+assertCreditCardOwnerIsValid: aOwner
+
+	^ ((aOwner withBlanksTrimmed = '') and: (aOwner isNumber)) ifTrue: [self error: self class cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:10:57' prior: 50475678!
+assertCreditCardOwnerIsValid: aOwner
+
+	^ ((aOwner withBlanksTrimmed = '') or: (aOwner isNumber)) ifTrue: [self error: self class cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+
+!testRun: #CreditCardTest #test05CreditCardWithNumericOwnerRaisesError stamp: 'edrr 6/8/2022 19:10:59'!
+FAILURE!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumericOwnerRaisesError stamp: 'edrr 6/8/2022 19:11:04'!
+FAILURE!
+
+aOwner withBlanksTrimmed = ''!
+
+aOwner isNumber!
+
+aOwner asNumber!
+
+'h1h2' asNumber !
+
+$1 digitValue !
+
+$h digitValue !
+
+$h digitValue !
+
+$a digitValue !
+
+$a isDigit !
+
+$1 isDigit !
+!CreditCard methodsFor: 'assertions' stamp: 'jeo 6/7/2022 18:23:46' prior: 50475687!
+assertCreditCardOwnerIsValid: aOwner
+
+	^ (aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:20:26' prior: 50475709!
+assertCreditCardOwnerIsValid: aOwner
+
+	(aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithInvalidOwnerErrorDescription].
+	(aOwner anySatisfy: [:char | char isDigit]) ifTrue: [self error: self class cannotCreateCreditCardWithInvalidOwnerErrorDescription].! !
+!CreditCard class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 19:22:21'!
+cannotCreateCreditCardWithBlankOwnerErrorDescription
+	^ 'invalid owner'! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 19:22:21' prior: 50474353!
+test02CreditCardWithNoOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ''.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithBlankOwnerErrorDescription]! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 19:22:21' prior: 50475646!
+test05CreditCardWithNumericOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: '123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithBlankOwnerErrorDescription]! !
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 19:22:21' prior: 50475717!
+assertCreditCardOwnerIsValid: aOwner
+
+	(aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithBlankOwnerErrorDescription].
+	(aOwner anySatisfy: [:char | char isDigit]) ifTrue: [self error: self class cannotCreateCreditCardWithBlankOwnerErrorDescription].! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 19:22:21' prior: 50474365!
+test03CreditCardWithBlankOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ' '.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithBlankOwnerErrorDescription]! !
+
+!methodRemoval: CreditCard class #cannotCreateCreditCardWithInvalidOwnerErrorDescription stamp: 'edrr 6/8/2022 19:22:21'!
+cannotCreateCreditCardWithInvalidOwnerErrorDescription
+	^ 'invalid owner'!
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:23:01' prior: 50475761!
+assertCreditCardOwnerIsValid: aOwner
+
+	(aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithBlankOwnerErrorDescription].
+	(aOwner anySatisfy: [:char | char isDigit]) ifTrue: [self error: self class cannotCreateCreditCardWithNumbersInOwnerErrorDescription].! !
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:23:15' prior: 50475748!
+test05CreditCardWithNumericOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: '123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithNumbersInOwnerErrorDescription]! !
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:23:31' prior: 50475804!
+test05CreditCardWithNumericOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithNumbersInOwnerErrorDescription]! !
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:24:03'!
+test05CreditCardWithNumbersInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithNumbersInOwnerErrorDescription]! !
+
+!methodRemoval: CreditCardTest #test05CreditCardWithNumericOwnerRaisesError stamp: 'edrr 6/8/2022 19:24:03'!
+test05CreditCardWithNumericOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithNumbersInOwnerErrorDescription]!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:24:07'!
+ERROR!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:24:07'!
+ERROR!
+!CreditCard class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 19:24:13'!
+cannotCreateCreditCardWithNumbersInOwnerErrorDescription
+	self shouldBeImplemented.! !
+!CreditCard class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 19:24:43' prior: 50475861!
+cannotCreateCreditCardWithNumbersInOwnerErrorDescription
+	'numbers in owners name'! !
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:24:45'!
+FAILURE!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:24:57'!
+PASSED!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:25:40'!
+test06CreditCardWithSpecialCharacterInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithNumbersInOwnerErrorDescription]! !
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:25:51' prior: 50475880!
+test06CreditCardWithSpecialCharacterInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a#'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithNumbersInOwnerErrorDescription]! !
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:26:06' prior: 50475893!
+test06CreditCardWithSpecialCharacterInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a#'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithSpecialCharacterInOwnerErrorDescription]! !
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:26:12'!
+FAILURE!
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:26:12'!
+FAILURE!
+
+aOwner isAlphaNumeric!
+
+'hola' isAlphaNumeric !
+
+'hola1' isAlphaNumeric !
+
+'a#'isAlphaNumeric!
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:29:23' prior: 50475792!
+assertCreditCardOwnerIsValid: aOwner
+
+	(aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithBlankOwnerErrorDescription].
+	(aOwner anySatisfy: [:char | char isDigit]) ifTrue: [self error: self class cannotCreateCreditCardWithNumbersInOwnerErrorDescription].
+	aOwner isAlphaNumeric ifFalse: [self error: self class cannotCreateCreditCardWithSpecialCharacterInOwnerErrorDescription].! !
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:29:26'!
+ERROR!
+!CreditCard class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 19:29:32'!
+cannotCreateCreditCardWithSpecialCharacterInOwnerErrorDescription
+	self shouldBeImplemented.! !
+!CreditCard class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 19:30:01' prior: 50475950!
+cannotCreateCreditCardWithSpecialCharacterInOwnerErrorDescription
+	'no special character in owner'! !
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:30:04'!
+FAILURE!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:30:09'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:30:09'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:30:09'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:30:09'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:30:09'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:30:09'!
+PASSED!
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:32:51' prior: 50475930!
+assertCreditCardOwnerIsValid: aOwner
+
+	(aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithBlankOwnerErrorDescription].
+	(aOwner anySatisfy: [:char | char isLetter not]) ifTrue: [self error: self class cannotCreateCreditCardWithInvalidErrorDescription].
+! !
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:33:08' prior: 50475989!
+assertCreditCardOwnerIsValid: aOwner
+
+	(aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithBlankOwnerErrorDescription].
+	(aOwner anySatisfy: [:char | char isLetter not]) ifTrue: [self error: self class cannotCreateCreditCardWithInvalidOwnerErrorDescription].
+! !
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:36:41' prior: 50476001!
+assertCreditCardOwnerIsValid: aOwner
+
+	(aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithBlankOwnerErrorDescription].
+	(aOwner anySatisfy: [:char | char isLetter not]) ifTrue: [self error: self class cannotCreateCreditCardWithInvalidOwnerErrorDescription].! !
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:36:48' prior: 50476014!
+assertCreditCardOwnerIsValid: aOwner
+
+	"(aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithBlankOwnerErrorDescription]."
+	(aOwner anySatisfy: [:char | char isLetter not]) ifTrue: [self error: self class cannotCreateCreditCardWithInvalidOwnerErrorDescription].! !
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:36:53'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:36:53'!
+FAILURE!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:36:53'!
+FAILURE!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:36:53'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:36:53'!
+FAILURE!
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:36:53'!
+FAILURE!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:37:20'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:37:20'!
+FAILURE!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:37:20'!
+FAILURE!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:37:20'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:37:20'!
+FAILURE!
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:37:20'!
+FAILURE!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:37:22'!
+FAILURE!
+!CreditCard class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 19:38:40'!
+cannotCreateCreditCardWithInvalidOwnerErrorDescription
+	'invalid owner'! !
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:39:05' prior: 50475735!
+test02CreditCardWithNoOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ''.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:39:11' prior: 50475774!
+test03CreditCardWithBlankOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ' '.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:39:22' prior: 50475828!
+test05CreditCardWithNumbersInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:39:27' prior: 50475906!
+test06CreditCardWithSpecialCharacterInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a#'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:39:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:39:30'!
+FAILURE!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:39:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:39:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:39:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:39:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:39:30'!
+FAILURE!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:40:34'!
+FAILURE!
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:41:25' prior: 50476027!
+assertCreditCardOwnerIsValid: aOwner
+
+	(aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithBlankOwnerErrorDescription].
+	(aOwner anySatisfy: [:char | char isLetter not]) ifTrue: [self error: self class cannotCreateCreditCardWithInvalidOwnerErrorDescription].! !
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:41:28'!
+FAILURE!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:41:36' prior: 50476104!
+test03CreditCardWithBlankOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ' '.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithBlankOwnerErrorDescription]! !
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:41:43'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:41:43'!
+FAILURE!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:41:43'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:41:43'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:41:44'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:41:44'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:41:44'!
+FAILURE!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:41:51' prior: 50476092!
+test02CreditCardWithNoOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ''.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithBlankOwnerErrorDescription]! !
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:41:53'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:41:53'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:41:53'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:41:53'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:41:53'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:41:53'!
+PASSED!
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:43:19' prior: 50474649!
+assertCreditCardNumberIsValid: aCreditCardNumber
+
+	^ (aCreditCardNumber decimalDigitLength = 16) ifFalse: [self error: self class cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 19:43:23'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 19:43:23'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 19:43:23'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 19:43:23'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 19:43:23'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 19:43:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:43:28'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:43:28'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:43:28'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:43:28'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:43:28'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:43:28'!
+PASSED!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:44:19'!
+test07CreditCardWithMoreDigitNumbersRaisesError
+	
+	self should: [CreditCard withNumber: 11111111111111111 expirationDate: Date today owner: 'H'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+
+11111111111111111 decimalDigitLength!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:44:45' prior: 50476309!
+test07CreditCardWithMoreDigitNumbersRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111.1 expirationDate: Date today owner: 'H'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+
+!testRun: #CreditCardTest #test07CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:44:51'!
+FAILURE!
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:47:58' prior: 50476259!
+assertCreditCardNumberIsValid: aCreditCardNumber
+
+	^ (aCreditCardNumber isInteger and: (aCreditCardNumber decimalDigitLength = 16)) ifFalse: [self error: self class cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+
+!testRun: #CreditCardTest #test07CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:48:02'!
+FAILURE!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:48:05'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:48:05'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:48:05'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:48:05'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:48:05'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:48:05'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:48:05'!
+FAILURE!
+
+!testRun: #CreditCardTest #test07CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:48:05'!
+FAILURE!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:48:10'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:48:10'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:48:10'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:48:10'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:48:10'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:48:10'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:48:10'!
+FAILURE!
+
+!testRun: #CreditCardTest #test07CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:48:10'!
+FAILURE!
+
+aCreditCardNumber isInteger!
+
+!testRun: #CreditCardTest #test07CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:49:00'!
+FAILURE!
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:49:18' prior: 50476339!
+assertCreditCardNumberIsValid: aCreditCardNumber
+
+	^ ((aCreditCardNumber isInteger) and: (aCreditCardNumber decimalDigitLength = 16)) ifFalse: [self error: self class cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:49:25' prior: 50476416!
+assertCreditCardNumberIsValid: aCreditCardNumber
+
+	^ ((aCreditCardNumber isInteger) and: (aCreditCardNumber decimalDigitLength = 16)) ifFalse: [self error: self class cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:49:38' prior: 50476426!
+assertCreditCardNumberIsValid: aCreditCardNumber
+
+	^ ((aCreditCardNumber isInteger) and: [aCreditCardNumber decimalDigitLength = 16]) ifFalse: [self error: self class cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:50:26'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:50:27'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:50:27'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:50:27'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:50:27'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:50:27'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:50:27'!
+PASSED!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:51:52'!
+test02CreditCardWithMoreDigitNumbersRaisesError
+	
+	self should: [CreditCard withNumber: 11111111111111111 expirationDate: Date today owner: 'H'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+
+!methodRemoval: CreditCardTest #test04CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:51:52'!
+test04CreditCardWithMoreDigitNumbersRaisesError
+	
+	self should: [CreditCard withNumber: 11111111111111111 expirationDate: Date today owner: 'H'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidNumberErrorDescription]!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:52:05'!
+test03CreditCardWithMoreDigitNumbersRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111.1 expirationDate: Date today owner: 'H'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+
+!methodRemoval: CreditCardTest #test07CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:52:05'!
+test07CreditCardWithMoreDigitNumbersRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111.1 expirationDate: Date today owner: 'H'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidNumberErrorDescription]!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:52:18'!
+test04CreditCardWithNoOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ''.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithBlankOwnerErrorDescription]! !
+
+!methodRemoval: CreditCardTest #test02CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:52:18'!
+test02CreditCardWithNoOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ''.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithBlankOwnerErrorDescription]!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:52:27'!
+test05CreditCardWithBlankOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ' '.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithBlankOwnerErrorDescription]! !
+
+!methodRemoval: CreditCardTest #test03CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:52:27'!
+test03CreditCardWithBlankOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ' '.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithBlankOwnerErrorDescription]!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:52:36'!
+test06CreditCardWithNumbersInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+
+!methodRemoval: CreditCardTest #test05CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:52:36'!
+test05CreditCardWithNumbersInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:52:44'!
+test07CreditCardWithSpecialCharacterInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a#'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+
+!methodRemoval: CreditCardTest #test06CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:52:44'!
+test06CreditCardWithSpecialCharacterInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a#'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]!
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:53:34'!
+test03CreditCardWithFloatNumbersRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111.1 expirationDate: Date today owner: 'H'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+
+!methodRemoval: CreditCardTest #test03CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:53:34'!
+test03CreditCardWithMoreDigitNumbersRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111.1 expirationDate: Date today owner: 'H'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidNumberErrorDescription]!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:54:18'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:54:18'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 19:54:18'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:54:18'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:54:18'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:54:18'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:54:18'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+ERROR!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+ERROR!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 19:56:40'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+ERROR!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+ERROR!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 19:56:46'!
+ERROR!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 19:57:08'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+ERROR!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+ERROR!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 19:57:11'!
+ERROR!
+!CreditCard class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 19:58:47' prior: 50476087!
+cannotCreateCreditCardWithInvalidOwnerErrorDescription
+	^'invalid owner'! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+ERROR!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 19:58:52'!
+ERROR!
+
+'1234567891123456789212345678931' size!
+
+'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' size!
+!TusLibrosTest methodsFor: 'credit card creation' stamp: 'edrr 6/8/2022 20:00:31' prior: 50474130!
+createCreditCardWithInvalidOwner
+	^ CreditCard withNumber: 1111111111111111 expirationDate: Date tomorrow owner: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:00:36'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:00:40'!
+PASSED!
+
+!classRenamed: #MerchantProcessor as: #MerchantProcessorDouble stamp: 'edrr 6/8/2022 20:00:54'!
+Smalltalk renameClassNamed: #MerchantProcessor as: #MerchantProcessorDouble!
+!MerchantProcessorTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 20:00:55' prior: 50474401!
+test01MerchantProcessorWithDisabledCreditCardRaisesError
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: 2 of: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingDisabledCard.
+	creditCard := self createValidCreditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = MerchantProcessorDouble cannotDebitDisabledCreditCardErrorDescription.
+			self assert: cashier sales isEmpty].! !
+!MerchantProcessorTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 20:00:55' prior: 50474442!
+test03MerchantProcessorWithInvalidTotalRaisesError
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: 1 of: self bookWithInvalidPrice.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = MerchantProcessorDouble cannotCheckoutInvalidTotalErrorDescription.
+			self assert: cashier sales isEmpty].! !
+!MerchantProcessorTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 20:00:55' prior: 50474421!
+test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: 2 of: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createCreditCardWithInvalidOwner.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = MerchantProcessorDouble cannotCheckoutInvalidCreditCardOwnerErrorDescription.
+			self assert: cashier sales isEmpty].! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:01:03'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:01:11'!
+PASSED!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:12:55' prior: 50475453!
+checkout: aCart creditCard: aCreditCard 
+	| total |
+			
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartWasNotCheckedOut: aCart. 
+
+	total := aCart calculateTotal.
+	merchantProcessor debitForCart: aCart creditCard: aCreditCard cashier: self.! !
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:13:24' prior: 50477449!
+checkout: aCart creditCard: aCreditCard 
+	| total |
+			
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartWasNotCheckedOut: aCart. 
+
+	total := aCart calculateTotal.
+	merchantProcessor debit: total creditCard: aCreditCard cashier: self.! !
+!MerchantProcessorEnabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:14:02'!
+debit: aTotal creditCard: aCreditCard cashier: aCashier
+	
+	self assertCreditCardOwner: aCreditCard.
+	self assertTotalIsValid: aTotal.
+	
+	self debit: aTotal creditCard: aCreditCard.
+	
+	aCashier registerSale: aTotal.! !
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:15:13' prior: 50475483!
+test02CheckoutCartWithOneBook
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self assert: 10 equals: cashier total.
+	self assert: cashier sales includes: (cart calculateTotal).
+	self assert: 1 equals: cashier sales size.
+	! !
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:15:52'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:15:52'!
+ERROR!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:15:52'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:15:52'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:15:52'!
+FAILURE!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:15:52'!
+ERROR!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:15:56'!
+ERROR!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:16:57' prior: 50475355!
+total
+	^sales sum.! !
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:16:59'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:16:59'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:16:59'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:16:59'!
+FAILURE!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:16:59'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:16:59'!
+FAILURE!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:17:15' prior: 50475505!
+test03CheckoutCartWithTwoBooks
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: 2 of: self itemSellByTheStore .
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self assert: 20 equals: cashier total.
+	self assert: cashier sales includes: (cart calculateTotal).
+	self assert: 1 equals: cashier sales size.! !
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:17:17'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:17:17'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:17:17'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:17:17'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:17:17'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:17:17'!
+FAILURE!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:17:36' prior: 50475524!
+test05CheckoutCartTwiceRaisesError
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: cashier total.
+			self assert: cashier sales includes: (cart calculateTotal).
+			self assert: 1 equals: cashier sales size.].
+	
+	
+	! !
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:17:38'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:17:38'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:17:38'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:17:38'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:17:38'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:17:38'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:17:53'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:18:36'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:19:06'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:19:06'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:19:39'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:20:28'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:21:18'!
+FAILURE!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:21:42' prior: 50477581!
+test05CheckoutCartTwiceRaisesError
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			].
+	self assert: 10 equals: cashier total.
+			self assert: cashier sales includes: (cart calculateTotal).
+			self assert: 1 equals: cashier sales size.
+	
+	! !
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:21:47'!
+FAILURE!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:21:47'!
+FAILURE!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:24:29' prior: 50477461!
+checkout: aCart creditCard: aCreditCard 
+	| total |
+			
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartWasNotCheckedOut: aCart. 
+
+	total := aCart calculateTotal.
+	merchantProcessor debit: total creditCard: aCreditCard cashier: self cart: aCart.! !
+!MerchantProcessorEnabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:25:12'!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart
+	
+	self assertCreditCardOwner: aCreditCard.
+	self assertTotalIsValid: aTotal.
+	
+	self debit: aTotal creditCard: aCreditCard.
+	
+	aCashier registerSale: aCart.! !
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 18:52:08' prior: 50477522!
+total
+	^sales sum: [:cart | cart calculateTotal] ifEmpty: [0].! !
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:25:38'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:25:38'!
+FAILURE!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:25:38'!
+FAILURE!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:25:38'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:25:38'!
+FAILURE!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:25:38'!
+PASSED!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:25:51' prior: 50477483!
+test02CheckoutCartWithOneBook
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self assert: 10 equals: cashier total.
+	self assert: cashier sales includes: cart.
+	self assert: 1 equals: cashier sales size.
+	! !
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:25:52'!
+PASSED!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:25:58' prior: 50477545!
+test03CheckoutCartWithTwoBooks
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: 2 of: self itemSellByTheStore .
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self assert: 20 equals: cashier total.
+	self assert: cashier sales includes: cart.
+	self assert: 1 equals: cashier sales size.! !
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:25:59'!
+PASSED!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:26:14' prior: 50477647!
+test05CheckoutCartTwiceRaisesError
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: cashier total.
+			self assert: cashier sales includes: (cart calculateTotal).
+			self assert: 1 equals: cashier sales size.].
+	
+	! !
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:26:15'!
+FAILURE!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:26:25' prior: 50477763!
+test05CheckoutCartTwiceRaisesError
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: cashier total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	! !
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:26:26'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+ERROR!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:26:31'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+ERROR!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:27:04'!
+ERROR!
+!MerchantProcessorDisabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:27:13'!
+debit: aSmallInteger creditCard: aCreditCard cashier: aCashier cart: aCart 
+	self shouldBeImplemented.! !
+!MerchantProcessorDisabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:27:26' prior: 50477990!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart 
+	! !
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:27:27'!
+FAILURE!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+FAILURE!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:27:31'!
+FAILURE!
+!MerchantProcessorDisabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:28:10' prior: 50477997!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart 
+
+	self error: self class cannotDebitDisabledCreditCardErrorDescription ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:28:14'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:28:14'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:28:14'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:28:14'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:28:14'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:28:14'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:28:15'!
+PASSED!
+
+!methodRemoval: MerchantProcessorDisabledCreditCard #debitForCart:creditCard:cashier: stamp: 'edrr 6/8/2022 20:28:24'!
+debitForCart: aCart creditCard: aCreditCard cashier: aCashier
+
+	self error: self class cannotDebitDisabledCreditCardErrorDescription !
+
+!methodRemoval: MerchantProcessorEnabledCreditCard #debit:creditCard:cashier: stamp: 'edrr 6/8/2022 20:28:34'!
+debit: aTotal creditCard: aCreditCard cashier: aCashier
+	
+	self assertCreditCardOwner: aCreditCard.
+	self assertTotalIsValid: aTotal.
+	
+	self debit: aTotal creditCard: aCreditCard.
+	
+	aCashier registerSale: aTotal.!
+
+!methodRemoval: MerchantProcessorEnabledCreditCard #debitForCart:creditCard:cashier: stamp: 'edrr 6/8/2022 20:28:42'!
+debitForCart: aCart creditCard: aCreditCard cashier: aCashier
+	| total |
+	total := aCart calculateTotal.
+	self assertCreditCardOwner: aCreditCard.
+	self assertTotalIsValid: total.
+	
+	self debit: total creditCard: aCreditCard.
+	
+	aCashier registerSale: aCart.!
+!MerchantProcessorEnabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:30:54' prior: 50477691!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart
+	
+	self assertCreditCardOwner: aCreditCard.
+	self assertTotalIsValid: aTotal.
+	
+	aCashier registerSale: aCart.! !
+!MerchantProcessorEnabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:31:11' prior: 50478215!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart
+	
+	self assertCreditCardOwner: aCreditCard.
+	self assertTotalIsValid: aTotal.
+	
+	"self debit: aTotal creditCard: aCreditCard."
+	
+	aCashier registerSale: aCart.! !
+
+!methodRemoval: MerchantProcessorEnabledCreditCard #debit:creditCard: stamp: 'edrr 6/8/2022 20:31:28'!
+debit: aTotal creditCard: aCreditCard
+!
+!MerchantProcessorEnabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:31:33' prior: 50478225!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart
+	
+	self assertCreditCardOwner: aCreditCard.
+	self assertTotalIsValid: aTotal.
+	
+	aCashier registerSale: aCart.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:31:36'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:31:36'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:31:36'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:31:37'!
+PASSED!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:39:22' prior: 50474572!
+registerSale: aCart 
+	
+	sales add: aCart.! !
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:40:00'!
+registerCartInSales: aCart 
+	
+	sales add: aCart.! !
+!MerchantProcessorEnabledCreditCard methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 20:40:00' prior: 50478241!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart
+	
+	self assertCreditCardOwner: aCreditCard.
+	self assertTotalIsValid: aTotal.
+	
+	aCashier registerCartInSales: aCart.! !
+
+!methodRemoval: Cashier #registerSale: stamp: 'edrr 6/8/2022 20:40:00'!
+registerSale: aCart 
+	
+	sales add: aCart.!
+!MerchantProcessorEnabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:45:13' prior: 50478342!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart
+	
+	self assertCreditCardOwner: aCreditCard.
+	self assertTotalIsValid: aTotal.
+	
+	aCashier registerCart.! !
+!MerchantProcessorDisabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:46:54' prior: 50478094!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart 
+
+	aCashier dropCart.
+	self error: self class cannotDebitDisabledCreditCardErrorDescription ! !
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:47:05' prior: 50477678!
+checkout: aCart creditCard: aCreditCard 
+	| total cart |
+	cart := aCart.
+	
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartWasNotCheckedOut: aCart. 
+
+	total := aCart calculateTotal.
+	merchantProcessor debit: total creditCard: aCreditCard cashier: self cart: aCart.
+	! !
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:47:39' prior: 50478372!
+checkout: aCart creditCard: aCreditCard 
+	| total cart |
+	cart := aCart.
+	
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartWasNotCheckedOut: aCart. 
+
+	total := aCart calculateTotal.
+	merchantProcessor debit: total creditCard: aCreditCard cashier: self cart: aCart.
+	! !
+
+!classDefinition: #Cashier category: 'TusLibros' stamp: 'edrr 6/8/2022 20:47:48'!
+Object subclass: #Cashier
+	instanceVariableNames: 'sales merchantProcessor cartoooo'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:47:47' prior: 50478385!
+checkout: aCart creditCard: aCreditCard 
+	| total |
+	cartoooo := aCart.
+	
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartWasNotCheckedOut: aCart. 
+
+	total := aCart calculateTotal.
+	merchantProcessor debit: total creditCard: aCreditCard cashier: self cart: aCart.
+	! !
+
+!classDefinition: #Cashier category: 'TusLibros' stamp: 'edrr 6/8/2022 20:48:17'!
+Object subclass: #Cashier
+	instanceVariableNames: 'sales merchantProcessor currentCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 20:48:17' prior: 50478406!
+checkout: aCart creditCard: aCreditCard 
+	| total |
+	currentCart := aCart.
+	
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartWasNotCheckedOut: aCart. 
+
+	total := aCart calculateTotal.
+	merchantProcessor debit: total creditCard: aCreditCard cashier: self cart: aCart.
+	! !
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:48:27'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:48:27'!
+ERROR!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:48:27'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:48:27'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:48:27'!
+ERROR!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:48:27'!
+ERROR!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:48:30'!
+ERROR!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:48:41'!
+registerCart
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:48:57' prior: 50478462!
+registerCart
+	sales add: currentCart.! !
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:49:13' prior: 50478466!
+registerCart
+	sales add: currentCart.
+	self dropCart.! !
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:49:15'!
+ERROR!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:49:22'!
+dropCart
+	self shouldBeImplemented.! !
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:49:40' prior: 50478477!
+dropCart
+	currentCart := nil.! !
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:49:42'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:49:43'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:49:44'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:49:45'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:49:47'!
+PASSED!
+
+!methodRemoval: Cashier #dropCart stamp: 'edrr 6/8/2022 20:50:50'!
+dropCart
+	currentCart := nil.!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:50:56' prior: 50478470!
+registerCart
+	sales add: currentCart.! !
+!MerchantProcessorDisabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:51:01' prior: 50478364!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart 
+
+	self error: self class cannotDebitDisabledCreditCardErrorDescription ! !
+!MerchantProcessorDisabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:51:40'!
+debit: aTotal creditCard: aCreditCard cashier: aCashier  
+
+	self error: self class cannotDebitDisabledCreditCardErrorDescription ! !
+!MerchantProcessorEnabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:51:40'!
+debit: aTotal creditCard: aCreditCard cashier: aCashier 
+	
+	self assertCreditCardOwner: aCreditCard.
+	self assertTotalIsValid: aTotal.
+	
+	aCashier registerCart.! !
+!Cashier methodsFor: 'as yet unclassified' stamp: 'edrr 6/8/2022 20:51:40' prior: 50478427!
+checkout: aCart creditCard: aCreditCard 
+	| total |
+	currentCart := aCart.
+	
+	self assertCartIsNotEmpty: aCart.
+	self assertCreditCardIsNotExpired: aCreditCard.
+	self assertCartWasNotCheckedOut: aCart. 
+
+	total := aCart calculateTotal.
+	merchantProcessor debit: total creditCard: aCreditCard cashier: self .
+	! !
+
+!methodRemoval: MerchantProcessorDisabledCreditCard #debit:creditCard:cashier:cart: stamp: 'edrr 6/8/2022 20:51:40'!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart 
+
+	self error: self class cannotDebitDisabledCreditCardErrorDescription !
+
+!methodRemoval: MerchantProcessorEnabledCreditCard #debit:creditCard:cashier:cart: stamp: 'edrr 6/8/2022 20:51:40'!
+debit: aTotal creditCard: aCreditCard cashier: aCashier cart: aCart
+	
+	self assertCreditCardOwner: aCreditCard.
+	self assertTotalIsValid: aTotal.
+	
+	aCashier registerCart.!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:51:46'!
+PASSED!
+
+!methodRemoval: Cashier #registerCartInSales: stamp: 'edrr 6/8/2022 20:51:59'!
+registerCartInSales: aCart 
+	
+	sales add: aCart.!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CashierTest #test01CheckoutEmptyCartRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CashierTest #test02CheckoutCartWithOneBook stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CashierTest #test03CheckoutCartWithTwoBooks stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutCartWithExpiredCreditCardRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CashierTest #test05CheckoutCartTwiceRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CashierTest #test06CheckoutTwoDifferentCarts stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardWithLessDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardWithMoreDigitNumbersRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardWithFloatNumbersRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test04CreditCardWithNoOwnerRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test05CreditCardWithBlankOwnerRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test06CreditCardWithNumbersInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CreditCardWithSpecialCharacterInOwnerNameRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test01MerchantProcessorWithDisabledCreditCardRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+!testRun: #MerchantProcessorTest #test03MerchantProcessorWithInvalidTotalRaisesError stamp: 'edrr 6/8/2022 20:54:11'!
+PASSED!
+
+----QUIT----(8 June 2022 20:54:27) CuisUniversity-5096.image priorSource: 4557982!

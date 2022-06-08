@@ -15,6 +15,14 @@ createCart
 	
 	^Cart acceptingItemsOf: self defaultCatalog! !
 
+!TusLibrosTest methodsFor: 'cart creation' stamp: 'edrr 6/8/2022 18:44:12'!
+createCartWithABook
+	
+	| cart |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	^cart.! !
+
 !TusLibrosTest methodsFor: 'cart creation' stamp: 'jeo 6/7/2022 20:08:04'!
 defaultCatalog
 	
@@ -35,9 +43,9 @@ itemSellByTheStore
 	^ 'validBook'! !
 
 
-!TusLibrosTest methodsFor: 'credit card creation' stamp: 'jeo 6/7/2022 20:02:31'!
+!TusLibrosTest methodsFor: 'credit card creation' stamp: 'edrr 6/8/2022 20:00:31'!
 createCreditCardWithInvalidOwner
-	^ CreditCard withNumber: 1111111111111111 expirationDate: Date tomorrow owner: '1234567891123456789212345678931' ! !
+	^ CreditCard withNumber: 1111111111111111 expirationDate: Date tomorrow owner: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'! !
 
 !TusLibrosTest methodsFor: 'credit card creation' stamp: 'jeo 6/7/2022 19:59:49'!
 createExpiredCreditCard
@@ -172,32 +180,32 @@ test01CheckoutEmptyCartRaisesError
 			self assert: anError messageText = Cashier cannotCheckoutEmptyCartErrorDescription.
 			self assert: cashier sales isEmpty].! !
 
-!CashierTest methodsFor: 'tests' stamp: 'jeo 6/7/2022 20:43:11'!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:25:51'!
 test02CheckoutCartWithOneBook
-	| cart cashier total creditCard |
+	| cart cashier creditCard |
 	cart := self createCart.
 	cart add: self itemSellByTheStore.
 	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
 	creditCard := self createValidCreditCard.
 	
-	total := cashier checkout: cart creditCard: creditCard.
+	cashier checkout: cart creditCard: creditCard.
 	
-	self assert: 10 equals: total.
+	self assert: 10 equals: cashier total.
 	self assert: cashier sales includes: cart.
 	self assert: 1 equals: cashier sales size.
 	! !
 
-!CashierTest methodsFor: 'tests' stamp: 'jeo 6/7/2022 20:44:13'!
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:25:58'!
 test03CheckoutCartWithTwoBooks
-	| cart cashier total creditCard |
+	| cart cashier creditCard |
 	cart := self createCart.
 	cart add: 2 of: self itemSellByTheStore .
 	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
 	creditCard := self createValidCreditCard.
 	
-	total := cashier checkout: cart creditCard: creditCard.
+	cashier checkout: cart creditCard: creditCard.
 	
-	self assert: 20 equals: total.
+	self assert: 20 equals: cashier total.
 	self assert: cashier sales includes: cart.
 	self assert: 1 equals: cashier sales size.! !
 
@@ -215,6 +223,45 @@ test04CheckoutCartWithExpiredCreditCardRaisesError
 			self assert: anError messageText = Cashier cannotCheckoutExpiredCreditCardErrorDescription.
 			self assert: cashier sales isEmpty].! !
 
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:26:25'!
+test05CheckoutCartTwiceRaisesError
+	| cart cashier creditCard |
+	cart := self createCart.
+	cart add: self itemSellByTheStore.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	
+	self should: [cashier checkout: cart creditCard: creditCard.]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | 
+			self assert: anError messageText = Cashier cannotCheckoutSameCartTwiceErrorDescription.
+			self assert: 10 equals: cashier total.
+			self assert: cashier sales includes: cart.
+			self assert: 1 equals: cashier sales size.].
+	
+	! !
+
+!CashierTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 18:49:58'!
+test06CheckoutTwoDifferentCarts
+	| cart cashier creditCard cart2 |
+	cart := self createCartWithABook.
+	cart2 := self createCartWithABook.
+	cashier := self createCashierWithMerchantProcessorSimulatingEnabledCard.
+	creditCard := self createValidCreditCard.
+	
+	cashier checkout: cart creditCard: creditCard.
+	cashier checkout: cart2 creditCard: creditCard.
+	
+	self assert: 20 equals: cashier total.
+	self assert: cashier sales includes: cart.
+	self assert: cashier sales includes: cart2.
+	self assert: 2 equals: cashier sales size.
+	
+	
+	! !
+
 
 !classDefinition: #CreditCardTest category: 'TusLibros'!
 TusLibrosTest subclass: #CreditCardTest
@@ -230,26 +277,47 @@ test01CreditCardWithLessDigitNumbersRaisesError
 		raise: Error 
 	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
 
-!CreditCardTest methodsFor: 'tests' stamp: 'jeo 6/7/2022 18:05:39'!
-test02CreditCardWithNoOwnerRaisesError
-	
-	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ''.]
-		raise: Error 
-	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
-
-!CreditCardTest methodsFor: 'tests' stamp: 'jeo 6/7/2022 19:51:29'!
-test03CreditCardWithBlankOwnerRaisesError
-	
-	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ' '.]
-		raise: Error 
-	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
-
-!CreditCardTest methodsFor: 'tests' stamp: 'jeo 6/7/2022 18:16:47'!
-test04CreditCardWithMoreDigitNumbersRaisesError
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:51:52'!
+test02CreditCardWithMoreDigitNumbersRaisesError
 	
 	self should: [CreditCard withNumber: 11111111111111111 expirationDate: Date today owner: 'H'.]
 		raise: Error 
 	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:53:34'!
+test03CreditCardWithFloatNumbersRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111.1 expirationDate: Date today owner: 'H'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:52:18'!
+test04CreditCardWithNoOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ''.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithBlankOwnerErrorDescription]! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:52:27'!
+test05CreditCardWithBlankOwnerRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: ' '.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithBlankOwnerErrorDescription]! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:52:36'!
+test06CreditCardWithNumbersInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a123'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 19:52:44'!
+test07CreditCardWithSpecialCharacterInOwnerNameRaisesError
+	
+	self should: [CreditCard withNumber: 1111111111111111 expirationDate: Date today owner: 'a#'.]
+		raise: Error 
+	 	withExceptionDo: [:anError | self assert: anError messageText = CreditCard cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
 
 
 !classDefinition: #MerchantProcessorTest category: 'TusLibros'!
@@ -259,7 +327,7 @@ TusLibrosTest subclass: #MerchantProcessorTest
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!MerchantProcessorTest methodsFor: 'tests' stamp: 'jeo 6/7/2022 20:11:04'!
+!MerchantProcessorTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:00:55'!
 test01MerchantProcessorWithDisabledCreditCardRaisesError
 	| cart cashier creditCard |
 	cart := self createCart.
@@ -270,10 +338,10 @@ test01MerchantProcessorWithDisabledCreditCardRaisesError
 	self should: [cashier checkout: cart creditCard: creditCard.]
 		raise: Error - MessageNotUnderstood
 		withExceptionDo: [:anError | 
-			self assert: anError messageText = MerchantProcessor cannotDebitDisabledCreditCardErrorDescription.
+			self assert: anError messageText = MerchantProcessorDouble cannotDebitDisabledCreditCardErrorDescription.
 			self assert: cashier sales isEmpty].! !
 
-!MerchantProcessorTest methodsFor: 'tests' stamp: 'jeo 6/7/2022 20:45:49'!
+!MerchantProcessorTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:00:55'!
 test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError
 	| cart cashier creditCard |
 	cart := self createCart.
@@ -284,10 +352,10 @@ test02MerchantProcessorWithInvalidCreditCardOwnerRaisesError
 	self should: [cashier checkout: cart creditCard: creditCard.]
 		raise: Error - MessageNotUnderstood
 		withExceptionDo: [:anError | 
-			self assert: anError messageText = MerchantProcessor cannotCheckoutInvalidCreditCardOwnerErrorDescription.
+			self assert: anError messageText = MerchantProcessorDouble cannotCheckoutInvalidCreditCardOwnerErrorDescription.
 			self assert: cashier sales isEmpty].! !
 
-!MerchantProcessorTest methodsFor: 'tests' stamp: 'jeo 6/7/2022 20:46:45'!
+!MerchantProcessorTest methodsFor: 'tests' stamp: 'edrr 6/8/2022 20:00:55'!
 test03MerchantProcessorWithInvalidTotalRaisesError
 	| cart cashier creditCard |
 	cart := self createCart.
@@ -298,7 +366,7 @@ test03MerchantProcessorWithInvalidTotalRaisesError
 	self should: [cashier checkout: cart creditCard: creditCard.]
 		raise: Error - MessageNotUnderstood
 		withExceptionDo: [:anError | 
-			self assert: anError messageText = MerchantProcessor cannotCheckoutInvalidTotalErrorDescription.
+			self assert: anError messageText = MerchantProcessorDouble cannotCheckoutInvalidTotalErrorDescription.
 			self assert: cashier sales isEmpty].! !
 
 
@@ -387,7 +455,7 @@ acceptingItemsOf: aCatalog
 
 !classDefinition: #Cashier category: 'TusLibros'!
 Object subclass: #Cashier
-	instanceVariableNames: 'sales merchantProcessor'
+	instanceVariableNames: 'sales merchantProcessor currentCart'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
@@ -405,26 +473,36 @@ sales
 	^ sales copy.! !
 
 
-!Cashier methodsFor: 'operations' stamp: 'jeo 6/7/2022 20:48:29'!
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:51:40'!
 checkout: aCart creditCard: aCreditCard 
+	| total |
+	currentCart := aCart.
 	
 	self assertCartIsNotEmpty: aCart.
 	self assertCreditCardIsNotExpired: aCreditCard.
-	
-	merchantProcessor debitForCart: aCart creditCard: aCreditCard cashier: self.
-	
-	^aCart calculateTotal.! !
+	self assertCartWasNotCheckedOut: aCart. 
 
-!Cashier methodsFor: 'operations' stamp: 'jeo 6/7/2022 20:29:35'!
-registerSale: aTotal 
-	
-	sales add: aTotal.! !
+	total := aCart calculateTotal.
+	merchantProcessor debit: total creditCard: aCreditCard cashier: self .
+	! !
+
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:50:56'!
+registerCart
+	sales add: currentCart.! !
+
+!Cashier methodsFor: 'operations' stamp: 'edrr 6/8/2022 18:52:08'!
+total
+	^sales sum: [:cart | cart calculateTotal] ifEmpty: [0].! !
 
 
 !Cashier methodsFor: 'assertions' stamp: 'jeo 6/7/2022 18:24:41'!
 assertCartIsNotEmpty: aCart
 
 	^ aCart isEmpty ifTrue: [self error: self class cannotCheckoutEmptyCartErrorDescription]! !
+
+!Cashier methodsFor: 'assertions' stamp: 'edrr 6/8/2022 18:40:08'!
+assertCartWasNotCheckedOut: aCart 
+	(sales includes: aCart) ifTrue: [self error: self class cannotCheckoutSameCartTwiceErrorDescription].! !
 
 !Cashier methodsFor: 'assertions' stamp: 'jeo 6/7/2022 18:24:56'!
 assertCreditCardIsNotExpired: aCreditCard
@@ -444,6 +522,10 @@ cannotCheckoutEmptyCartErrorDescription
 !Cashier class methodsFor: 'error descriptions' stamp: 'edrr 6/6/2022 19:36:00'!
 cannotCheckoutExpiredCreditCardErrorDescription
 	'cannot checkput expired credit card'! !
+
+!Cashier class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 18:38:34'!
+cannotCheckoutSameCartTwiceErrorDescription
+	^'no checkout same cart twice'! !
 
 
 !Cashier class methodsFor: 'instance creation' stamp: 'jeo 6/7/2022 18:29:03'!
@@ -480,15 +562,16 @@ isOwnerLengthGreaterThan: aLength
 	^ owner size > aLength.! !
 
 
-!CreditCard methodsFor: 'assertions' stamp: 'jeo 6/7/2022 18:23:32'!
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:49:38'!
 assertCreditCardNumberIsValid: aCreditCardNumber
 
-	^ (aCreditCardNumber between: 1000000000000000 and: 9999999999999999) ifFalse: [self error: self class cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
+	^ ((aCreditCardNumber isInteger) and: [aCreditCardNumber decimalDigitLength = 16]) ifFalse: [self error: self class cannotCreateCreditCardWithInvalidNumberErrorDescription]! !
 
-!CreditCard methodsFor: 'assertions' stamp: 'jeo 6/7/2022 18:23:46'!
+!CreditCard methodsFor: 'assertions' stamp: 'edrr 6/8/2022 19:41:25'!
 assertCreditCardOwnerIsValid: aOwner
 
-	^ (aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithInvalidOwnerErrorDescription]! !
+	(aOwner withBlanksTrimmed = '') ifTrue: [self error: self class cannotCreateCreditCardWithBlankOwnerErrorDescription].
+	(aOwner anySatisfy: [:char | char isLetter not]) ifTrue: [self error: self class cannotCreateCreditCardWithInvalidOwnerErrorDescription].! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -502,61 +585,73 @@ withNumber: aCreditCardNumber expirationDate: anExpirationDate owner: aOwner
 	^self new initializeWithNumber: aCreditCardNumber expirationDate: anExpirationDate owner: aOwner ! !
 
 
+!CreditCard class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 19:22:21'!
+cannotCreateCreditCardWithBlankOwnerErrorDescription
+	^ 'invalid owner'! !
+
 !CreditCard class methodsFor: 'error descriptions' stamp: 'jeo 6/7/2022 17:42:24'!
 cannotCreateCreditCardWithInvalidNumberErrorDescription
 	^ 'invalid credit card number'! !
 
-!CreditCard class methodsFor: 'error descriptions' stamp: 'jeo 6/7/2022 18:06:56'!
+!CreditCard class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 19:58:47'!
 cannotCreateCreditCardWithInvalidOwnerErrorDescription
-	^ 'invalid owner'! !
+	^'invalid owner'! !
+
+!CreditCard class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 19:24:43'!
+cannotCreateCreditCardWithNumbersInOwnerErrorDescription
+	'numbers in owners name'! !
+
+!CreditCard class methodsFor: 'error descriptions' stamp: 'edrr 6/8/2022 19:30:01'!
+cannotCreateCreditCardWithSpecialCharacterInOwnerErrorDescription
+	'no special character in owner'! !
 
 
-!classDefinition: #MerchantProcessor category: 'TusLibros'!
-Object subclass: #MerchantProcessor
+!classDefinition: #MerchantProcessorDouble category: 'TusLibros'!
+Object subclass: #MerchantProcessorDouble
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!MerchantProcessor methodsFor: 'operations' stamp: 'jeo 6/7/2022 20:38:35'!
+!MerchantProcessorDouble methodsFor: 'operations' stamp: 'jeo 6/7/2022 20:38:35'!
 debitForCart: aCart creditCard: aCreditCard cashier: aCashier
 	
 	self subclassResponsibility.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'MerchantProcessor class' category: 'TusLibros'!
-MerchantProcessor class
+!classDefinition: 'MerchantProcessorDouble class' category: 'TusLibros'!
+MerchantProcessorDouble class
 	instanceVariableNames: ''!
 
-!MerchantProcessor class methodsFor: 'error descriptions' stamp: 'jeo 6/7/2022 20:41:54'!
+!MerchantProcessorDouble class methodsFor: 'error descriptions' stamp: 'jeo 6/7/2022 20:41:54'!
 cannotCheckoutInvalidCreditCardOwnerErrorDescription
 	^ 'invalid credit card owner'! !
 
-!MerchantProcessor class methodsFor: 'error descriptions' stamp: 'jeo 6/7/2022 20:41:21'!
+!MerchantProcessorDouble class methodsFor: 'error descriptions' stamp: 'jeo 6/7/2022 20:41:21'!
 cannotCheckoutInvalidTotalErrorDescription
 	^'invalid total'! !
 
-!MerchantProcessor class methodsFor: 'error descriptions' stamp: 'jeo 6/7/2022 19:46:39'!
+!MerchantProcessorDouble class methodsFor: 'error descriptions' stamp: 'jeo 6/7/2022 19:46:39'!
 cannotDebitDisabledCreditCardErrorDescription
 	^ 'disabled credit card'! !
 
 
 !classDefinition: #MerchantProcessorDisabledCreditCard category: 'TusLibros'!
-MerchantProcessor subclass: #MerchantProcessorDisabledCreditCard
+MerchantProcessorDouble subclass: #MerchantProcessorDisabledCreditCard
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros'!
 
-!MerchantProcessorDisabledCreditCard methodsFor: 'operations' stamp: 'jeo 6/7/2022 20:38:25'!
-debitForCart: aCart creditCard: aCreditCard cashier: aCashier
+!MerchantProcessorDisabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:51:40'!
+debit: aTotal creditCard: aCreditCard cashier: aCashier  
 
 	self error: self class cannotDebitDisabledCreditCardErrorDescription ! !
 
 
 !classDefinition: #MerchantProcessorEnabledCreditCard category: 'TusLibros'!
-MerchantProcessor subclass: #MerchantProcessorEnabledCreditCard
+MerchantProcessorDouble subclass: #MerchantProcessorEnabledCreditCard
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -573,17 +668,10 @@ assertTotalIsValid: aTotal
 	(aTotal integerPart decimalDigitLength > 15) ifTrue: [self error: self class cannotCheckoutInvalidTotalErrorDescription].
 ! !
 
-!MerchantProcessorEnabledCreditCard methodsFor: 'operations' stamp: 'jeo 6/7/2022 20:38:02'!
-debit: aTotal creditCard: aCreditCard
-! !
-
-!MerchantProcessorEnabledCreditCard methodsFor: 'operations' stamp: 'jeo 6/7/2022 20:38:17'!
-debitForCart: aCart creditCard: aCreditCard cashier: aCashier
-	| total |
-	total := aCart calculateTotal.
+!MerchantProcessorEnabledCreditCard methodsFor: 'operations' stamp: 'edrr 6/8/2022 20:51:40'!
+debit: aTotal creditCard: aCreditCard cashier: aCashier 
+	
 	self assertCreditCardOwner: aCreditCard.
-	self assertTotalIsValid: total.
+	self assertTotalIsValid: aTotal.
 	
-	self debit: total creditCard: aCreditCard.
-	
-	aCashier registerSale: aCart.! !
+	aCashier registerCart.! !
