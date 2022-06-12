@@ -1,0 +1,3988 @@
+
+
+----STARTUP---- (9 June 2022 19:50:40) as /home/clinux01/Documentos/linux64 (1)/CuisUniversity-5096.image!
+
+
+----End fileIn of /home/clinux01/Documentos/2022-1c/08-TusLibros/Iteracion2/TusLibros-33.st----!
+
+TestCase subclass: #InterfaceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #InterfaceTest category: 'TusLibros' stamp: 'edrr 6/9/2022 19:53:53'!
+TestCase subclass: #InterfaceTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/9/2022 19:58:03'!
+Object subclass: #Interface
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InterfaceTest methodsFor: 'nil' stamp: 'edrr 6/9/2022 19:58:55'!
+test01
+	
+	| cartId interface |
+	interface := Interface new.
+	cartId := interface createCartForClientId: '' password: ''.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:00:28' prior: 50474666!
+test01
+	
+	| cartId interface |
+	interface := Interface new.
+	cartId := interface createCartForClientId: 'clienteValido' password: 'passwordValido'.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:00:39'!
+ERROR!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:00:49'!
+createCartForClientId: aString password: aString2 
+	self shouldBeImplemented.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:01:23' prior: 50474688!
+createCartForClientId: aClientId password: aPassword 
+	! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:01:43' prior: 50474694!
+createCartForClientId: aClientId password: aPassword 
+	^1.! !
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:01:45'!
+ERROR!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:01:50'!
+listCart: aSmallInteger 
+	self shouldBeImplemented.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:02:16' prior: 50474706!
+listCart: aCartId
+	^OrderedCollection new.! !
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:02:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:02:17'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:02:28'!
+test02
+	
+	| cartId interface |
+	interface := Interface new.
+	cartId := interface createCartForClientId: 'clienteValido' password: 'passwordValido'.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:02:55' prior: 50474720!
+test02
+	
+	| cartId interface |
+	interface := Interface new.
+	cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:04:36' prior: 50474731!
+test02
+	
+	| cartId interface |
+	interface := Interface new.
+	
+	self should: [interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error 
+		withExceptionDo: [].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:05:25' prior: 50474742!
+test02
+	
+	| interface |
+	interface := Interface new.
+	
+	self should: [interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error 
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:07:05' prior: 50474752!
+test02
+	
+	| interface cartId |
+	interface := Interface new.
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error 
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].! !
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:07:17'!
+FAILURE!
+
+!classDefinition: #InterfaceTest category: 'TusLibros' stamp: 'edrr 6/9/2022 20:10:46'!
+TestCase subclass: #InterfaceTest
+	instanceVariableNames: 'loginBehavior'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:10:45' prior: 50474764!
+test02
+	
+	| interface cartId |
+	interface := Interface new.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidClientIdErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error 
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].! !
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:11:19'!
+FAILURE!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:11:19'!
+FAILURE!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:12:11' prior: 50474699!
+createCartForClientId: aClientId password: aPassword 
+	self loginClientId: aClientId password: aPassword.
+	^1.! !
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:12:13'!
+ERROR!
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:12:31'!
+invalidClientIdErrorMessage
+	self shouldBeImplemented.! !
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:12:47' prior: 50474817!
+invalidClientIdErrorMessage
+	'invalid clientId'! !
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:12:52' prior: 50474822!
+invalidClientIdErrorMessage
+	^'invalid clientId'! !
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:12:53'!
+FAILURE!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:13:06'!
+FAILURE!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:13:06'!
+FAILURE!
+
+anError messageText!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:14:04'!
+FAILURE!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:14:37' prior: 50474787!
+test02
+	
+	| interface cartId |
+	interface := Interface new.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidClientIdErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].! !
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:14:51'!
+ERROR!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:14:51'!
+ERROR!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:14:56'!
+loginClientId: aString password: aString2 
+	self shouldBeImplemented.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:18:11' prior: 50474842!
+test02
+	
+	| interface cartId |
+	interface := Interface withLoginService: self.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidClientIdErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].! !
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:18:34'!
+ERROR!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:18:34'!
+ERROR!
+!Interface class methodsFor: 'instance creation' stamp: 'edrr 6/9/2022 20:18:41'!
+withLoginService: anInterfaceTest 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWithLoginService: anInterfaceTest ! !
+!Interface class methodsFor: 'instance creation' stamp: 'edrr 6/9/2022 20:18:47' prior: 50474891!
+withLoginService: anInterfaceTest 
+	
+	^self new initializeWithLoginService: anInterfaceTest ! !
+!Interface class methodsFor: 'instance creation' stamp: 'edrr 6/9/2022 20:18:56' prior: 50474900!
+withLoginService: aLoginService 
+	
+	^self new initializeWithLoginService: aLoginService ! !
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:19:01'!
+ERROR!
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/9/2022 20:19:05'!
+Object subclass: #Interface
+	instanceVariableNames: 'loginService'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Interface methodsFor: 'initialization' stamp: 'edrr 6/9/2022 20:19:05'!
+initializeWithLoginService: aLoginService 
+	self shouldBeImplemented.
+	loginService := aLoginService.! !
+!Interface methodsFor: 'initialization' stamp: 'edrr 6/9/2022 20:19:09' prior: 50474922!
+initializeWithLoginService: aLoginService 
+	
+	loginService := aLoginService.! !
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:19:10'!
+FAILURE!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:19:16'!
+FAILURE!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:19:16'!
+FAILURE!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:19:32' prior: 50474808!
+createCartForClientId: aClientId password: aPassword 
+	loginService loginClientId: aClientId password: aPassword.
+	^1.! !
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:19:34'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:19:41'!
+loginClientId: aString password: aString2 
+	self shouldBeImplemented.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:20:15' prior: 50474951!
+loginClientId: aClientId password: aPassword 
+	loginBehavior value: aClientId  value: aPassword.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:20:33' prior: 50474957!
+loginClientId: aClientId password: aPassword 
+	^loginBehavior value: aClientId  value: aPassword.! !
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:20:35'!
+PASSED!
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:20:39'!
+ERROR!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:20:39'!
+PASSED!
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:20:39'!
+ERROR!
+!InterfaceTest methodsFor: 'nil' stamp: 'edrr 6/9/2022 20:21:35' overrides: 16961394!
+setUp 
+
+	loginBehavior := [ :anAmount :aCreditCard | ]! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:21:45' prior: 50474980 overrides: 16961394!
+setUp 
+
+	loginBehavior := [ :aClientId :aPassword | ]! !
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:21:50'!
+PASSED!
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:21:54'!
+ERROR!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:21:54'!
+PASSED!
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:21:54'!
+ERROR!
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:21:58'!
+ERROR!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:21:58'!
+PASSED!
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:21:58'!
+ERROR!
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:22:25'!
+ERROR!
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:22:25'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:22:40' prior: 50474676!
+test01
+	
+	| cartId interface |
+	interface := Interface withLoginService: self.
+	cartId := interface createCartForClientId: 'clienteValido' password: 'passwordValido'.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:22:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:22:44'!
+PASSED!
+
+!testRun: #InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:22:44'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:23:15'!
+test03
+	
+	| interface cartId |
+	interface := Interface withLoginService: self.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidPasswordErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteValido' password: 'passwordNoValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidPasswordErrorMessage.
+			self assert: cartId isNil].! !
+
+!testRun: #InterfaceTest #test03 stamp: 'edrr 6/9/2022 20:23:27'!
+ERROR!
+
+!testRun: #InterfaceTest #test03 stamp: 'edrr 6/9/2022 20:23:27'!
+ERROR!
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:23:32'!
+invalidPasswordErrorMessage
+	self shouldBeImplemented.! !
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:23:43' prior: 50475052!
+invalidPasswordErrorMessage
+	'invalid password'! !
+
+!testRun: #InterfaceTest #test03 stamp: 'edrr 6/9/2022 20:23:44'!
+PASSED!
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:23:53' prior: 50475057!
+invalidPasswordErrorMessage
+	^'invalid password'! !
+
+!testRun: #InterfaceTest #test03 stamp: 'edrr 6/9/2022 20:23:57'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:24:44'!
+test01CreateCartListsNoBooks
+	
+	| cartId interface |
+	interface := Interface withLoginService: self.
+	cartId := interface createCartForClientId: 'clienteValido' password: 'passwordValido'.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+
+!methodRemoval: InterfaceTest #test01 stamp: 'edrr 6/9/2022 20:24:44'!
+test01
+	
+	| cartId interface |
+	interface := Interface withLoginService: self.
+	cartId := interface createCartForClientId: 'clienteValido' password: 'passwordValido'.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:25:00'!
+test01NewCartListsNoBooks
+	
+	| cartId interface |
+	interface := Interface withLoginService: self.
+	cartId := interface createCartForClientId: 'clienteValido' password: 'passwordValido'.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+
+!methodRemoval: InterfaceTest #test01CreateCartListsNoBooks stamp: 'edrr 6/9/2022 20:25:00'!
+test01CreateCartListsNoBooks
+	
+	| cartId interface |
+	interface := Interface withLoginService: self.
+	cartId := interface createCartForClientId: 'clienteValido' password: 'passwordValido'.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:25:17'!
+test02CreateCartWithINvalidClient
+	
+	| interface cartId |
+	interface := Interface withLoginService: self.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidClientIdErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].! !
+
+!methodRemoval: InterfaceTest #test02 stamp: 'edrr 6/9/2022 20:25:17'!
+test02
+	
+	| interface cartId |
+	interface := Interface withLoginService: self.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidClientIdErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:25:23'!
+test02CreateCartWithInvalidClient
+	
+	| interface cartId |
+	interface := Interface withLoginService: self.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidClientIdErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].! !
+
+!methodRemoval: InterfaceTest #test02CreateCartWithINvalidClient stamp: 'edrr 6/9/2022 20:25:23'!
+test02CreateCartWithINvalidClient
+	
+	| interface cartId |
+	interface := Interface withLoginService: self.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidClientIdErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:25:36'!
+test03CreateCartWithInvalidPassword
+	
+	| interface cartId |
+	interface := Interface withLoginService: self.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidPasswordErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteValido' password: 'passwordNoValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidPasswordErrorMessage.
+			self assert: cartId isNil].! !
+
+!methodRemoval: InterfaceTest #test03 stamp: 'edrr 6/9/2022 20:25:36'!
+test03
+	
+	| interface cartId |
+	interface := Interface withLoginService: self.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidPasswordErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteValido' password: 'passwordNoValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidPasswordErrorMessage.
+			self assert: cartId isNil].!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:28:03'!
+test04NewCartListsNoBooks
+	
+	| cartId1 interface cartId2 |
+	interface := Interface withLoginService: self.
+	cartId1 := interface createCartForClientId: 'clienteValido' password: 'passwordValido'.
+	cartId2 := interface createCartForClientId: 'clienteValido' password: 'passwordValido'.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId1).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:28:49'!
+createCartWithValidCredentials: interface
+
+	^ interface createCartForClientId: 'clienteValido' password: 'passwordValido'! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:28:49' prior: 50475093!
+test01NewCartListsNoBooks
+	
+	| cartId interface |
+	interface := Interface withLoginService: self.
+	cartId := self createCartWithValidCredentials: interface.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:28:49' prior: 50475223!
+test04NewCartListsNoBooks
+	
+	| cartId1 interface cartId2 |
+	interface := Interface withLoginService: self.
+	cartId1 := self createCartWithValidCredentials: interface.
+	cartId2 := interface createCartForClientId: 'clienteValido' password: 'passwordValido'.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId1).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:28:49' prior: 50475255!
+test04NewCartListsNoBooks
+	
+	| cartId1 interface cartId2 |
+	interface := Interface withLoginService: self.
+	cartId1 := self createCartWithValidCredentials: interface.
+	cartId2 := self createCartWithValidCredentials: interface.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId1).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:29:23'!
+createCartWithValidCredentialsWithInterface: interface
+
+	^ interface createCartForClientId: 'clienteValido' password: 'passwordValido'! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:29:23' prior: 50475269!
+test04NewCartListsNoBooks
+	
+	| cartId1 interface cartId2 |
+	interface := Interface withLoginService: self.
+	cartId1 := self createCartWithValidCredentialsWithInterface: interface.
+	cartId2 := self createCartWithValidCredentialsWithInterface: interface.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId1).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:29:23' prior: 50475244!
+test01NewCartListsNoBooks
+	
+	| cartId interface |
+	interface := Interface withLoginService: self.
+	cartId := self createCartWithValidCredentialsWithInterface: interface.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+
+!methodRemoval: InterfaceTest #createCartWithValidCredentials: stamp: 'edrr 6/9/2022 20:29:23'!
+createCartWithValidCredentials: interface
+
+	^ interface createCartForClientId: 'clienteValido' password: 'passwordValido'!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:30:09'!
+createCartWithInterface: interface
+
+	^ interface createCartForClientId: 'clienteValido' password: 'passwordValido'! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:30:09' prior: 50475304!
+test01NewCartListsNoBooks
+	
+	| cartId interface |
+	interface := Interface withLoginService: self.
+	cartId := self createCartWithInterface: interface.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:30:09' prior: 50475290!
+test04NewCartListsNoBooks
+	
+	| cartId1 interface cartId2 |
+	interface := Interface withLoginService: self.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId1).! !
+
+!methodRemoval: InterfaceTest #createCartWithValidCredentialsWithInterface: stamp: 'edrr 6/9/2022 20:30:09'!
+createCartWithValidCredentialsWithInterface: interface
+
+	^ interface createCartForClientId: 'clienteValido' password: 'passwordValido'!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:31:30' prior: 50475340!
+test04NewCartListsNoBooks
+	
+	| cartId1 interface cartId2 |
+	interface := Interface withLoginService: self.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	
+	self deny: cartId1 = cartId2.! !
+
+!testRun: #InterfaceTest #test04NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:31:47'!
+FAILURE!
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/9/2022 20:33:36'!
+Object subclass: #Interface
+	instanceVariableNames: 'loginService currentCartId'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:33:33' prior: 50474942!
+createCartForClientId: aClientId password: aPassword 
+	loginService loginClientId: aClientId password: aPassword.
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+
+!methodRemoval: Interface #loginClientId:password: stamp: 'edrr 6/9/2022 20:34:14'!
+loginClientId: aString password: aString2 
+	self shouldBeImplemented.!
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/9/2022 20:34:26'!
+Object subclass: #Interface
+	instanceVariableNames: 'loginService currentCartId currentCart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Interface methodsFor: 'initialization' stamp: 'edrr 6/9/2022 20:34:24' prior: 50474929!
+initializeWithLoginService: aLoginService 
+	
+	loginService := aLoginService.
+	currentCart := 0.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:34:37' prior: 50475382!
+createCartForClientId: aClientId password: aPassword 
+	loginService loginClientId: aClientId password: aPassword.
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+!Interface methodsFor: 'initialization' stamp: 'edrr 6/9/2022 20:34:41' prior: 50475403!
+initializeWithLoginService: aLoginService 
+	
+	loginService := aLoginService.
+	currentCartId := 0.! !
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/9/2022 20:34:53'!
+Object subclass: #Interface
+	instanceVariableNames: 'loginService currentCartId'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!testRun: #InterfaceTest #test04NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:34:59'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:35:02'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/9/2022 20:35:02'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/9/2022 20:35:02'!
+PASSED!
+
+!testRun: #InterfaceTest #test04NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:35:02'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:35:46'!
+test04TwoCartsHaveDiffentCardId
+	
+	| cartId1 interface cartId2 |
+	interface := Interface withLoginService: self.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	
+	self deny: cartId1 = cartId2.! !
+
+!methodRemoval: InterfaceTest #test04NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:35:46'!
+test04NewCartListsNoBooks
+	
+	| cartId1 interface cartId2 |
+	interface := Interface withLoginService: self.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	
+	self deny: cartId1 = cartId2.!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:40:03'!
+test05NewCartListsNoBooks
+	
+	| cartId interface |
+	interface := Interface withLoginService: self.
+	cartId := self createCartWithInterface: interface.
+	interface addToCart: cartId bookIsbn: '' bookQuantity: 1.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+
+!classDefinition: #InterfaceTest category: 'TusLibros' stamp: 'edrr 6/9/2022 20:40:49'!
+TestCase subclass: #InterfaceTest
+	instanceVariableNames: 'loginBehavior testObjectsFactory'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:40:47' prior: 50474986 overrides: 16961394!
+setUp 
+
+	testObjectsFactory := StoreTestObjectsFactory new.
+	loginBehavior := [ :aClientId :aPassword | ]! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:44:07' prior: 50475470!
+test05NewCartListsNoBooks
+	
+	| cartId interface book |
+	interface := Interface withLoginService: self.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId).! !
+
+!testRun: #InterfaceTest #test05NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:44:21'!
+ERROR!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:44:27'!
+addToCart: aSmallInteger bookIsbn: aString bookQuantity: aSmallInteger3 
+	self shouldBeImplemented.! !
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/9/2022 20:48:30'!
+Object subclass: #Interface
+	instanceVariableNames: 'loginService currentCartId cart'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:48:28' prior: 50475410!
+createCartForClientId: aClientId password: aPassword 
+	loginService loginClientId: aClientId password: aPassword.
+	cart := Cart acceptingItemsOf: ''.
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:49:31' prior: 50475498!
+test05NewCartListsNoBooks
+	
+	| cartId interface book |
+	interface := Interface withLoginService: self withCatalog: testObjectsFactory defaultCatalog.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId).! !
+
+!testRun: #InterfaceTest #test05NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:49:51'!
+ERROR!
+
+!testRun: #InterfaceTest #test05NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:49:51'!
+ERROR!
+!Interface class methodsFor: 'instance creation' stamp: 'edrr 6/9/2022 20:50:52'!
+withLoginService: aLoginService withCatalog: aCatalog  
+	
+	^self new initializeWithLoginService: aLoginService ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:50:52' prior: 50475188!
+test03CreateCartWithInvalidPassword
+	
+	| interface cartId |
+	interface := Interface withLoginService: self withCatalog: 1.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidPasswordErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteValido' password: 'passwordNoValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidPasswordErrorMessage.
+			self assert: cartId isNil].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:50:52' prior: 50475329!
+test01NewCartListsNoBooks
+	
+	| cartId interface |
+	interface := Interface withLoginService: self withCatalog: 1.
+	cartId := self createCartWithInterface: interface.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:50:52' prior: 50475448!
+test04TwoCartsHaveDiffentCardId
+	
+	| cartId1 interface cartId2 |
+	interface := Interface withLoginService: self withCatalog: 1.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	
+	self deny: cartId1 = cartId2.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:50:52' prior: 50475151!
+test02CreateCartWithInvalidClient
+	
+	| interface cartId |
+	interface := Interface withLoginService: self withCatalog: 1.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidClientIdErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].! !
+
+!methodRemoval: Interface class #withLoginService: stamp: 'edrr 6/9/2022 20:50:52'!
+withLoginService: aLoginService 
+	
+	^self new initializeWithLoginService: aLoginService !
+
+!testRun: #InterfaceTest #test05NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:51:16'!
+ERROR!
+
+!testRun: #InterfaceTest #test05NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:51:16'!
+ERROR!
+!Interface methodsFor: 'initialization' stamp: 'edrr 6/9/2022 20:52:15'!
+initializeWithLoginService: aLoginService withCatalog: aCatalog  
+	
+	loginService := aLoginService.
+	currentCartId := 0.! !
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:52:15' prior: 50475560!
+withLoginService: aLoginService withCatalog: aCatalog  
+	
+	^self new initializeWithLoginService: aLoginService withCatalog: 1 ! !
+
+!methodRemoval: Interface #initializeWithLoginService: stamp: 'edrr 6/9/2022 20:52:15'!
+initializeWithLoginService: aLoginService 
+	
+	loginService := aLoginService.
+	currentCartId := 0.!
+!Interface class methodsFor: 'instance creation' stamp: 'edrr 6/9/2022 20:52:22' prior: 50475646!
+withLoginService: aLoginService withCatalog: aCatalog  
+	
+	^self new initializeWithLoginService: aLoginService withCatalog: aCatalog. ! !
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/9/2022 20:52:46'!
+Object subclass: #Interface
+	instanceVariableNames: 'loginService currentCartId cart catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Interface methodsFor: 'initialization' stamp: 'edrr 6/9/2022 20:52:44' prior: 50475639!
+initializeWithLoginService: aLoginService withCatalog: aCatalog  
+	
+	loginService := aLoginService.
+	currentCartId := 0.
+	catalog := aCatalog.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:52:59' prior: 50475529!
+createCartForClientId: aClientId password: aPassword 
+	loginService loginClientId: aClientId password: aPassword.
+	cart := Cart acceptingItemsOf: catalog.
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:55:11' prior: 50475515!
+addToCart: aCartId bookIsbn: aBookIsbn bookQuantity: aQuantity 
+	cart add: aQuantity of: aBookIsbn.! !
+
+!testRun: #InterfaceTest #test05NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:55:19'!
+FAILURE!
+
+!testRun: #InterfaceTest #test05NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:55:19'!
+FAILURE!
+!Cart methodsFor: 'nil' stamp: 'edrr 6/9/2022 20:58:02'!
+items
+	^items copy.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:58:22' prior: 50474711!
+listCart: aCartId
+	^cart items.! !
+
+!testRun: #InterfaceTest #test05NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:58:33'!
+PASSED!
+
+!testRun: #InterfaceTest #test05NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:58:39'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:58:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/9/2022 20:58:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/9/2022 20:58:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/9/2022 20:58:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test05NewCartListsNoBooks stamp: 'edrr 6/9/2022 20:58:42'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:58:58' prior: 50475597!
+test04TwoCartsHaveDiffentCardId
+	
+	| cartId1 interface cartId2 |
+	interface := Interface withLoginService: self withCatalog: testObjectsFactory defaultCatalog.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	
+	self deny: cartId1 = cartId2.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:59:04' prior: 50475567!
+test03CreateCartWithInvalidPassword
+	
+	| interface cartId |
+	interface := Interface withLoginService: self withCatalog: testObjectsFactory defaultCatalog.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidPasswordErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteValido' password: 'passwordNoValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidPasswordErrorMessage.
+			self assert: cartId isNil].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:59:07' prior: 50475609!
+test02CreateCartWithInvalidClient
+	
+	| interface cartId |
+	interface := Interface withLoginService: self withCatalog: testObjectsFactory defaultCatalog.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidClientIdErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:59:11' prior: 50475586!
+test01NewCartListsNoBooks
+	
+	| cartId interface |
+	interface := Interface withLoginService: self withCatalog: testObjectsFactory defaultCatalog.
+	cartId := self createCartWithInterface: interface.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:59:32'!
+createInterface
+
+	^ Interface withLoginService: self withCatalog: testObjectsFactory defaultCatalog! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:59:32' prior: 50475786!
+test01NewCartListsNoBooks
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self assert: OrderedCollection new equals: (interface listCart: cartId).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:59:32' prior: 50475766!
+test02CreateCartWithInvalidClient
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidClientIdErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:59:32' prior: 50475746!
+test03CreateCartWithInvalidPassword
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	loginBehavior := [ :aClientId :aPassword | self error: Interface invalidPasswordErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteValido' password: 'passwordNoValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidPasswordErrorMessage.
+			self assert: cartId isNil].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:59:32' prior: 50475539!
+test05NewCartListsNoBooks
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 20:59:32' prior: 50475733!
+test04TwoCartsHaveDiffentCardId
+	
+	| cartId1 interface cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	
+	self deny: cartId1 = cartId2.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:00:28'!
+test05ListAddedBookToCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId).! !
+
+!methodRemoval: InterfaceTest #test05NewCartListsNoBooks stamp: 'edrr 6/9/2022 21:00:28'!
+test05NewCartListsNoBooks
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId).!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:00:58'!
+test05ListCartWithAddedBook
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId).! !
+
+!methodRemoval: InterfaceTest #test05ListAddedBookToCart stamp: 'edrr 6/9/2022 21:00:58'!
+test05ListAddedBookToCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId).!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:02:48'!
+test06ListCartWithAddedBook
+	
+	| cartId1 interface book cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	interface addToCart: cartId2 bookIsbn: book bookQuantity: 1.
+	
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId1).
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId2).! !
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:02:55'!
+FAILURE!
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/9/2022 21:06:01'!
+Object subclass: #Interface
+	instanceVariableNames: 'loginService currentCartId cart catalog cart2'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:05:59' prior: 50475682!
+createCartForClientId: aClientId password: aPassword 
+	loginService loginClientId: aClientId password: aPassword.
+	cart := Cart acceptingItemsOf: catalog.
+	cart2 := Cart acceptingItemsOf: catalog.
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:06:12'!
+FAILURE!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:09:04' prior: 50475692!
+addToCart: aCartId bookIsbn: aBookIsbn bookQuantity: aQuantity 
+	aCartId = 1 ifTrue: [cart add: aQuantity of: aBookIsbn].
+	aCartId = 2 ifTrue: [cart2 add: aQuantity of: aBookIsbn].! !
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:09:10'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/9/2022 21:09:10'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/9/2022 21:09:10'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/9/2022 21:09:10'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/9/2022 21:09:10'!
+PASSED!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:09:10'!
+PASSED!
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:09:10'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/9/2022 21:09:13'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/9/2022 21:09:13'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/9/2022 21:09:13'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/9/2022 21:09:13'!
+PASSED!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:09:13'!
+PASSED!
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:09:13'!
+PASSED!
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/9/2022 21:09:53'!
+Object subclass: #Interface
+	instanceVariableNames: 'loginService currentCartId cart catalog cart2 carts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Interface methodsFor: 'initialization' stamp: 'edrr 6/9/2022 21:09:50' prior: 50475674!
+initializeWithLoginService: aLoginService withCatalog: aCatalog  
+	
+	loginService := aLoginService.
+	currentCartId := 0.
+	catalog := aCatalog.
+	carts := OrderedCollection new.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:10:13' prior: 50475964!
+createCartForClientId: aClientId password: aPassword 
+	loginService loginClientId: aClientId password: aPassword.
+	carts := Cart acceptingItemsOf: catalog.
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:10:24' prior: 50476044!
+createCartForClientId: aClientId password: aPassword 
+	loginService loginClientId: aClientId password: aPassword.
+	carts add: (Cart acceptingItemsOf: catalog).
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:10:31' prior: 50476054!
+createCartForClientId: aClientId password: aPassword 
+	loginService loginClientId: aClientId password: aPassword.
+	
+	carts add: (Cart acceptingItemsOf: catalog).
+	
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:11:34' prior: 50475978!
+addToCart: aCartId bookIsbn: aBookIsbn bookQuantity: aQuantity 
+	(carts at: 1) add: aQuantity of: aBookIsbn.! !
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/9/2022 21:11:39'!
+ERROR!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/9/2022 21:11:39'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/9/2022 21:11:39'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/9/2022 21:11:39'!
+PASSED!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:11:39'!
+ERROR!
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:11:39'!
+ERROR!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/9/2022 21:11:44'!
+ERROR!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:12:00' prior: 50475707!
+listCart: aCartId
+	^(carts at: aCartId) items.! !
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/9/2022 21:12:01'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/9/2022 21:12:02'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/9/2022 21:12:02'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/9/2022 21:12:02'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/9/2022 21:12:02'!
+PASSED!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:12:02'!
+PASSED!
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:12:02'!
+FAILURE!
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:12:02'!
+FAILURE!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/9/2022 21:12:08'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/9/2022 21:12:08'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/9/2022 21:12:08'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/9/2022 21:12:08'!
+PASSED!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:12:08'!
+PASSED!
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:12:08'!
+FAILURE!
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:12:08'!
+FAILURE!
+
+carts at: aCartId!
+
+carts!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:14:24' prior: 50476074!
+addToCart: aCartId bookIsbn: aBookIsbn bookQuantity: aQuantity 
+	(carts at: aCartId) add: aQuantity of: aBookIsbn.! !
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:14:25'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/9/2022 21:14:27'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/9/2022 21:14:27'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/9/2022 21:14:27'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/9/2022 21:14:27'!
+PASSED!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:14:27'!
+PASSED!
+
+!testRun: #InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:14:27'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:14:53'!
+test06ListTwoCartsWithAddedBook
+	
+	| cartId1 interface book cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	interface addToCart: cartId2 bookIsbn: book bookQuantity: 1.
+	
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId1).
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId2).! !
+
+!methodRemoval: InterfaceTest #test06ListCartWithAddedBook stamp: 'edrr 6/9/2022 21:14:53'!
+test06ListCartWithAddedBook
+	
+	| cartId1 interface book cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	interface addToCart: cartId2 bookIsbn: book bookQuantity: 1.
+	
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId1).
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId2).!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:19:31'!
+test07AddBookToCartWithInvalidCartId
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (OrderedCollection with: book) equals: (interface listCart: cartId).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:20:03' prior: 50476223!
+test07AddBookToCartWithInvalidCartId
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: 'a' bookIsbn: book bookQuantity: 1.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:21:01' prior: 50476238!
+test07AddBookToCartWithInvalidCartId
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: 'a' bookIsbn: book bookQuantity: 1.] 
+		raise: Error 
+		withExceptionDo: []. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:21:18' prior: 50476250!
+test07AddBookToCartWithInvalidCartId
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: 'a' bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: []. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:22:28' prior: 50476264!
+test07AddBookToCartWithInvalidCartId
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: 'a' bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidCartIdErrorMessage.]. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:24:56' prior: 50476278!
+test07AddBookToCartWithInvalidCartId
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: 'a' bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidCartIdErrorMessage.]. ! !
+
+!testRun: #InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/9/2022 21:25:05'!
+ERROR!
+
+!testRun: #InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/9/2022 21:25:05'!
+ERROR!
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:25:10'!
+invalidCartIdErrorMessage
+	self shouldBeImplemented.! !
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:25:21' prior: 50476318!
+invalidCartIdErrorMessage
+	^'invalid card id'! !
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/9/2022 21:25:24' prior: 50476323!
+invalidCartIdErrorMessage
+	^'invalid cart id'! !
+
+!testRun: #InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/9/2022 21:25:42'!
+FAILURE!
+
+----QUIT----(9 June 2022 21:25:50) CuisUniversity-5096.image priorSource: 4557982!
+
+----STARTUP---- (11 June 2022 17:28:09) as /home/manuel/Facultad/Inge1_1C2022/Ejercicios/linux64 (2)/CuisUniversity-5096.image!
+
+
+----End fileIn of /home/manuel/Descargas/tus libros it3/TusLibros.st----!
+
+!classDefinition: #InterfaceTest category: 'TusLibros' stamp: 'edrr 6/11/2022 18:47:34'!
+TestCase subclass: #InterfaceTest
+	instanceVariableNames: 'authBehavior testObjectsFactory'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:47:34' prior: 50474369!
+loginClientId: aClientId password: aPassword 
+	^authBehavior value: aClientId  value: aPassword.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:47:34' prior: 50474410!
+test03CreateCartWithInvalidPassword
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | self error: Interface invalidPasswordErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteValido' password: 'passwordNoValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidPasswordErrorMessage.
+			self assert: cartId isNil].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:47:34' prior: 50474376 overrides: 16961394!
+setUp 
+
+	testObjectsFactory := StoreTestObjectsFactory new.
+	authBehavior := [ :aClientId :aPassword | ]! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:47:34' prior: 50474392!
+test02CreateCartWithInvalidClient
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | self error: Interface invalidClientIdErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:48:57' prior: 50474914!
+test02CreateCartWithInvalidClient
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | false].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidClientIdErrorMessage.
+			self assert: cartId isNil].! !
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/11/2022 18:49:26'!
+Object subclass: #Interface
+	instanceVariableNames: 'authService currentCartId cart catalog cart2 carts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:49:26' prior: 50474727!
+createCartForClientId: aClientId password: aPassword 
+	authService loginClientId: aClientId password: aPassword.
+	
+	carts add: (Cart acceptingItemsOf: catalog).
+	
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:49:26' prior: 50474741!
+initializeWithLoginService: aLoginService withCatalog: aCatalog  
+	
+	authService := aLoginService.
+	currentCartId := 0.
+	catalog := aCatalog.
+	carts := OrderedCollection new.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:49:51'!
+validateClientId: aClientId password: aPassword 
+	^authBehavior value: aClientId  value: aPassword.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:49:51' prior: 50474958!
+createCartForClientId: aClientId password: aPassword 
+	authService validateClientId: aClientId password: aPassword.
+	
+	carts add: (Cart acceptingItemsOf: catalog).
+	
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+
+!methodRemoval: InterfaceTest #loginClientId:password: stamp: 'edrr 6/11/2022 18:49:51'!
+loginClientId: aClientId password: aPassword 
+	^authBehavior value: aClientId  value: aPassword.!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:51:21' prior: 50474984!
+createCartForClientId: aClientId password: aPassword 
+	(authService validateClientId: aClientId password: aPassword) ifFalse: [self error: self class invalidAuthenticationErrorMessage ].
+	
+	carts add: (Cart acceptingItemsOf: catalog).
+	
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:52:19' prior: 50474933!
+test02CreateCartWithInvalidClient
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | false].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidAuthenticationErrorMessage.
+			self assert: cartId isNil].! !
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/11/2022 18:52:23'!
+ERROR!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/11/2022 18:52:23'!
+ERROR!
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:52:29'!
+invalidAuthenticationErrorMessage
+	self shouldBeImplemented.! !
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:52:47' prior: 50475036!
+invalidAuthenticationErrorMessage
+	^'authentication error'! !
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/11/2022 18:52:52'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/11/2022 18:52:55'!
+PASSED!
+
+!methodRemoval: InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/11/2022 18:53:17'!
+test03CreateCartWithInvalidPassword
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | self error: Interface invalidPasswordErrorMessage].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteValido' password: 'passwordNoValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidPasswordErrorMessage.
+			self assert: cartId isNil].!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:53:35'!
+test02CreateCartWithInvalidAuthentication
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | false].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidAuthenticationErrorMessage.
+			self assert: cartId isNil].! !
+
+!methodRemoval: InterfaceTest #test02CreateCartWithInvalidClient stamp: 'edrr 6/11/2022 18:53:35'!
+test02CreateCartWithInvalidClient
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | false].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: 'passwordValido'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidAuthenticationErrorMessage.
+			self assert: cartId isNil].!
+!Cart methodsFor: 'initialization' stamp: 'edrr 6/11/2022 18:58:34' prior: 50474524!
+initializeAcceptingItemsOf: aCatalog
+
+	catalog := aCatalog.
+	items := Bag new.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/11/2022 18:58:39'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/11/2022 18:58:39'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/11/2022 18:58:39'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/11/2022 18:58:39'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/11/2022 18:58:39'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/11/2022 18:58:39'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/11/2022 18:58:39'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/11/2022 18:58:39'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'edrr 6/11/2022 18:58:46'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'edrr 6/11/2022 18:58:46'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'edrr 6/11/2022 18:58:46'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'edrr 6/11/2022 18:58:46'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'edrr 6/11/2022 18:58:46'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'edrr 6/11/2022 18:58:46'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 18:58:50'!
+ERROR!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 18:58:50'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 18:58:50'!
+ERROR!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/11/2022 18:58:50'!
+ERROR!
+
+!testRun: #InterfaceTest #test06ListTwoCartsWithAddedBook stamp: 'edrr 6/11/2022 18:58:50'!
+ERROR!
+
+!testRun: #InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/11/2022 18:58:50'!
+ERROR!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 18:58:54'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 18:59:05' prior: 50474382!
+test01NewCartListsNoBooks
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self assert: Bag new equals: (interface listCart: cartId).! !
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 18:59:06'!
+ERROR!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 18:59:10'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 18:59:10'!
+ERROR!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 18:59:10'!
+ERROR!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/11/2022 18:59:10'!
+ERROR!
+
+!testRun: #InterfaceTest #test06ListTwoCartsWithAddedBook stamp: 'edrr 6/11/2022 18:59:10'!
+ERROR!
+
+!testRun: #InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/11/2022 18:59:10'!
+ERROR!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 18:59:13'!
+ERROR!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 19:00:35'!
+ERROR!
+!CashierTest methodsFor: 'setup' stamp: 'edrr 6/11/2022 19:00:43' prior: 50474330 overrides: 16961394!
+setUp 
+
+	testObjectsFactory := StoreTestObjectsFactory new.
+	debitBehavior := [ :anAmount :aCreditCard | true]! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 19:00:50'!
+ERROR!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 19:00:50'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 19:00:51'!
+ERROR!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/11/2022 19:00:51'!
+ERROR!
+
+!testRun: #InterfaceTest #test06ListTwoCartsWithAddedBook stamp: 'edrr 6/11/2022 19:00:51'!
+ERROR!
+
+!testRun: #InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:00:51'!
+ERROR!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 19:00:53'!
+ERROR!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 19:01:04'!
+ERROR!
+!CashierTest methodsFor: 'setup' stamp: 'edrr 6/11/2022 19:01:29' prior: 50475310 overrides: 16961394!
+setUp 
+
+	testObjectsFactory := StoreTestObjectsFactory new.
+	debitBehavior := [ :anAmount :aCreditCard | true].! !
+!CashierTest methodsFor: 'setup' stamp: 'HernanWilkinson 6/17/2013 19:03' prior: 50475388 overrides: 16961394!
+setUp 
+
+	testObjectsFactory := StoreTestObjectsFactory new.
+	debitBehavior := [ :anAmount :aCreditCard | ]! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:01:53' prior: 50474907 overrides: 16961394!
+setUp 
+
+	testObjectsFactory := StoreTestObjectsFactory new.
+	authBehavior := [ :aClientId :aPassword | true].! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 19:01:56'!
+PASSED!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/11/2022 19:01:56'!
+FAILURE!
+
+!testRun: #InterfaceTest #test06ListTwoCartsWithAddedBook stamp: 'edrr 6/11/2022 19:01:56'!
+FAILURE!
+
+!testRun: #InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:01:56'!
+FAILURE!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 19:02:07'!
+PASSED!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/11/2022 19:02:07'!
+FAILURE!
+
+!testRun: #InterfaceTest #test06ListTwoCartsWithAddedBook stamp: 'edrr 6/11/2022 19:02:07'!
+FAILURE!
+
+!testRun: #InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:02:07'!
+FAILURE!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:02:17' prior: 50474439!
+test05ListCartWithAddedBook
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (Bag with: book) equals: (interface listCart: cartId).! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/11/2022 19:02:19'!
+PASSED!
+
+!testRun: #InterfaceTest #test06ListTwoCartsWithAddedBook stamp: 'edrr 6/11/2022 19:02:19'!
+FAILURE!
+
+!testRun: #InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:02:19'!
+FAILURE!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:02:33' prior: 50474453!
+test06ListTwoCartsWithAddedBook
+	
+	| cartId1 interface book cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	interface addToCart: cartId2 bookIsbn: book bookQuantity: 1.
+	
+	self assert: (Bag with: book) equals: (interface listCart: cartId1).
+	self assert: (Bag with: book) equals: (interface listCart: cartId2).! !
+
+!testRun: #InterfaceTest #test06ListTwoCartsWithAddedBook stamp: 'edrr 6/11/2022 19:02:34'!
+PASSED!
+
+!testRun: #InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:02:49'!
+FAILURE!
+!Interface methodsFor: 'initialization' stamp: 'edrr 6/11/2022 19:05:09' prior: 50474968!
+initializeWithLoginService: aLoginService withCatalog: aCatalog  
+	
+	authService := aLoginService.
+	currentCartId := 0.
+	catalog := aCatalog.
+	carts := Dictionary new.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:06:48' prior: 50475000!
+createCartForClientId: aClientId password: aPassword 
+	(authService validateClientId: aClientId password: aPassword) ifFalse: [self error: self class invalidAuthenticationErrorMessage ].
+	
+	carts at: currentCartId put: (Cart acceptingItemsOf: catalog).
+	
+	currentCartId := currentCartId + 1.
+	^currentCartId.
+	! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:07:38' prior: 50475655!
+createCartForClientId: aClientId password: aPassword 
+	(authService validateClientId: aClientId password: aPassword) ifFalse: [self error: self class invalidAuthenticationErrorMessage ].
+	
+	currentCartId := currentCartId + 1.
+	
+	carts at: currentCartId put: (Cart acceptingItemsOf: catalog).
+	
+	^currentCartId.
+	! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:11:01' prior: 50474720!
+addToCart: aCartId bookIsbn: aBookIsbn bookQuantity: aQuantity 
+	(carts includesKey: aCartId) ifFalse: [self error: self class invalidCartIdErrorMessage].
+	(carts at: aCartId) add: aQuantity of: aBookIsbn.! !
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 19:11:06'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 19:11:06'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 19:11:06'!
+PASSED!
+
+!testRun: #InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/11/2022 19:11:06'!
+PASSED!
+
+!testRun: #InterfaceTest #test06ListTwoCartsWithAddedBook stamp: 'edrr 6/11/2022 19:11:06'!
+PASSED!
+
+!testRun: #InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:11:06'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:11:56'!
+test04TwoCreatedCartsHaveDiffentCardId
+	
+	| cartId1 interface cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	
+	self deny: cartId1 = cartId2.! !
+
+!methodRemoval: InterfaceTest #test04TwoCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 19:11:56'!
+test04TwoCartsHaveDiffentCardId
+	
+	| cartId1 interface cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	
+	self deny: cartId1 = cartId2.!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:12:35'!
+test05AddBookToValidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (Bag with: book) equals: (interface listCart: cartId).! !
+
+!methodRemoval: InterfaceTest #test05ListCartWithAddedBook stamp: 'edrr 6/11/2022 19:12:35'!
+test05ListCartWithAddedBook
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (Bag with: book) equals: (interface listCart: cartId).!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:13:18'!
+test06AddBookToTwoValidCarts
+	
+	| cartId1 interface book cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	interface addToCart: cartId2 bookIsbn: book bookQuantity: 1.
+	
+	self assert: (Bag with: book) equals: (interface listCart: cartId1).
+	self assert: (Bag with: book) equals: (interface listCart: cartId2).! !
+
+!methodRemoval: InterfaceTest #test06ListTwoCartsWithAddedBook stamp: 'edrr 6/11/2022 19:13:18'!
+test06ListTwoCartsWithAddedBook
+	
+	| cartId1 interface book cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	interface addToCart: cartId2 bookIsbn: book bookQuantity: 1.
+	
+	self assert: (Bag with: book) equals: (interface listCart: cartId1).
+	self assert: (Bag with: book) equals: (interface listCart: cartId2).!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:13:55'!
+test07AddBookToInvalidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: 'a' bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidCartIdErrorMessage.]. ! !
+
+!methodRemoval: InterfaceTest #test07AddBookToCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:13:55'!
+test07AddBookToCartWithInvalidCartId
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: 'a' bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidCartIdErrorMessage.]. !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:14:30'!
+test08AddInvalidBookToCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: 'a' bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidCartIdErrorMessage.]. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:15:02' prior: 50475829!
+test08AddInvalidBookToCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemNotSellByTheStore.
+	
+	self should: [interface addToCart: cartId bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidCartIdErrorMessage.]. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:19:15' prior: 50475846!
+test08AddInvalidBookToCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemNotSellByTheStore.
+	
+	self should: [interface addToCart: cartId bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidItemErrorMessage.]. ! !
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 19:19:25'!
+ERROR!
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 19:19:25'!
+ERROR!
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:19:32'!
+invalidItemErrorMessage
+	self shouldBeImplemented.! !
+!Interface class methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:20:11' prior: 50475885!
+invalidItemErrorMessage
+	^'invalid book'! !
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 19:20:12'!
+FAILURE!
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 19:20:24'!
+FAILURE!
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 19:20:24'!
+FAILURE!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:25:05' prior: 50475863!
+test08AddInvalidBookToCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemNotSellByTheStore.
+	
+	self should: [interface addToCart: cartId bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cart new invalidItemErrorMessage.]. ! !
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 19:25:20'!
+PASSED!
+
+!methodRemoval: Interface class #invalidClientIdErrorMessage stamp: 'edrr 6/11/2022 19:26:01'!
+invalidClientIdErrorMessage
+	^'invalid clientId'!
+
+!methodRemoval: Interface class #invalidItemErrorMessage stamp: 'edrr 6/11/2022 19:26:07'!
+invalidItemErrorMessage
+	^'invalid book'!
+
+!methodRemoval: Interface class #invalidPasswordErrorMessage stamp: 'edrr 6/11/2022 19:26:12'!
+invalidPasswordErrorMessage
+	^'invalid password'!
+
+----SNAPSHOT----(11 June 2022 19:27:28) CuisUniversity-5096.image priorSource: 4557982!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:28:28'!
+test09AddBookWithInvalidQuantity
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: cartId bookIsbn: book bookQuantity: 0.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cart new invalidQuantityErrorMessage.]. ! !
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 19:28:32'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:30:03'!
+test10ListCartWithInvalidCartId
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: cartId bookIsbn: book bookQuantity: 0.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cart new invalidQuantityErrorMessage.]. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:31:17' prior: 50475959!
+test10ListCartWithInvalidCartId
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface listCart: 'a'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cart new invalidQuantityErrorMessage.]. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:31:28' prior: 50475976!
+test10ListCartWithInvalidCartId
+	
+	| interface |
+	interface := self createInterface.
+	
+	self should: [interface listCart: 'a'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cart new invalidQuantityErrorMessage.]. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:31:53' prior: 50475992!
+test10ListCartWithInvalidCartId
+	
+	| interface |
+	interface := self createInterface.
+	
+	self should: [interface listCart: 'a'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidCartIdErrorMessage.]. ! !
+
+!testRun: #InterfaceTest #test10ListCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:32:02'!
+FAILURE!
+
+!testRun: #InterfaceTest #test10ListCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:32:02'!
+FAILURE!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:33:08' prior: 50474737!
+listCart: aCartId
+	(carts includesKey: aCartId) ifFalse: [self error: self class invalidCartIdErrorMessage].
+	^(carts at: aCartId) items.! !
+
+!testRun: #InterfaceTest #test10ListCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:33:10'!
+PASSED!
+
+!testRun: #InterfaceTest #test10ListCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:33:12'!
+PASSED!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:34:16'!
+assertCartIdIsValid: aCartId
+
+	^ (carts includesKey: aCartId) ifFalse: [self error: self class invalidCartIdErrorMessage]! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:34:16' prior: 50475681!
+addToCart: aCartId bookIsbn: aBookIsbn bookQuantity: aQuantity 
+	self assertCartIdIsValid: aCartId.
+	(carts at: aCartId) add: aQuantity of: aBookIsbn.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:34:16' prior: 50476023!
+listCart: aCartId
+	self assertCartIdIsValid: aCartId.
+	^(carts at: aCartId) items.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:34:57'!
+invalidCartId
+
+	^ 'a'! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:34:57' prior: 50475796!
+test07AddBookToInvalidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: self invalidCartId bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidCartIdErrorMessage.]. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:34:57' prior: 50476004!
+test10ListCartWithInvalidCartId
+	
+	| interface |
+	interface := self createInterface.
+	
+	self should: [interface listCart: self invalidCartId.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidCartIdErrorMessage.]. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:37:38' prior: 50476062!
+test07AddBookToInvalidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: self invalidCartId bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidCartIdErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty]. ! !
+
+!testRun: #InterfaceTest #test07AddBookToInvalidCart stamp: 'edrr 6/11/2022 19:37:41'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:38:14' prior: 50475226!
+test01NewCartListsNoBooks
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self assert: (interface listCart: cartId) isEmpty.! !
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 19:38:16'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:39:18' prior: 50475731!
+test05AddBookToValidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (interface listCart: cartId) includes: book.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:40:26' prior: 50476127!
+test05AddBookToValidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assert: (interface listCart: cartId) includes: book.
+	self assert: 1 equals: ((interface listCart: cartId) occurrencesOf: book).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:41:08' prior: 50476140!
+test05AddBookToValidCart
+	
+	| cartId interface book cartContent |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	cartContent := interface listCart: cartId.
+	self assert: (interface listCart: cartId) includes: book.
+	self assert: 1 equals: ((interface listCart: cartId) occurrencesOf: book).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:41:40' prior: 50476156!
+test05AddBookToValidCart
+	
+	| cartId interface book cartContent |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	cartContent := interface listCart: cartId.
+	self assert: cartContent includes: book.
+	self assert: 1 equals: (cartContent occurrencesOf: book).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:42:22' prior: 50476174!
+test05AddBookToValidCart
+	
+	| cartId interface book cartContent |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	cartContent := interface listCart: cartId.
+	self assert: cartContent includes: book.
+	self assert: 1 equals: (cartContent occurrencesOf: book).
+	self assert: 1 equals: cartContent size.! !
+
+!testRun: #InterfaceTest #test05AddBookToValidCart stamp: 'edrr 6/11/2022 19:42:30'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:45:46'!
+assertCartId: aCartId includesOnlyOneBook: aBook forInterface: aInteface
+	
+	| cartContent |
+	cartContent := aInteface listCart: aCartId.
+	self assert: cartContent includes: aBook.
+	self assert: 1 equals: (cartContent occurrencesOf: aBook).
+	self assert: 1 equals: cartContent size.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:45:53' prior: 50476211!
+assertCartId: aCartId includesOnlyOneBook: aBook forInterface: aInteface
+	| cartContent |
+	
+	cartContent := aInteface listCart: aCartId.
+	self assert: cartContent includes: aBook.
+	self assert: 1 equals: (cartContent occurrencesOf: aBook).
+	self assert: 1 equals: cartContent size.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:46:29' prior: 50476191!
+test05AddBookToValidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assertCartId: cartId includesOnlyOneBook: book forInterface: interface.! !
+
+!testRun: #InterfaceTest #test05AddBookToValidCart stamp: 'edrr 6/11/2022 19:46:38'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:47:13' prior: 50475757!
+test06AddBookToTwoValidCarts
+	
+	| cartId1 interface book cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	interface addToCart: cartId2 bookIsbn: book bookQuantity: 1.
+	
+	self assert: (Bag with: book) equals: (interface listCart: cartId1).
+	self assert: (Bag with: book) equals: (interface listCart: cartId2).
+	
+	self assertCartId: cartId1 includesOnlyOneBook: book forInterface: interface.
+	self assertCartId: cartId2 includesOnlyOneBook: book forInterface: interface.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:47:19' prior: 50476252!
+test06AddBookToTwoValidCarts
+	
+	| cartId1 interface book cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	interface addToCart: cartId2 bookIsbn: book bookQuantity: 1.
+	
+	self assertCartId: cartId1 includesOnlyOneBook: book forInterface: interface.
+	self assertCartId: cartId2 includesOnlyOneBook: book forInterface: interface.! !
+
+!testRun: #InterfaceTest #test06AddBookToTwoValidCarts stamp: 'edrr 6/11/2022 19:47:21'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:48:36'!
+test06AddTwoBookToValidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assertCartId: cartId includesOnlyOneBook: book forInterface: interface.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:49:00' prior: 50476300!
+test06AddTwoBookToValidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 2.
+	
+	self assertCartId: cartId includesOnlyOneBook: book forInterface: interface.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:49:38' prior: 50476314!
+test06AddTwoBookToValidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 2.
+	
+	self assertCartId: cartId includesBook: book quantity: 2 forInterface: interface.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:50:40'!
+assertCartId: aCartId includesBook: aBook quantity: aQuantity forInterface: aInteface
+	| cartContent |
+	
+	cartContent := aInteface listCart: aCartId.
+	self assert: cartContent includes: aBook.
+	self assert: aQuantity equals: (cartContent occurrencesOf: aBook).
+	self assert: aQuantity equals: cartContent size.! !
+
+!methodRemoval: InterfaceTest #assertCartId:includesOnlyOneBook:forInterface: stamp: 'edrr 6/11/2022 19:50:53'!
+assertCartId: aCartId includesOnlyOneBook: aBook forInterface: aInteface
+	| cartContent |
+	
+	cartContent := aInteface listCart: aCartId.
+	self assert: cartContent includes: aBook.
+	self assert: 1 equals: (cartContent occurrencesOf: aBook).
+	self assert: 1 equals: cartContent size.!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 19:50:57'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 19:50:57'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCreatedCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 19:50:57'!
+PASSED!
+
+!testRun: #InterfaceTest #test05AddBookToValidCart stamp: 'edrr 6/11/2022 19:50:57'!
+ERROR!
+
+!testRun: #InterfaceTest #test06AddBookToTwoValidCarts stamp: 'edrr 6/11/2022 19:50:57'!
+ERROR!
+
+!testRun: #InterfaceTest #test06AddTwoBookToValidCart stamp: 'edrr 6/11/2022 19:50:57'!
+PASSED!
+
+!testRun: #InterfaceTest #test07AddBookToInvalidCart stamp: 'edrr 6/11/2022 19:50:57'!
+PASSED!
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 19:50:57'!
+PASSED!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 19:50:57'!
+PASSED!
+
+!testRun: #InterfaceTest #test10ListCartWithInvalidCartId stamp: 'edrr 6/11/2022 19:50:57'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:51:18' prior: 50476235!
+test05AddBookToValidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self assertCartId: cartId includesBook: book quantity: 1 forInterface: interface.! !
+
+!testRun: #InterfaceTest #test05AddBookToValidCart stamp: 'edrr 6/11/2022 19:51:19'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:51:38' prior: 50476277!
+test06AddBookToTwoValidCarts
+	
+	| cartId1 interface book cartId2 |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId2 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	interface addToCart: cartId2 bookIsbn: book bookQuantity: 1.
+	
+	self assertCartId: cartId1 includesBook: book quantity: 1 forInterface: interface.
+	self assertCartId: cartId2 includesBook: book quantity: 1 forInterface: interface.! !
+
+!testRun: #InterfaceTest #test06AddBookToTwoValidCarts stamp: 'edrr 6/11/2022 19:51:39'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:53:47'!
+test06AddTwoDifferentBooksToValidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 2.
+	
+	self assertCartId: cartId includesBook: book quantity: 2 forInterface: interface.! !
+
+!methodRemoval: InterfaceTest #test06AddTwoDifferentBooksToValidCart stamp: 'edrr 6/11/2022 19:54:54'!
+test06AddTwoDifferentBooksToValidCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 2.
+	
+	self assertCartId: cartId includesBook: book quantity: 2 forInterface: interface.!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:55:30' prior: 50475904!
+test08AddInvalidBookToCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemNotSellByTheStore.
+	
+	self should: [interface addToCart: cartId bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cart new invalidItemErrorMessage.
+			]. ! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:55:48' prior: 50476469!
+test08AddInvalidBookToCart
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemNotSellByTheStore.
+	
+	self should: [interface addToCart: cartId bookIsbn: book bookQuantity: 1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cart new invalidItemErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty]. ! !
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 19:55:50'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:56:29' prior: 50475939!
+test09AddBookWithInvalidQuantity
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: cartId bookIsbn: book bookQuantity: -1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cart new invalidQuantityErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty]. ! !
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 19:56:35'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 19:56:49' prior: 50476507!
+test09AddBookWithInvalidQuantity
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	self should: [interface addToCart: cartId bookIsbn: book bookQuantity: 1.1.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cart new invalidQuantityErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty]. ! !
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 19:56:52'!
+FAILURE!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 19:56:52'!
+FAILURE!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 19:56:56'!
+PASSED!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 19:57:03'!
+FAILURE!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 19:57:03'!
+FAILURE!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 19:57:49'!
+FAILURE!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 19:57:49'!
+FAILURE!
+!Cart methodsFor: 'assertions' stamp: 'edrr 6/11/2022 19:59:25' prior: 50474517!
+assertIsValidQuantity: aQuantity
+
+	(aQuantity isInteger not or: [aQuantity strictlyPositive]) ifFalse: [ self error: self invalidQuantityErrorMessage ]! !
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 19:59:38'!
+FAILURE!
+
+aQuantity isInteger not or: [aQuantity strictlyPositive]!
+!Cart methodsFor: 'assertions' stamp: 'edrr 6/11/2022 20:02:18' prior: 50476570!
+assertIsValidQuantity: aQuantity
+
+	(aQuantity isInteger and: [aQuantity strictlyPositive]) ifFalse: [ self error: self invalidQuantityErrorMessage ]! !
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 20:02:29'!
+PASSED!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 20:02:31'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 20:02:38'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 20:02:38'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCreatedCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 20:02:38'!
+PASSED!
+
+!testRun: #InterfaceTest #test05AddBookToValidCart stamp: 'edrr 6/11/2022 20:02:38'!
+PASSED!
+
+!testRun: #InterfaceTest #test06AddBookToTwoValidCarts stamp: 'edrr 6/11/2022 20:02:38'!
+PASSED!
+
+!testRun: #InterfaceTest #test06AddTwoBookToValidCart stamp: 'edrr 6/11/2022 20:02:38'!
+PASSED!
+
+!testRun: #InterfaceTest #test07AddBookToInvalidCart stamp: 'edrr 6/11/2022 20:02:38'!
+PASSED!
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 20:02:38'!
+PASSED!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 20:02:38'!
+PASSED!
+
+!testRun: #InterfaceTest #test10ListCartWithInvalidCartId stamp: 'edrr 6/11/2022 20:02:38'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCreatedCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test05AddBookToValidCart stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test06AddBookToTwoValidCarts stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test06AddTwoBookToValidCart stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test07AddBookToInvalidCart stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!testRun: #InterfaceTest #test10ListCartWithInvalidCartId stamp: 'edrr 6/11/2022 20:02:42'!
+PASSED!
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/11/2022 20:03:50'!
+Object subclass: #Interface
+	instanceVariableNames: 'authService currentCartId catalog cart2 carts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/11/2022 20:03:50'!
+Object subclass: #Interface
+	instanceVariableNames: 'authService currentCartId catalog carts'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:07:04'!
+test11CheckOutNewCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self assert: (interface listCart: cartId) isEmpty.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:07:17'!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self assert: (interface listCart: cartId) isEmpty.! !
+
+!methodRemoval: InterfaceTest #test11CheckOutNewCartRaisesError stamp: 'edrr 6/11/2022 20:07:17'!
+test11CheckOutNewCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self assert: (interface listCart: cartId) isEmpty.!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:12:34' prior: 50476730!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	interface checkOutCart: cartId 
+		creditCardNumber: ''
+		creditCardExpirationMonth: ''
+		creditCardExpirationMonth: ''
+		creditCardOwner: ''.
+	
+	self assert: (interface listCart: cartId) isEmpty.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:12:40' prior: 50476749!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	interface checkOutCart: cartId 
+		creditCardNumber: ''
+		creditCardExpirationMonth: ''
+		creditCardExpirationYear: ''
+		creditCardOwner: ''.
+	
+	self assert: (interface listCart: cartId) isEmpty.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:14:58' prior: 50476763!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	interface checkOutCart: cartId 
+		creditCardNumber: ''
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today 
+		creditCardOwner: ''.
+	
+	self assert: (interface listCart: cartId) isEmpty.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:15:18' prior: 50476777!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	interface checkOutCart: cartId 
+		creditCardNumber: ''
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: ''.
+	
+	self assert: (interface listCart: cartId) isEmpty.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:17:17' prior: 50476793!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	
+	self assert: (interface listCart: cartId) isEmpty.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:18:48' prior: 50476810!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self should: [interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidCartIdErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty.]. 
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:19:51' prior: 50476827!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self should: [interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmptyErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty.]. 
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:20:00' prior: 50476849!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self should: [interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cashier new cartCanNotBeEmptyErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty.]. 
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:21:54' prior: 50476871!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self should: [interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cashier new cartCanNotBeEmptyErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty.
+			self assert: (interface listPurchasesClientId: '' password: '') isEmpty]. 
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:24:27' prior: 50476893!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self should: [interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cashier new cartCanNotBeEmptyErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty.
+			self assert: (interface listPurchasesClientId: 'clienteValido' password: 'passwordValido') isEmpty]. 
+	! !
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:25:04'!
+ERROR!
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:25:04'!
+ERROR!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:25:11'!
+checkOutCart: aSmallInteger creditCardNumber: aSmallInteger2 creditCardExpirationMonth: aSmallInteger3 creditCardExpirationYear: aSmallInteger4 creditCardOwner: aString 
+	self shouldBeImplemented.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:27:34' prior: 50476949!
+checkOutCart: aCartId creditCardNumber: aCCNumber creditCardExpirationMonth: aCCEMonth creditCardExpirationYear: aCCEYear creditCardOwner: aCCOwner
+	self error: Cashier new cartCanNotBeEmptyErrorMessage.
+	! !
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:27:36'!
+ERROR!
+!Cashier methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:27:50'!
+cartCanNotBeEmptyErrorMessage
+	self shouldBeImplemented.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:28:12' prior: 50476918!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self should: [interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmptyErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty.
+			self assert: (interface listPurchasesClientId: 'clienteValido' password: 'passwordValido') isEmpty]. 
+	! !
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:28:15'!
+FAILURE!
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:28:15'!
+FAILURE!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:28:30' prior: 50476959!
+checkOutCart: aCartId creditCardNumber: aCCNumber creditCardExpirationMonth: aCCEMonth creditCardExpirationYear: aCCEYear creditCardOwner: aCCOwner
+	self error: Cashier cartCanNotBeEmptyErrorMessage.
+	! !
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:28:34'!
+ERROR!
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:28:34'!
+ERROR!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:28:43'!
+listPurchasesClientId: aString password: aString2 
+	self shouldBeImplemented.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:29:11' prior: 50477025!
+listPurchasesClientId: aClientId password: aPassword
+	^true.! !
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:29:12'!
+ERROR!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:29:48' prior: 50477031!
+listPurchasesClientId: aClientId password: aPassword
+	^OrderedCollection new.! !
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:29:52'!
+PASSED!
+
+!methodRemoval: Cashier #cartCanNotBeEmptyErrorMessage stamp: 'edrr 6/11/2022 20:30:06'!
+cartCanNotBeEmptyErrorMessage
+	self shouldBeImplemented.!
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:30:13'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCreatedCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #InterfaceTest #test05AddBookToValidCart stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #InterfaceTest #test06AddBookToTwoValidCarts stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #InterfaceTest #test06AddTwoBookToValidCart stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #InterfaceTest #test07AddBookToInvalidCart stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #InterfaceTest #test10ListCartWithInvalidCartId stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:30:16'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:31:39'!
+validClientId
+
+	^ 'clienteValido'! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:31:39' prior: 50474356!
+createCartWithInterface: interface
+
+	^ interface createCartForClientId: self validClientId password: 'passwordValido'! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:31:39' prior: 50476977!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self should: [interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmptyErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty.
+			self assert: (interface listPurchasesClientId: self validClientId password: 'passwordValido') isEmpty]. 
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:32:06'!
+validPassword
+
+	^ 'passwordValido'! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:32:06' prior: 50475072!
+test02CreateCartWithInvalidAuthentication
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | false].
+	
+	self should: [cartId := interface createCartForClientId: 'clienteNoValido' password: self validPassword.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidAuthenticationErrorMessage.
+			self assert: cartId isNil].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:32:06' prior: 50477142!
+createCartWithInterface: interface
+
+	^ interface createCartForClientId: self validClientId password: self validPassword! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:32:06' prior: 50477149!
+test11CheckOutEmptyCartRaisesError
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	self should: [interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmptyErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty.
+			self assert: (interface listPurchasesClientId: self validClientId password: self validPassword) isEmpty]. 
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:33:06'!
+invalidClientId
+
+	^ 'clienteNoValido'! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:33:06' prior: 50477179!
+test02CreateCartWithInvalidAuthentication
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | false].
+	
+	self should: [cartId := interface createCartForClientId: self invalidClientId password: self validPassword.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidAuthenticationErrorMessage.
+			self assert: cartId isNil].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:33:32'!
+test02CreateCartWithInvalidClientId
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | false].
+	
+	self should: [cartId := interface createCartForClientId: self invalidClientId password: self validPassword.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidAuthenticationErrorMessage.
+			self assert: cartId isNil].! !
+
+!methodRemoval: InterfaceTest #test02CreateCartWithInvalidAuthentication stamp: 'edrr 6/11/2022 20:33:32'!
+test02CreateCartWithInvalidAuthentication
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | false].
+	
+	self should: [cartId := interface createCartForClientId: self invalidClientId password: self validPassword.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidAuthenticationErrorMessage.
+			self assert: cartId isNil].!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:34:31'!
+test03CreateCartWithInvalidPassword
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	authBehavior := [ :aClientId :aPassword | false].
+	
+	self should: [cartId := interface createCartForClientId: self validClientId password: self invalidPassword.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidAuthenticationErrorMessage.
+			self assert: cartId isNil].! !
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/11/2022 20:34:45'!
+ERROR!
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/11/2022 20:34:45'!
+ERROR!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:34:50'!
+invalidPassword
+	self shouldBeImplemented.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:35:01' prior: 50477310!
+invalidPassword
+	'passwordInvalido'! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:35:10' prior: 50477315!
+invalidPassword
+	'passwordNoValido'! !
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/11/2022 20:35:13'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:36:25' prior: 50475404 overrides: 16961394!
+setUp 
+
+	testObjectsFactory := StoreTestObjectsFactory new.
+	authBehavior := [ :aClientId :aPassword | aClientId = self validClientId and: aPassword = self validPassword].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:36:47' prior: 50477329 overrides: 16961394!
+setUp 
+
+	testObjectsFactory := StoreTestObjectsFactory new.
+	authBehavior := [ :aClientId :aPassword | aClientId = self validClientId and: (aPassword = self validPassword)].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:37:18' prior: 50477251!
+test02CreateCartWithInvalidClientId
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	self should: [cartId := interface createCartForClientId: self invalidClientId password: self validPassword.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidAuthenticationErrorMessage.
+			self assert: cartId isNil].! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:37:25' prior: 50477286!
+test03CreateCartWithInvalidPassword
+	
+	| interface cartId |
+	interface := self createInterface.
+	
+	self should: [cartId := interface createCartForClientId: self validClientId password: self invalidPassword.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Interface invalidAuthenticationErrorMessage.
+			self assert: cartId isNil].! !
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClientId stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCreatedCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test05AddBookToValidCart stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test06AddBookToTwoValidCarts stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test06AddTwoBookToValidCart stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test07AddBookToInvalidCart stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test10ListCartWithInvalidCartId stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 20:37:28'!
+PASSED!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:39:22'!
+test12CheckOutCartWithOneBook
+	
+	| cartId interface |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	
+	
+	
+	self should: [interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmptyErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty.
+			self assert: (interface listPurchasesClientId: self validClientId password: self validPassword) isEmpty]. 
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:39:46' prior: 50477417!
+test12CheckOutCartWithOneBook
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	self should: [interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError |
+			self assert: anError messageText = Cashier cartCanNotBeEmptyErrorMessage.
+			self assert: (interface listCart: cartId) isEmpty.
+			self assert: (interface listPurchasesClientId: self validClientId password: self validPassword) isEmpty]. 
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:40:28' prior: 50477443!
+test12CheckOutCartWithOneBook
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: (interface listCart: cartId) isEmpty.
+	self assert: (interface listPurchasesClientId: self validClientId password: self validPassword) isEmpty! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:41:14' prior: 50477472!
+test12CheckOutCartWithOneBook
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+		
+	self assert: (interface listCart: cartId) isEmpty.
+	self assert: (interface listPurchasesClientId: self validClientId password: self validPassword) isEmpty! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:47:14' prior: 50477496!
+test12CheckOutCartWithOneBook
+	
+	| cartId interface book |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+		
+	self assert: (interface listPurchasesClientId: self validClientId password: self validPassword).! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:51:35' prior: 50477520!
+test12CheckOutCartWithOneBook
+	
+	| cartId interface book purchaseList |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+		
+	purchaseList := interface listPurchasesClientId: self validClientId password: self validPassword.
+	self assert: (purchaseList includes: book).
+	self assert: 1 equals: (purchaseList occurrencesOf: book).
+	self assert: 1 equals: purchaseList size.
+	self assert: 10 equals: purchaseList total.
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:53:44' prior: 50477542!
+test12CheckOutCartWithOneBook
+	
+	| cartId interface book purchaseList transaction |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	transaction := interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: 1 equals: transaction.
+		
+	purchaseList := interface listPurchasesClientId: self validClientId password: self validPassword.
+	self assert: (purchaseList includes: book).
+	self assert: 1 equals: (purchaseList occurrencesOf: book).
+	self assert: 1 equals: purchaseList size.
+	self assert: 10 equals: purchaseList total.
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:55:05'!
+test13CheckOutCartWithOneBook
+	
+	| cartId interface book transaction |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	transaction := interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: 1 equals: transaction.
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:55:31'!
+test13CheckOutCartRaisesTransactionId
+	
+	| cartId interface book transaction |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	transaction := interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: 1 equals: transaction.
+	! !
+
+!methodRemoval: InterfaceTest #test13CheckOutCartWithOneBook stamp: 'edrr 6/11/2022 20:55:31'!
+test13CheckOutCartWithOneBook
+	
+	| cartId interface book transaction |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	transaction := interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: 1 equals: transaction.
+	!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:56:04'!
+test14CheckOutTwoCartsRaisesTransactionId
+	
+	| cartId interface book transaction |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	transaction := interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: 1 equals: transaction.
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:56:22' prior: 50477662!
+test14CheckOutTwoCartsRaisesTransactionId
+	
+	| cartId interface book transaction |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	transaction := interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: 1 equals: transaction.
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:56:26' prior: 50477683!
+test14CheckOutTwoCartsRaisesTransactionId
+	
+	| cartId1 interface book transaction |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId1 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	
+	transaction := interface checkOutCart: cartId1 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: 1 equals: transaction.
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:57:29'!
+testXCheckOutCartRaisesTransactionId
+	
+	| cartId interface book transaction |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	transaction := interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: 1 equals: transaction.
+	! !
+
+!methodRemoval: InterfaceTest #test13CheckOutCartRaisesTransactionId stamp: 'edrr 6/11/2022 20:57:29'!
+test13CheckOutCartRaisesTransactionId
+	
+	| cartId interface book transaction |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	transaction := interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: 1 equals: transaction.
+	!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:57:40' prior: 50477729!
+testXCheckOutCartRaisesTransactionId
+	
+	
+	! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:57:53'!
+testZCheckOutTwoCartsRaisesTransactionId
+	
+	| cartId1 interface book transaction |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId1 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	
+	transaction := interface checkOutCart: cartId1 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: 1 equals: transaction.
+	! !
+
+!methodRemoval: InterfaceTest #test14CheckOutTwoCartsRaisesTransactionId stamp: 'edrr 6/11/2022 20:57:53'!
+test14CheckOutTwoCartsRaisesTransactionId
+	
+	| cartId1 interface book transaction |
+	interface := self createInterface.
+	cartId1 := self createCartWithInterface: interface.
+	cartId1 := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId1 bookIsbn: book bookQuantity: 1.
+	
+	transaction := interface checkOutCart: cartId1 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+	self assert: 1 equals: transaction.
+	!
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 20:57:59' prior: 50477776!
+testZCheckOutTwoCartsRaisesTransactionId
+	
+	! !
+
+!testRun: #InterfaceTest #test12CheckOutCartWithOneBook stamp: 'edrr 6/11/2022 20:58:11'!
+ERROR!
+
+!testRun: #InterfaceTest #test12CheckOutCartWithOneBook stamp: 'edrr 6/11/2022 20:58:11'!
+ERROR!
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/11/2022 21:10:13'!
+Object subclass: #Interface
+	instanceVariableNames: 'authService currentCartId catalog carts salesBook'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Interface methodsFor: 'initialization' stamp: 'edrr 6/11/2022 21:10:12' prior: 50475646!
+initializeWithLoginService: aLoginService withCatalog: aCatalog  
+	
+	authService := aLoginService.
+	currentCartId := 0.
+	catalog := aCatalog.
+	carts := Dictionary new.
+	salesBook := OrderedCollection new.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 21:11:16' prior: 50477571!
+test12CheckOutCartWithOneBook
+	
+	| cartId interface book purchaseList |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+		
+	purchaseList := interface listPurchasesClientId: self validClientId password: self validPassword.
+	self assert: (purchaseList includes: book).
+	self assert: 1 equals: (purchaseList occurrencesOf: book).
+	self assert: 1 equals: purchaseList size.
+	self assert: 10 equals: purchaseList total.
+	! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 21:13:55' prior: 50477009!
+checkOutCart: aCartId creditCardNumber: aCCNumber creditCardExpirationMonth: aCCEMonth creditCardExpirationYear: aCCEYear creditCardOwner: aCCOwner
+	| cashier creditCard |
+	creditCard := CreditCard withCCNumber: aCCNumber expiringOn: (Month month: aCCEMonth year: aCCEYear) withOwner: aCCOwner.
+	 
+	cashier := Cashier
+		toCheckout: (carts at: aCartId) 
+		charging: creditCard 
+		throught: CashierTest new
+		on: DateAndTime now 
+		registeringOn: salesBook.
+	
+	cashier checkOut.! !
+
+!testRun: #InterfaceTest #test12CheckOutCartWithOneBook stamp: 'edrr 6/11/2022 21:14:17'!
+ERROR!
+
+!testRun: #InterfaceTest #test12CheckOutCartWithOneBook stamp: 'edrr 6/11/2022 21:14:17'!
+ERROR!
+!CreditCard class methodsFor: 'instance creation' stamp: 'edrr 6/11/2022 21:14:26'!
+withCCNumber: aSmallInteger expiringOn: aMonth withOwner: aString 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWithCCNumber: aSmallInteger expiringOn: aMonth withOwner: aString ! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'edrr 6/11/2022 21:14:42' prior: 50477903!
+withCCNumber: aSmallInteger expiringOn: aMonth withOwner: aString 
+	
+	^self new initializeWithCCNumber: aSmallInteger expiringOn: aMonth withOwner: aString ! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'edrr 6/11/2022 21:14:53' prior: 50477915!
+withCCNumber: aSmallInteger expiringOn: aMonth withOwner: aOwner 
+	
+	^self new initializeWithCCNumber: aSmallInteger expiringOn: aMonth withOwner: aOwner ! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'edrr 6/11/2022 21:15:11' prior: 50477924!
+withCCNumber: aCCNumber expiringOn: aMonth withOwner: aOwner 
+	
+	^self new initializeWithCCNumber: aCCNumber expiringOn: aMonth withOwner: aOwner ! !
+
+!testRun: #InterfaceTest #test12CheckOutCartWithOneBook stamp: 'edrr 6/11/2022 21:15:37'!
+ERROR!
+
+!classDefinition: #CreditCard category: 'TusLibros' stamp: 'edrr 6/11/2022 21:15:44'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration cCNumber'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: 'TusLibros' stamp: 'edrr 6/11/2022 21:15:45'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration cCNumber month'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+
+!classDefinition: #CreditCard category: 'TusLibros' stamp: 'edrr 6/11/2022 21:15:45'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration cCNumber month owner'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCard methodsFor: 'initialization' stamp: 'edrr 6/11/2022 21:15:45'!
+initializeWithCCNumber: aCCNumber expiringOn: aMonth withOwner: aOwner 
+	self shouldBeImplemented.
+	cCNumber := aCCNumber.
+	month := aMonth.
+	owner := aOwner.! !
+!CreditCard methodsFor: 'initialization' stamp: 'edrr 6/11/2022 21:15:56' prior: 50477966!
+initializeWithCCNumber: aCCNumber expiringOn: aMonth withOwner: aOwner 
+	
+	cCNumber := aCCNumber.
+	month := aMonth.
+	owner := aOwner.! !
+
+!classDefinition: #CreditCard category: 'TusLibros' stamp: 'edrr 6/11/2022 21:16:03'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration ccNumber month owner'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!CreditCard methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 21:16:03' prior: 50477974!
+initializeWithCCNumber: aCCNumber expiringOn: aMonth withOwner: aOwner 
+	
+	ccNumber := aCCNumber.
+	month := aMonth.
+	owner := aOwner.! !
+!CreditCard methodsFor: 'initialization' stamp: 'edrr 6/11/2022 21:16:19' prior: 50477989!
+initializeWithCCNumber: aCCNumber expiringOn: aMonth withOwner: aOwner 
+	
+	ccNumber := aCCNumber.
+	expiration := aMonth.
+	owner := aOwner.! !
+!CreditCard methodsFor: 'initialization' stamp: 'edrr 6/11/2022 21:16:29' prior: 50477997!
+initializeWithCCNumber: aCCNumber expiringOn: aDate withOwner: aOwner 
+	
+	ccNumber := aCCNumber.
+	expiration := aDate.
+	owner := aOwner.! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'edrr 6/11/2022 21:16:40' prior: 50477933!
+withCCNumber: aCCNumber expiringOn: aDate withOwner: aOwner 
+	
+	^self new initializeWithCCNumber: aCCNumber expiringOn: aDate withOwner: aOwner ! !
+
+!testRun: #InterfaceTest #test12CheckOutCartWithOneBook stamp: 'edrr 6/11/2022 21:16:43'!
+ERROR!
+
+!testRun: #InterfaceTest #test01NewCartListsNoBooks stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test02CreateCartWithInvalidClientId stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test03CreateCartWithInvalidPassword stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test04TwoCreatedCartsHaveDiffentCardId stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test05AddBookToValidCart stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test06AddBookToTwoValidCarts stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test06AddTwoBookToValidCart stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test07AddBookToInvalidCart stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test08AddInvalidBookToCart stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test09AddBookWithInvalidQuantity stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test10ListCartWithInvalidCartId stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test11CheckOutEmptyCartRaisesError stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test12CheckOutCartWithOneBook stamp: 'edrr 6/11/2022 21:18:17'!
+ERROR!
+
+!testRun: #InterfaceTest #testXCheckOutCartRaisesTransactionId stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #testZCheckOutTwoCartsRaisesTransactionId stamp: 'edrr 6/11/2022 21:18:17'!
+PASSED!
+
+!testRun: #InterfaceTest #test12CheckOutCartWithOneBook stamp: 'edrr 6/11/2022 21:18:17'!
+ERROR!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 21:18:32' prior: 50477879!
+checkOutCart: aCartId creditCardNumber: aCCNumber creditCardExpirationMonth: aCCEMonth creditCardExpirationYear: aCCEYear creditCardOwner: aCCOwner
+	| cashier creditCard |
+	creditCard := CreditCard withCCNumber: aCCNumber expiringOn: (Month month: aCCEMonth year: aCCEYear) withOwner: aCCOwner.
+	 
+	cashier := Cashier
+		toCheckout: (carts at: aCartId) 
+		charging: creditCard 
+		throught: CashierTest new setUp
+		on: DateAndTime now 
+		registeringOn: salesBook.
+	
+	cashier checkOut.! !
+
+!testRun: #InterfaceTest #test12CheckOutCartWithOneBook stamp: 'edrr 6/11/2022 21:18:34'!
+FAILURE!
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 21:20:40' prior: 50477040!
+listPurchasesClientId: aClientId password: aPassword
+	^salesBook.! !
+!InterfaceTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 21:24:36' prior: 50477851!
+test12CheckOutCartWithOneBook
+	
+	| cartId interface book purchaseList |
+	interface := self createInterface.
+	cartId := self createCartWithInterface: interface.
+	book := testObjectsFactory itemSellByTheStore.
+	 
+	interface addToCart: cartId bookIsbn: book bookQuantity: 1.
+	
+	interface checkOutCart: cartId 
+		creditCardNumber: 1111111111111111
+		creditCardExpirationMonth: testObjectsFactory today monthIndex
+		creditCardExpirationYear: testObjectsFactory today yearNumber + 1
+		creditCardOwner: 'A'.
+		
+	purchaseList := interface listPurchasesClientId: self validClientId password: self validPassword.
+	self assert: (purchaseList includes: book).
+	self assert: 1 equals: (purchaseList occurrencesOf: book).
+	self assert: 1 equals: purchaseList size.
+	! !
+
+!classDefinition: #Interface category: 'TusLibros' stamp: 'edrr 6/11/2022 21:26:50'!
+Object subclass: #Interface
+	instanceVariableNames: 'authService currentCartId catalog carts salesBook purchases'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros'!
+!Interface methodsFor: 'initialization' stamp: 'edrr 6/11/2022 21:26:48' prior: 50477841!
+initializeWithLoginService: aLoginService withCatalog: aCatalog  
+	
+	authService := aLoginService.
+	currentCartId := 0.
+	catalog := aCatalog.
+	carts := Dictionary new.
+	salesBook := OrderedCollection new.
+	purchases := Dictionary new.! !
+!Interface methodsFor: 'as yet unclassified' stamp: 'edrr 6/11/2022 21:29:26' prior: 50478075!
+checkOutCart: aCartId creditCardNumber: aCCNumber creditCardExpirationMonth: aCCEMonth creditCardExpirationYear: aCCEYear creditCardOwner: aCCOwner
+	| cashier creditCard |
+	creditCard := CreditCard withCCNumber: aCCNumber expiringOn: (Month month: aCCEMonth year: aCCEYear) withOwner: aCCOwner.
+	 
+	cashier := Cashier
+		toCheckout: (carts at: aCartId) 
+		charging: creditCard 
+		throught: CashierTest new setUp
+		on: DateAndTime now 
+		registeringOn: salesBook.
+	
+	cashier checkOut.! !
+
+----QUIT----(11 June 2022 21:30:08) CuisUniversity-5096.image priorSource: 4617134!
