@@ -16890,3 +16890,145 @@ WebServer reset.!
 TusLibrosServerRestInterface installForDefaultSystem. !
 
 TusLibrosClientTestWindow open. !
+
+!methodRemoval: TusLibrosSystemFacade #waitForBlock:andBlock: stamp: 'edrr 6/14/2022 21:23:28'!
+waitForBlock: block1 andBlock: block2
+	| readySemaphore1 readySemaphore2 |
+	
+	readySemaphore1 := Semaphore new.
+	readySemaphore2 := Semaphore new.
+	[block1 value: readySemaphore1] fork.
+	[block2 value: readySemaphore2] fork.
+	readySemaphore1 wait.
+	readySemaphore2 wait.
+	
+
+!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CreditCardTest #test01CreditCardNumberWithLessThan16DigitsIsNotValid stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CreditCardTest #test02CreditCardNumberWithMoreThan16DigitsIsNotValid stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CreditCardTest #test03CreditCardNumberShouldBeDigitsOnly stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CreditCardTest #test04NameCanNotBeEmpty stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CreditCardTest #test05IsExpiredOnNextExpirationMonth stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CreditCardTest #test06IsNotExpiredOnExpirationMonth stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #CreditCardTest #test07CanGetCreditCardInfoFromIt stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test01CanCreateCartWithValidUserAndPassword stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test02CanNotCreateCartWithInvalidUser stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test03CanNotCreateCartWithInvalidPassword stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test04CanAddItemsToACreatedCart stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test05CanNotAddItemToNotCreatedCart stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test06CanNotAddItemNotSellByTheStore stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test08CanNotListCartOfInvalidCartId stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test09ListCartReturnsTheRightNumberOfItems stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10CheckOutReturnsTransactionIdAndImpactsCustomerPurchases stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test10_1_CanNotCheckoutAnAlreadyCheckedOutCart stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test11CanNotCheckoutANotCreatedCart stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test12CanNotCheckoutAnEmptyCart stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test13CanNotCheckoutWithAnExpiredCreditCard stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test14ListPurchasesIncludesBoughtItems stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test15CanNotListPurchasesOfInvalidCustomer stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test16CanNotListPurchasesOfValidCustomerWithInvalidPassword stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test17CanNotAddToCartWhenSessionIsExpired stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test18CanNotListCartWhenSessionIsExpired stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test19CanNotCheckOutCartWhenSessionIsExpired stamp: 'edrr 6/14/2022 21:29:26'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test20BookPerformanceShouldNotTakeTooLong stamp: 'edrr 6/14/2022 21:29:27'!
+PASSED!
+
+!testRun: #TusLibrosSystemFacadeTest #test21StorePerformanceShouldNotTakeTooLong stamp: 'edrr 6/14/2022 21:29:28'!
+PASSED!
+
+----QUIT----(14 June 2022 21:29:44) CuisUniversity-5096.image priorSource: 7722252!
