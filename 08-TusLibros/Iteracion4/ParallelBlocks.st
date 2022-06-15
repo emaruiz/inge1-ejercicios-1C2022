@@ -1,3 +1,4 @@
+'From Cuis 6.0 [latest update: #5096] on 14 June 2022 at 9:41:48 pm'!
 !classDefinition: #ParallelBlocks category: 'TusLibros'!
 Object subclass: #ParallelBlocks
 	instanceVariableNames: 'semaphores'
