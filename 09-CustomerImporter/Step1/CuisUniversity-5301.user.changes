@@ -1,0 +1,251 @@
+
+
+----STARTUP---- (17 June 2022 19:49:35) as /home/manuel/Facultad/Inge1_1C2022/Ejercicios/linux64 (4)/CuisUniversity-5301.image!
+
+
+----End fileIn of /home/manuel/Facultad/Inge1_1C2022/Ejercicios/linux64 (3)/CustomerImporter.st----!
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/17/2022 19:52:16' prior: 50519313!
+assertCustomerJuanPerez: customer
+
+	self assertCustomer: customer withIdentificationNumber: '23-25666777-9' withFirstName: 'Juan' withLastName: 'Perez' withIdentificationType: 'C'! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/17/2022 19:54:29' prior: 50519745!
+assertCustomerJuanPerez: customer
+
+	"self assertCustomer: customer withIdentificationNumber: '23-25666777-9' withFirstName: 'Juan' withLastName: 'Perez' withIdentificationType: 'C'"
+	
+	self assert: 'Juan' equals: customer firstName.
+	self assert: 'Perez' equals: customer lastName.
+	self assert: 'C' equals: customer identificationType.
+	self assert: '23-25666777-9' equals: customer identificationNumber.! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/17/2022 19:54:36' prior: 50519754!
+assertCustomerJuanPerez: customer
+	
+	self assert: 'Juan' equals: customer firstName.
+	self assert: 'Perez' equals: customer lastName.
+	self assert: 'C' equals: customer identificationType.
+	self assert: '23-25666777-9' equals: customer identificationNumber.! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/17/2022 19:54:42' prior: 50519770!
+assertCustomerJuanPerez: aCustomer
+	
+	self assert: 'Juan' equals: aCustomer firstName.
+	self assert: 'Perez' equals: aCustomer lastName.
+	self assert: 'C' equals: aCustomer identificationType.
+	self assert: '23-25666777-9' equals: aCustomer identificationNumber.! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/17/2022 19:55:25' prior: 50519322!
+assertCustomerPepeSanchez: aCustomer
+	
+	self assert: 'Pepe' equals: aCustomer firstName.
+	self assert: 'Sanchez' equals: aCustomer lastName.
+	self assert: 'D' equals: aCustomer identificationType.
+	self assert: '22333444' equals: aCustomer identificationNumber.! !
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/17/2022 19:55:33'!
+PASSED!
+
+!methodRemoval: ImportTest #assertCustomer:withIdentificationNumber:withFirstName:withLastName:withIdentificationType: stamp: 'edrr 6/17/2022 19:55:45'!
+assertCustomer: aCustomer withIdentificationNumber: anIdentificationNumber withFirstName: aFirstName withLastName: aLastName withIdentificationType: anIdentificationType
+	self assert: aFirstName equals: aCustomer firstName.
+	self assert: aLastName equals: aCustomer lastName.
+	self assert: anIdentificationType equals: aCustomer identificationType.
+	self assert: anIdentificationNumber equals: aCustomer identificationNumber.
+	!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/17/2022 19:55:49'!
+PASSED!
+
+!testRun: #ImportTest #testInput stamp: 'edrr 6/17/2022 19:55:50'!
+PASSED!
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/17/2022 19:56:24'!
+inputForTesting
+	^ReadStream on: 'C,Pepe,Sanchez,D,22333444
+A,San Martin,3322,Olivos,1636,BsAs
+A,Maipu,888,Florida,1122,Buenos Aires
+C,Juan,Perez,C,23-25666777-9
+A,Alem,1122,CABA,1001,CABA'.! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/17/2022 19:56:24' prior: 50519358!
+importCustomers
+
+	^ (ImportCustomers forSession: session withStream: self inputForTesting) process! !
+
+!methodRemoval: ImportTest #testInput stamp: 'edrr 6/17/2022 19:56:24'!
+testInput
+	^ReadStream on: 'C,Pepe,Sanchez,D,22333444
+A,San Martin,3322,Olivos,1636,BsAs
+A,Maipu,888,Florida,1122,Buenos Aires
+C,Juan,Perez,C,23-25666777-9
+A,Alem,1122,CABA,1001,CABA'.!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/17/2022 19:56:28'!
+PASSED!
+!ImportTest methodsFor: 'inputs' stamp: 'edrr 6/17/2022 20:00:14'!
+testingInputFile
+	^ReadStream on: 'C,Pepe,Sanchez,D,22333444
+A,San Martin,3322,Olivos,1636,BsAs
+A,Maipu,888,Florida,1122,Buenos Aires
+C,Juan,Perez,C,23-25666777-9
+A,Alem,1122,CABA,1001,CABA'.! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/17/2022 20:00:14' prior: 50519841!
+importCustomers
+
+	^ (ImportCustomers forSession: session withStream: self testingInputFile) process! !
+
+!methodRemoval: ImportTest #inputForTesting stamp: 'edrr 6/17/2022 20:00:14'!
+inputForTesting
+	^ReadStream on: 'C,Pepe,Sanchez,D,22333444
+A,San Martin,3322,Olivos,1636,BsAs
+A,Maipu,888,Florida,1122,Buenos Aires
+C,Juan,Perez,C,23-25666777-9
+A,Alem,1122,CABA,1001,CABA'.!
+!ImportTest methodsFor: 'assertions' stamp: 'edrr 6/17/2022 20:02:33'!
+assertCustomerForJuanPerez: aCustomer
+	
+	self assert: 'Juan' equals: aCustomer firstName.
+	self assert: 'Perez' equals: aCustomer lastName.
+	self assert: 'C' equals: aCustomer identificationType.
+	self assert: '23-25666777-9' equals: aCustomer identificationNumber.! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/17/2022 20:02:33' prior: 50519338!
+assertJuanPerezWasImportedCorrectly
+
+	| customer |
+	customer := session selectCustomerWithIdentificationNumber: '23-25666777-9'.
+	self assertCustomerForJuanPerez: customer.
+	
+	self assertAddressesForJuanPerez: customer.! !
+
+!methodRemoval: ImportTest #assertCustomerJuanPerez: stamp: 'edrr 6/17/2022 20:02:33'!
+assertCustomerJuanPerez: aCustomer
+	
+	self assert: 'Juan' equals: aCustomer firstName.
+	self assert: 'Perez' equals: aCustomer lastName.
+	self assert: 'C' equals: aCustomer identificationType.
+	self assert: '23-25666777-9' equals: aCustomer identificationNumber.!
+!ImportTest methodsFor: 'assertions' stamp: 'edrr 6/17/2022 20:02:43'!
+assertCustomerForPepeSanchez: aCustomer
+	
+	self assert: 'Pepe' equals: aCustomer firstName.
+	self assert: 'Sanchez' equals: aCustomer lastName.
+	self assert: 'D' equals: aCustomer identificationType.
+	self assert: '22333444' equals: aCustomer identificationNumber.! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/17/2022 20:02:43' prior: 50519348!
+assertPepeSanchezWasImportedCorrectly
+
+	| customer |
+	customer := session selectCustomerWithIdentificationNumber: '22333444'.
+	self assertCustomerForPepeSanchez: customer.
+	
+	self assertAddressesForPepeSanchez: customer.! !
+
+!methodRemoval: ImportTest #assertCustomerPepeSanchez: stamp: 'edrr 6/17/2022 20:02:43'!
+assertCustomerPepeSanchez: aCustomer
+	
+	self assert: 'Pepe' equals: aCustomer firstName.
+	self assert: 'Sanchez' equals: aCustomer lastName.
+	self assert: 'D' equals: aCustomer identificationType.
+	self assert: '22333444' equals: aCustomer identificationNumber.!
+!ImportCustomers methodsFor: 'evaluating' stamp: 'edrr 6/17/2022 20:14:00' overrides: 16902254!
+value
+
+	| newCustomer line |
+
+	line := stream nextLine.
+	[ line notNil ] whileTrue: [
+		(line beginsWith: 'C') ifTrue: [ | customerData |
+			customerData := line findTokens: $,.
+			newCustomer := Customer new.
+			newCustomer firstName: customerData second.
+			newCustomer lastName: customerData third.
+			newCustomer identificationType: customerData fourth.
+			newCustomer identificationNumber: customerData fifth.
+			session persist: newCustomer ].
+
+		(line beginsWith: 'A') ifTrue: [ | addressData newAddress |
+			addressData := line findTokens: $,.
+			newAddress := Address new.
+			newCustomer addAddress: newAddress.
+			newAddress streetName: addressData second.
+			newAddress streetNumber: addressData third asNumber .
+			newAddress town: addressData fourth.
+			newAddress zipCode: addressData fifth asNumber .
+			newAddress province: addressData sixth ].
+
+		line := stream nextLine. ].
+
+	stream close.
+	! !
+
+!methodRemoval: ImportCustomers #process stamp: 'edrr 6/17/2022 20:14:00'!
+process
+
+	| newCustomer line |
+
+	line := stream nextLine.
+	[ line notNil ] whileTrue: [
+		(line beginsWith: 'C') ifTrue: [ | customerData |
+			customerData := line findTokens: $,.
+			newCustomer := Customer new.
+			newCustomer firstName: customerData second.
+			newCustomer lastName: customerData third.
+			newCustomer identificationType: customerData fourth.
+			newCustomer identificationNumber: customerData fifth.
+			session persist: newCustomer ].
+
+		(line beginsWith: 'A') ifTrue: [ | addressData newAddress |
+			addressData := line findTokens: $,.
+			newAddress := Address new.
+			newCustomer addAddress: newAddress.
+			newAddress streetName: addressData second.
+			newAddress streetNumber: addressData third asNumber .
+			newAddress town: addressData fourth.
+			newAddress zipCode: addressData fifth asNumber .
+			newAddress province: addressData sixth ].
+
+		line := stream nextLine. ].
+
+	stream close.
+	!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/17/2022 20:14:12'!
+ERROR!
+
+!testRun: #ImportTest #testingInputFile stamp: 'edrr 6/17/2022 20:14:12'!
+PASSED!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/17/2022 20:14:12'!
+ERROR!
+!ImportTest methodsFor: 'import' stamp: 'edrr 6/17/2022 20:14:21' prior: 50519867!
+importCustomers
+
+	^ (ImportCustomers forSession: session withStream: self testingInputFile) value! !
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/17/2022 20:14:23'!
+PASSED!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/17/2022 20:14:25'!
+PASSED!
+
+!testRun: #ImportTest #testingInputFile stamp: 'edrr 6/17/2022 20:14:26'!
+PASSED!
+!ImportTest methodsFor: 'inputs' stamp: 'edrr 6/17/2022 20:15:21'!
+inputFileForTesting
+	^ReadStream on: 'C,Pepe,Sanchez,D,22333444
+A,San Martin,3322,Olivos,1636,BsAs
+A,Maipu,888,Florida,1122,Buenos Aires
+C,Juan,Perez,C,23-25666777-9
+A,Alem,1122,CABA,1001,CABA'.! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/17/2022 20:15:21' prior: 50520018!
+importCustomers
+
+	^ (ImportCustomers forSession: session withStream: self inputFileForTesting) value! !
+
+!methodRemoval: ImportTest #testingInputFile stamp: 'edrr 6/17/2022 20:15:21'!
+testingInputFile
+	^ReadStream on: 'C,Pepe,Sanchez,D,22333444
+A,San Martin,3322,Olivos,1636,BsAs
+A,Maipu,888,Florida,1122,Buenos Aires
+C,Juan,Perez,C,23-25666777-9
+A,Alem,1122,CABA,1001,CABA'.!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/17/2022 20:15:29'!
+PASSED!
+
+----QUIT----(17 June 2022 20:15:49) CuisUniversity-5301.image priorSource: 6002664!
