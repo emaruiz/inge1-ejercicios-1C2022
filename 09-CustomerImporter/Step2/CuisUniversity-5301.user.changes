@@ -1,0 +1,130 @@
+
+
+----STARTUP---- (25 June 2022 19:13:29) as /home/javier/Documents/UBA Exactas/Actual/8_Ingenieria de Software I/1_Practica/cuis/CuisUniversity-5301.image!
+
+
+----End fileIn of /home/javier/Documents/UBA Exactas/Actual/8_Ingenieria de Software I/1_Practica/cuis/CustomerImporter.st----!
+!ImportTest methodsFor: 'test data' stamp: 'jeo 6/25/2022 19:17:13' prior: 50519481!
+emptyFieldsImportData
+
+	^ ReadStream on:
+'C,,,D,22333444'! !
+
+!testRun: #ImportTest #test01Import stamp: 'jeo 6/25/2022 19:17:21'!
+PASSED!
+
+!testRun: #ImportTest #test02InvalidCustomerType stamp: 'jeo 6/25/2022 19:17:22'!
+PASSED!
+
+!testRun: #ImportTest #test03InvalidAddressType stamp: 'jeo 6/25/2022 19:17:22'!
+PASSED!
+
+!testRun: #ImportTest #test04EmptyRecord stamp: 'jeo 6/25/2022 19:17:22'!
+PASSED!
+
+!testRun: #ImportTest #test05IncompleteCustomer stamp: 'jeo 6/25/2022 19:17:22'!
+PASSED!
+
+!testRun: #ImportTest #test06IncompleteAddress stamp: 'jeo 6/25/2022 19:17:22'!
+PASSED!
+
+!testRun: #ImportTest #test07TooManyCustomerFields stamp: 'jeo 6/25/2022 19:17:22'!
+PASSED!
+
+!testRun: #ImportTest #test08TooManyAddressFields stamp: 'jeo 6/25/2022 19:17:22'!
+PASSED!
+
+!testRun: #ImportTest #test09EmptyFields stamp: 'jeo 6/25/2022 19:17:23'!
+FAILURE!
+
+!testRun: #ImportTest #test10AddressWithoutCustomer stamp: 'jeo 6/25/2022 19:17:23'!
+PASSED!
+
+!testRun: #ImportTest #test09EmptyFields stamp: 'jeo 6/25/2022 19:17:23'!
+FAILURE!
+!ImportTest methodsFor: 'test data' stamp: 'jeo 6/25/2022 19:18:15' prior: 50519887!
+emptyFieldsImportData
+
+	^ ReadStream on:
+'C,,,Pepe,Sanchez'! !
+
+!testRun: #ImportTest #test09EmptyFields stamp: 'jeo 6/25/2022 19:18:33'!
+FAILURE!
+!ImportTest methodsFor: 'tests' stamp: 'jeo 6/25/2022 19:18:46' prior: 50519361!
+test09EmptyFields
+	
+	self should: [CustomerImporter valueFrom: self emptyFieldsImportData into: session.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter emptyFieldsErrorDescription.
+			self assert: (session selectAllOfType: Customer) isEmpty].! !
+!ImportTest methodsFor: 'tests' stamp: 'jeo 6/25/2022 19:18:52' prior: 50519930!
+test09EmptyFields
+	
+	self should: [CustomerImporter valueFrom: self emptyFieldsImportData into: session.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter emptyFieldsErrorDescription.
+			self assert: (session selectAllOfType: Customer) isEmpty].! !
+
+!testRun: #ImportTest #test09EmptyFields stamp: 'jeo 6/25/2022 19:18:53'!
+ERROR!
+!CustomerImporter class methodsFor: 'error descriptions' stamp: 'jeo 6/25/2022 19:18:59'!
+emptyFieldsErrorDescription
+	self shouldBeImplemented.! !
+!CustomerImporter class methodsFor: 'error descriptions' stamp: 'jeo 6/25/2022 19:19:09' prior: 50519959!
+emptyFieldsErrorDescription
+	^'empty fields'! !
+
+!testRun: #ImportTest #test09EmptyFields stamp: 'jeo 6/25/2022 19:19:10'!
+FAILURE!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'jeo 6/25/2022 19:20:30' prior: 50519732 overrides: 16902254!
+value
+
+	[ self hasRecordToImport ] whileTrue: [ 
+		self createRecord.
+		self importRecord.].
+
+	! !
+!ImportTest methodsFor: 'test data' stamp: 'jeo 6/25/2022 19:23:54' prior: 50519922!
+emptyFieldsImportData
+
+	^ ReadStream on:
+'C,,,Pepe,Sanchez,D,22333444'! !
+
+!testRun: #ImportTest #test01Import stamp: 'jeo 6/25/2022 19:24:01'!
+PASSED!
+
+!testRun: #ImportTest #test02InvalidCustomerType stamp: 'jeo 6/25/2022 19:24:01'!
+PASSED!
+
+!testRun: #ImportTest #test03InvalidAddressType stamp: 'jeo 6/25/2022 19:24:01'!
+PASSED!
+
+!testRun: #ImportTest #test04EmptyRecord stamp: 'jeo 6/25/2022 19:24:01'!
+PASSED!
+
+!testRun: #ImportTest #test05IncompleteCustomer stamp: 'jeo 6/25/2022 19:24:02'!
+PASSED!
+
+!testRun: #ImportTest #test06IncompleteAddress stamp: 'jeo 6/25/2022 19:24:02'!
+PASSED!
+
+!testRun: #ImportTest #test07TooManyCustomerFields stamp: 'jeo 6/25/2022 19:24:02'!
+PASSED!
+
+!testRun: #ImportTest #test08TooManyAddressFields stamp: 'jeo 6/25/2022 19:24:02'!
+PASSED!
+
+!testRun: #ImportTest #test09EmptyFields stamp: 'jeo 6/25/2022 19:24:02'!
+FAILURE!
+
+!testRun: #ImportTest #test10AddressWithoutCustomer stamp: 'jeo 6/25/2022 19:24:02'!
+PASSED!
+
+!testRun: #ImportTest #test09EmptyFields stamp: 'jeo 6/25/2022 19:24:02'!
+FAILURE!
+
+----End fileIn of /home/javier/Documents/UBA Exactas/Actual/8_Ingenieria de Software I/1_Practica/cuis/Packages/TerseGuide.pck.st----!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/23/2022 19:32:19' prior: 50519677!
+createRecord
+
+	record := line findTokens: $,! !
