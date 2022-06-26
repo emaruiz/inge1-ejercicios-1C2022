@@ -1,0 +1,37 @@
+
+
+----STARTUP---- (25 June 2022 20:57:56) as /home/manuel/Facultad/Inge1_1C2022/Ejercicios/linux64/CuisUniversity-5301.image!
+
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/25/2022 20:58:00'!
+PASSED!
+
+!testRun: #ImportTest #test02InvalidCustomerType stamp: 'edrr 6/25/2022 20:58:00'!
+PASSED!
+
+!testRun: #ImportTest #test03InvalidAddressType stamp: 'edrr 6/25/2022 20:58:00'!
+PASSED!
+
+!testRun: #ImportTest #test04EmptyRecord stamp: 'edrr 6/25/2022 20:58:00'!
+PASSED!
+
+!testRun: #ImportTest #test05IncompleteCustomer stamp: 'edrr 6/25/2022 20:58:00'!
+PASSED!
+
+!testRun: #ImportTest #test06IncompleteAddress stamp: 'edrr 6/25/2022 20:58:01'!
+PASSED!
+
+!testRun: #ImportTest #test07TooManyCustomerFields stamp: 'edrr 6/25/2022 20:58:01'!
+PASSED!
+
+!testRun: #ImportTest #test08TooManyAddressFields stamp: 'edrr 6/25/2022 20:58:01'!
+PASSED!
+
+!testRun: #ImportTest #test09CustomerWithEmptyFields stamp: 'edrr 6/25/2022 20:58:01'!
+PASSED!
+
+!testRun: #ImportTest #test10AddressWithEmptyFields stamp: 'edrr 6/25/2022 20:58:01'!
+PASSED!
+
+!testRun: #ImportTest #test11AddressWithoutCustomer stamp: 'edrr 6/25/2022 20:58:01'!
+PASSED!

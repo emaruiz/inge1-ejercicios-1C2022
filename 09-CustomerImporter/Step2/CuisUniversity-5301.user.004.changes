@@ -1,0 +1,723 @@
+
+
+----STARTUP---- (25 June 2022 20:21:22) as /home/manuel/Facultad/Inge1_1C2022/Ejercicios/linux64/CuisUniversity-5301.image!
+
+
+----End fileIn of /home/manuel/Facultad/Inge1_1C2022/Ejercicios/linux64/CustomerImporter.st----!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:22:41' prior: 50519311!
+test06IncompleteAddress
+	
+	self should: [CustomerImporter valueFrom: self incompleteAddressImportData into: session.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter invalidAddressRegisterErrorDescription.
+			self assert: (session selectAllOfType: Address) isEmpty].
+	self assertCustomerImporterWithData: self incompleteAddressImportData
+		messageError: CustomerImporter invalidAddressRegisterErrorDescription
+		then: [self assert: (session selectAllOfType: Address) isEmpty].! !
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:22:45' prior: 50519907!
+test06IncompleteAddress
+	
+	self assertCustomerImporterWithData: self incompleteAddressImportData
+		messageError: CustomerImporter invalidAddressRegisterErrorDescription
+		then: [self assert: (session selectAllOfType: Address) isEmpty].! !
+
+!testRun: #ImportTest #test06IncompleteAddress stamp: 'edrr 6/25/2022 20:22:46'!
+PASSED!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/25/2022 20:22:46'!
+PASSED!
+
+!testRun: #ImportTest #test02InvalidCustomerType stamp: 'edrr 6/25/2022 20:22:47'!
+PASSED!
+
+!testRun: #ImportTest #test03InvalidAddressType stamp: 'edrr 6/25/2022 20:22:47'!
+PASSED!
+
+!testRun: #ImportTest #test04EmptyRecord stamp: 'edrr 6/25/2022 20:22:47'!
+PASSED!
+
+!testRun: #ImportTest #test05IncompleteCustomer stamp: 'edrr 6/25/2022 20:22:47'!
+PASSED!
+
+!testRun: #ImportTest #test06IncompleteAddress stamp: 'edrr 6/25/2022 20:22:47'!
+PASSED!
+
+!testRun: #ImportTest #test07TooManyCustomerFields stamp: 'edrr 6/25/2022 20:22:48'!
+PASSED!
+
+!testRun: #ImportTest #test08TooManyAddressFields stamp: 'edrr 6/25/2022 20:22:48'!
+PASSED!
+
+!testRun: #ImportTest #test09CustomerWithEmptyFields stamp: 'edrr 6/25/2022 20:22:48'!
+PASSED!
+
+!testRun: #ImportTest #test10AddressWithEmptyFields stamp: 'edrr 6/25/2022 20:22:48'!
+PASSED!
+
+!testRun: #ImportTest #test11AddressWithoutCustomer stamp: 'edrr 6/25/2022 20:22:48'!
+PASSED!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:23:29' prior: 50519324!
+test07TooManyCustomerFields
+	
+	self assertCustomerImporterWithData: self exceedCustomerImportData
+		messageError: CustomerImporter invalidCustomerRegisterErrorDescription
+		then: [self assert: (session selectAllOfType: Customer) isEmpty].! !
+
+!testRun: #ImportTest #test07TooManyCustomerFields stamp: 'edrr 6/25/2022 20:23:30'!
+PASSED!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/25/2022 20:23:31'!
+PASSED!
+
+!testRun: #ImportTest #test02InvalidCustomerType stamp: 'edrr 6/25/2022 20:23:31'!
+PASSED!
+
+!testRun: #ImportTest #test03InvalidAddressType stamp: 'edrr 6/25/2022 20:23:32'!
+PASSED!
+
+!testRun: #ImportTest #test04EmptyRecord stamp: 'edrr 6/25/2022 20:23:32'!
+PASSED!
+
+!testRun: #ImportTest #test05IncompleteCustomer stamp: 'edrr 6/25/2022 20:23:32'!
+PASSED!
+
+!testRun: #ImportTest #test06IncompleteAddress stamp: 'edrr 6/25/2022 20:23:32'!
+PASSED!
+
+!testRun: #ImportTest #test07TooManyCustomerFields stamp: 'edrr 6/25/2022 20:23:32'!
+PASSED!
+
+!testRun: #ImportTest #test08TooManyAddressFields stamp: 'edrr 6/25/2022 20:23:32'!
+PASSED!
+
+!testRun: #ImportTest #test09CustomerWithEmptyFields stamp: 'edrr 6/25/2022 20:23:32'!
+PASSED!
+
+!testRun: #ImportTest #test10AddressWithEmptyFields stamp: 'edrr 6/25/2022 20:23:33'!
+PASSED!
+
+!testRun: #ImportTest #test11AddressWithoutCustomer stamp: 'edrr 6/25/2022 20:23:33'!
+PASSED!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:24:17' prior: 50519337!
+test08TooManyAddressFields
+	
+	self assertCustomerImporterWithData: self exceedAddressImportData
+		messageError: CustomerImporter invalidAddressRegisterErrorDescription
+		then: [self assert: (session selectAllOfType: Address) isEmpty].! !
+
+!testRun: #ImportTest #test08TooManyAddressFields stamp: 'edrr 6/25/2022 20:24:19'!
+PASSED!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/25/2022 20:24:19'!
+PASSED!
+
+!testRun: #ImportTest #test02InvalidCustomerType stamp: 'edrr 6/25/2022 20:24:20'!
+PASSED!
+
+!testRun: #ImportTest #test03InvalidAddressType stamp: 'edrr 6/25/2022 20:24:20'!
+PASSED!
+
+!testRun: #ImportTest #test04EmptyRecord stamp: 'edrr 6/25/2022 20:24:20'!
+PASSED!
+
+!testRun: #ImportTest #test05IncompleteCustomer stamp: 'edrr 6/25/2022 20:24:20'!
+PASSED!
+
+!testRun: #ImportTest #test06IncompleteAddress stamp: 'edrr 6/25/2022 20:24:20'!
+PASSED!
+
+!testRun: #ImportTest #test07TooManyCustomerFields stamp: 'edrr 6/25/2022 20:24:20'!
+PASSED!
+
+!testRun: #ImportTest #test08TooManyAddressFields stamp: 'edrr 6/25/2022 20:24:21'!
+PASSED!
+
+!testRun: #ImportTest #test09CustomerWithEmptyFields stamp: 'edrr 6/25/2022 20:24:21'!
+PASSED!
+
+!testRun: #ImportTest #test10AddressWithEmptyFields stamp: 'edrr 6/25/2022 20:24:21'!
+PASSED!
+
+!testRun: #ImportTest #test11AddressWithoutCustomer stamp: 'edrr 6/25/2022 20:24:21'!
+PASSED!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:25:11' prior: 50519350!
+test09CustomerWithEmptyFields
+	
+	self assertCustomerImporterWithData: self customerEmptyFieldsImportData
+		messageError: CustomerImporter emptyFieldsErrorDescription
+		then: [self assert: (session selectAllOfType: Customer) isEmpty].! !
+
+!testRun: #ImportTest #test09CustomerWithEmptyFields stamp: 'edrr 6/25/2022 20:25:11'!
+PASSED!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/25/2022 20:25:12'!
+PASSED!
+
+!testRun: #ImportTest #test02InvalidCustomerType stamp: 'edrr 6/25/2022 20:25:12'!
+PASSED!
+
+!testRun: #ImportTest #test03InvalidAddressType stamp: 'edrr 6/25/2022 20:25:12'!
+PASSED!
+
+!testRun: #ImportTest #test04EmptyRecord stamp: 'edrr 6/25/2022 20:25:13'!
+PASSED!
+
+!testRun: #ImportTest #test05IncompleteCustomer stamp: 'edrr 6/25/2022 20:25:13'!
+PASSED!
+
+!testRun: #ImportTest #test06IncompleteAddress stamp: 'edrr 6/25/2022 20:25:13'!
+PASSED!
+
+!testRun: #ImportTest #test07TooManyCustomerFields stamp: 'edrr 6/25/2022 20:25:13'!
+PASSED!
+
+!testRun: #ImportTest #test08TooManyAddressFields stamp: 'edrr 6/25/2022 20:25:13'!
+PASSED!
+
+!testRun: #ImportTest #test09CustomerWithEmptyFields stamp: 'edrr 6/25/2022 20:25:13'!
+PASSED!
+
+!testRun: #ImportTest #test10AddressWithEmptyFields stamp: 'edrr 6/25/2022 20:25:14'!
+PASSED!
+
+!testRun: #ImportTest #test11AddressWithoutCustomer stamp: 'edrr 6/25/2022 20:25:14'!
+PASSED!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:25:54' prior: 50519363!
+test10AddressWithEmptyFields
+	
+	self assertCustomerImporterWithData: self addressEmptyFieldsImportData
+		messageError: CustomerImporter emptyFieldsErrorDescription
+		then: [self assert: (session selectAllOfType: Address) isEmpty]. ! !
+
+!testRun: #ImportTest #test10AddressWithEmptyFields stamp: 'edrr 6/25/2022 20:25:56'!
+PASSED!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/25/2022 20:25:57'!
+PASSED!
+
+!testRun: #ImportTest #test02InvalidCustomerType stamp: 'edrr 6/25/2022 20:25:57'!
+PASSED!
+
+!testRun: #ImportTest #test03InvalidAddressType stamp: 'edrr 6/25/2022 20:25:57'!
+PASSED!
+
+!testRun: #ImportTest #test04EmptyRecord stamp: 'edrr 6/25/2022 20:25:57'!
+PASSED!
+
+!testRun: #ImportTest #test05IncompleteCustomer stamp: 'edrr 6/25/2022 20:25:58'!
+PASSED!
+
+!testRun: #ImportTest #test06IncompleteAddress stamp: 'edrr 6/25/2022 20:25:58'!
+PASSED!
+
+!testRun: #ImportTest #test07TooManyCustomerFields stamp: 'edrr 6/25/2022 20:25:58'!
+PASSED!
+
+!testRun: #ImportTest #test08TooManyAddressFields stamp: 'edrr 6/25/2022 20:25:58'!
+PASSED!
+
+!testRun: #ImportTest #test09CustomerWithEmptyFields stamp: 'edrr 6/25/2022 20:25:58'!
+PASSED!
+
+!testRun: #ImportTest #test10AddressWithEmptyFields stamp: 'edrr 6/25/2022 20:25:58'!
+PASSED!
+
+!testRun: #ImportTest #test11AddressWithoutCustomer stamp: 'edrr 6/25/2022 20:25:59'!
+PASSED!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:26:36' prior: 50519376!
+test11AddressWithoutCustomer
+	
+	self assertCustomerImporterWithData: self onlyAddressImportData
+		messageError: CustomerImporter addressWithoutCustomerErrorDescription
+		then: [self assert: (session selectAllOfType: Customer) isEmpty].! !
+
+!testRun: #ImportTest #test11AddressWithoutCustomer stamp: 'edrr 6/25/2022 20:26:38'!
+PASSED!
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/25/2022 20:26:38'!
+PASSED!
+
+!testRun: #ImportTest #test02InvalidCustomerType stamp: 'edrr 6/25/2022 20:26:39'!
+PASSED!
+
+!testRun: #ImportTest #test03InvalidAddressType stamp: 'edrr 6/25/2022 20:26:39'!
+PASSED!
+
+!testRun: #ImportTest #test04EmptyRecord stamp: 'edrr 6/25/2022 20:26:39'!
+PASSED!
+
+!testRun: #ImportTest #test05IncompleteCustomer stamp: 'edrr 6/25/2022 20:26:39'!
+PASSED!
+
+!testRun: #ImportTest #test06IncompleteAddress stamp: 'edrr 6/25/2022 20:26:39'!
+PASSED!
+
+!testRun: #ImportTest #test07TooManyCustomerFields stamp: 'edrr 6/25/2022 20:26:39'!
+PASSED!
+
+!testRun: #ImportTest #test08TooManyAddressFields stamp: 'edrr 6/25/2022 20:26:40'!
+PASSED!
+
+!testRun: #ImportTest #test09CustomerWithEmptyFields stamp: 'edrr 6/25/2022 20:26:40'!
+PASSED!
+
+!testRun: #ImportTest #test10AddressWithEmptyFields stamp: 'edrr 6/25/2022 20:26:40'!
+PASSED!
+
+!testRun: #ImportTest #test11AddressWithoutCustomer stamp: 'edrr 6/25/2022 20:26:40'!
+PASSED!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:30:18' prior: 50519737!
+importRecord
+	
+	(record first = 'C') ifTrue: [ self importCustomer ].
+
+	(record first = 'A') ifTrue: [  
+		newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription].
+		^self importAddress ].
+	
+	self error: self class invalidRecordTypeErrorDescription.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:30:35'!
+isCustomer
+
+	^ (record first = 'C') ifTrue: [ self importCustomer ]! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:30:35' prior: 50520197!
+importRecord
+	
+	self isCustomer.
+
+	(record first = 'A') ifTrue: [  
+		newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription].
+		^self importAddress ].
+	
+	self error: self class invalidRecordTypeErrorDescription.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:32:04'!
+ifCustomerThen: aBlock
+
+	(record first = 'C') ifTrue: aBlock.! !
+
+!methodRemoval: CustomerImporter #isCustomer stamp: 'edrr 6/25/2022 20:32:15'!
+isCustomer
+
+	^ (record first = 'C') ifTrue: [ self importCustomer ]!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:32:32' prior: 50520215!
+importRecord
+	
+	self ifCustomerThen: [^self importCustomer].
+
+	(record first = 'A') ifTrue: [  
+		newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription].
+		^self importAddress ].
+	
+	self error: self class invalidRecordTypeErrorDescription.! !
+
+!testRun: #ImportTest #test01Import stamp: 'edrr 6/25/2022 20:32:35'!
+PASSED!
+
+!testRun: #ImportTest #test02InvalidCustomerType stamp: 'edrr 6/25/2022 20:32:35'!
+PASSED!
+
+!testRun: #ImportTest #test03InvalidAddressType stamp: 'edrr 6/25/2022 20:32:35'!
+PASSED!
+
+!testRun: #ImportTest #test04EmptyRecord stamp: 'edrr 6/25/2022 20:32:36'!
+PASSED!
+
+!testRun: #ImportTest #test05IncompleteCustomer stamp: 'edrr 6/25/2022 20:32:36'!
+PASSED!
+
+!testRun: #ImportTest #test06IncompleteAddress stamp: 'edrr 6/25/2022 20:32:36'!
+PASSED!
+
+!testRun: #ImportTest #test07TooManyCustomerFields stamp: 'edrr 6/25/2022 20:32:36'!
+PASSED!
+
+!testRun: #ImportTest #test08TooManyAddressFields stamp: 'edrr 6/25/2022 20:32:36'!
+PASSED!
+
+!testRun: #ImportTest #test09CustomerWithEmptyFields stamp: 'edrr 6/25/2022 20:32:36'!
+PASSED!
+
+!testRun: #ImportTest #test10AddressWithEmptyFields stamp: 'edrr 6/25/2022 20:32:36'!
+PASSED!
+
+!testRun: #ImportTest #test11AddressWithoutCustomer stamp: 'edrr 6/25/2022 20:32:37'!
+PASSED!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:32:50' prior: 50520236!
+importRecord
+	
+	self ifCustomerThen: [^self importCustomer].
+
+	(record first = 'A') ifTrue: [  
+		newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription].
+		self importAddress ].
+	
+	self error: self class invalidRecordTypeErrorDescription.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:33:07'!
+ifAddressThen
+
+	^ (record first = 'A') ifTrue: [  
+		newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription].
+		self importAddress ]! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:33:07' prior: 50520279!
+importRecord
+	
+	self ifCustomerThen: [^self importCustomer].
+
+	self ifAddressThen.
+	
+	self error: self class invalidRecordTypeErrorDescription.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:33:56'!
+ifAddressThen: aBlock
+
+	(record first = 'A') ifTrue: aBlock.! !
+
+!methodRemoval: CustomerImporter #ifAddressThen stamp: 'edrr 6/25/2022 20:34:00'!
+ifAddressThen
+
+	^ (record first = 'A') ifTrue: [  
+		newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription].
+		self importAddress ]!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:34:35' prior: 50520300!
+importRecord
+	
+	self ifCustomerThen: [^self importCustomer].
+
+	self ifAddressThen: [newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription].
+		^self importAddress].
+	
+	self error: self class invalidRecordTypeErrorDescription.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:35:30' prior: 50520320!
+importRecord
+	
+	self isCustomer ifTrue: [^self importCustomer].
+	
+	self ifAddressThen: [newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription].
+		^self importAddress].
+	
+	self error: self class invalidRecordTypeErrorDescription.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:35:53' prior: 50520332!
+importRecord
+	
+	self isCustomer ifTrue: [^self importCustomer].
+	
+	self isAddress ifTrue: [newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription].
+		^self importAddress].
+	
+	self error: self class invalidRecordTypeErrorDescription.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:36:31' prior: 50520307!
+ifAddressThen: aBlock
+
+	(record first = 'A').! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:36:35'!
+ifAddressThen
+
+	(record first = 'A').! !
+
+!methodRemoval: CustomerImporter #ifAddressThen: stamp: 'edrr 6/25/2022 20:36:35'!
+ifAddressThen: aBlock
+
+	(record first = 'A').!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:36:52'!
+isAddressThen
+
+	(record first = 'A').! !
+
+!methodRemoval: CustomerImporter #ifAddressThen stamp: 'edrr 6/25/2022 20:36:52'!
+ifAddressThen
+
+	(record first = 'A').!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:37:02' prior: 50520368!
+isAddressThen
+
+	^record first = 'A'.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:37:06'!
+isAddress
+
+	^record first = 'A'.! !
+
+!methodRemoval: CustomerImporter #isAddressThen stamp: 'edrr 6/25/2022 20:37:06'!
+isAddressThen
+
+	^record first = 'A'.!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:37:19'!
+isCustomer: aBlock
+
+	(record first = 'C') ifTrue: aBlock.! !
+
+!methodRemoval: CustomerImporter #ifCustomerThen: stamp: 'edrr 6/25/2022 20:37:19'!
+ifCustomerThen: aBlock
+
+	(record first = 'C') ifTrue: aBlock.!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:37:35' prior: 50520388!
+isCustomer: aBlock
+
+	^record first = 'C'.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:37:41'!
+isCustomer
+
+	^record first = 'C'.! !
+
+!methodRemoval: CustomerImporter #isCustomer: stamp: 'edrr 6/25/2022 20:37:41'!
+isCustomer: aBlock
+
+	^record first = 'C'.!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:38:36'!
+assertAddressHasCustomer
+
+	^ newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription]! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:38:36' prior: 50520344!
+importRecord
+	
+	self isCustomer ifTrue: [^self importCustomer].
+	
+	self isAddress ifTrue: [self assertAddressHasCustomer.
+		^self importAddress].
+	
+	self error: self class invalidRecordTypeErrorDescription.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:38:43' prior: 50520417!
+importRecord
+	
+	self isCustomer ifTrue: [^self importCustomer].
+	
+	self isAddress ifTrue: [
+		self assertAddressHasCustomer.
+		^self importAddress].
+	
+	self error: self class invalidRecordTypeErrorDescription.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:39:21'!
+raiseInvalidTypeError
+
+	^ self error: self class invalidRecordTypeErrorDescription! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:39:21' prior: 50520427!
+importRecord
+	
+	self isCustomer ifTrue: [^self importCustomer].
+	
+	self isAddress ifTrue: [
+		self assertAddressHasCustomer.
+		^self importAddress].
+	
+	self raiseInvalidTypeError.! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:40:59'!
+assertRecordNotEmpty
+
+	^ record isEmpty ifTrue: [self error: self class emptyRecordErrorDescription]! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:40:59' prior: 50519686!
+createRecord
+
+	record := line findTokens: $,.
+	
+	self assertRecordNotEmpty.
+	(record first = 'C' and: ((record size = 5) not)) ifTrue: [self error: self class invalidCustomerRegisterErrorDescription].
+	(record first = 'A' and: ((record size = 6) not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
+	(record first = 'C' and: (	((line asBag occurrencesOf: $,) = 4) not)) ifTrue: [self error: self class emptyFieldsErrorDescription].
+	(record first = 'A' and: (	((line asBag occurrencesOf: $,) = 5) not)) ifTrue: [self error: self class emptyFieldsErrorDescription].! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:41:43' prior: 50520459!
+createRecord
+
+	record := line findTokens: $,.
+	
+	self assertRecordNotEmpty.
+	(record first = 'C' and: ((record size = 5) not)) ifTrue: [self error: self class invalidCustomerRegisterErrorDescription].
+	(record first = 'C' and: (	((line asBag occurrencesOf: $,) = 4) not)) ifTrue: [self error: self class emptyFieldsErrorDescription].
+	(record first = 'A' and: ((record size = 6) not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
+	(record first = 'A' and: (	((line asBag occurrencesOf: $,) = 5) not)) ifTrue: [self error: self class emptyFieldsErrorDescription].! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:42:08'!
+assertCustomerRecordIsValid
+
+	(record first = 'C' and: ((record size = 5) not)) ifTrue: [self error: self class invalidCustomerRegisterErrorDescription].
+	(record first = 'C' and: (	((line asBag occurrencesOf: $,) = 4) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:42:08' prior: 50520481!
+createRecord
+
+	record := line findTokens: $,.
+	
+	self assertRecordNotEmpty.
+	self assertCustomerRecordIsValid.
+	(record first = 'A' and: ((record size = 6) not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
+	(record first = 'A' and: (	((line asBag occurrencesOf: $,) = 5) not)) ifTrue: [self error: self class emptyFieldsErrorDescription].! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:42:38'!
+assertAddressRecordIsValid
+
+	(record first = 'A' and: ((record size = 6) not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
+	(record first = 'A' and: (	((line asBag occurrencesOf: $,) = 5) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/25/2022 20:42:38' prior: 50520514!
+createRecord
+
+	record := line findTokens: $,.
+	
+	self assertRecordNotEmpty.
+	self assertCustomerRecordIsValid.
+	self assertAddressRecordIsValid.! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:43:25' prior: 50520528!
+assertAddressRecordIsValid
+
+	(self isAddress and: ((record size = 6) not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
+	(self isAddress and: (	((line asBag occurrencesOf: $,) = 5) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:44:38'!
+validAddresSize
+
+	^ record size = 6! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:44:38' prior: 50520548!
+assertAddressRecordIsValid
+
+	(self isAddress and: ((self validAddresSize) not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
+	(self isAddress and: (	((line asBag occurrencesOf: $,) = 5) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:44:54'!
+hasValidAddresSize
+
+	^ record size = 6! !
+!CustomerImporter methodsFor: 'as yet unclassified' stamp: 'edrr 6/25/2022 20:44:54' prior: 50520565!
+assertAddressRecordIsValid
+
+	(self isAddress and: ((self hasValidAddresSize) not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
+	(self isAddress and: (	((line asBag occurrencesOf: $,) = 5) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+
+!methodRemoval: CustomerImporter #validAddresSize stamp: 'edrr 6/25/2022 20:44:54'!
+validAddresSize
+
+	^ record size = 6!
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:45:31' prior: 50520582!
+assertAddressRecordIsValid
+
+	(self isAddress and: (self hasValidAddresSize not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
+	(self isAddress and: (	((line asBag occurrencesOf: $,) = 5) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:45:57'!
+hasValidAddressRegister
+
+	^ (line asBag occurrencesOf: $,) = 5! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:45:57' prior: 50520598!
+assertAddressRecordIsValid
+
+	(self isAddress and: (self hasValidAddresSize not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
+	(self isAddress and: (	(self hasValidAddressRegister) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:46:07'!
+hasValidAddressSize
+
+	^ record size = 6! !
+!CustomerImporter methodsFor: 'as yet unclassified' stamp: 'edrr 6/25/2022 20:46:07' prior: 50520615!
+assertAddressRecordIsValid
+
+	(self isAddress and: (self hasValidAddressSize not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
+	(self isAddress and: (	(self hasValidAddressRegister) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+
+!methodRemoval: CustomerImporter #hasValidAddresSize stamp: 'edrr 6/25/2022 20:46:07'!
+hasValidAddresSize
+
+	^ record size = 6!
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:46:18' prior: 50520632!
+assertAddressRecordIsValid
+
+	(self isAddress and: (self hasValidAddressSize not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
+	(self isAddress and: (	self hasValidAddressRegister not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:47:01'!
+assertAddressRecordSize
+
+	^ (self isAddress and: (self hasValidAddressSize not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:47:01' prior: 50520648!
+assertAddressRecordIsValid
+
+	self assertAddressRecordSize.
+	(self isAddress and: (	self hasValidAddressRegister not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:47:20'!
+hasValidAddressRecord
+
+	^ (line asBag occurrencesOf: $,) = 5! !
+!CustomerImporter methodsFor: 'as yet unclassified' stamp: 'edrr 6/25/2022 20:47:20' prior: 50520668!
+assertAddressRecordIsValid
+
+	self assertAddressRecordSize.
+	(self isAddress and: (	self hasValidAddressRecord not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+
+!methodRemoval: CustomerImporter #hasValidAddressRegister stamp: 'edrr 6/25/2022 20:47:20'!
+hasValidAddressRegister
+
+	^ (line asBag occurrencesOf: $,) = 5!
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:47:50'!
+assertAddressRecordFormat
+
+	^ (self isAddress and: (	self hasValidAddressRecord not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:47:50' prior: 50520683!
+assertAddressRecordIsValid
+
+	self assertAddressRecordSize.
+	self assertAddressRecordFormat! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:48:40' prior: 50520502!
+assertCustomerRecordIsValid
+
+	(self isCustomer and: ((record size = 5) not)) ifTrue: [self error: self class invalidCustomerRegisterErrorDescription].
+	(self isCustomer and: (	((line asBag occurrencesOf: $,) = 4) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:49:18'!
+hasValidCustomerRecordSize
+
+	^ record size = 5! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:49:18' prior: 50520710!
+assertCustomerRecordIsValid
+
+	(self isCustomer and: ((self hasValidCustomerRecordSize) not)) ifTrue: [self error: self class invalidCustomerRegisterErrorDescription].
+	(self isCustomer and: (	((line asBag occurrencesOf: $,) = 4) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:49:28' prior: 50520727!
+assertCustomerRecordIsValid
+
+	(self isCustomer and: (self hasValidCustomerRecordSize not)) ifTrue: [self error: self class invalidCustomerRegisterErrorDescription].
+	(self isCustomer and: (	((line asBag occurrencesOf: $,) = 4) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:49:57'!
+hasValidCustomerRecordFormat
+
+	^ (line asBag occurrencesOf: $,) = 4! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:49:57' prior: 50520740!
+assertCustomerRecordIsValid
+
+	(self isCustomer and: (self hasValidCustomerRecordSize not)) ifTrue: [self error: self class invalidCustomerRegisterErrorDescription].
+	(self isCustomer and: (	(self hasValidCustomerRecordFormat) not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:50:04' prior: 50520758!
+assertCustomerRecordIsValid
+
+	(self isCustomer and: (self hasValidCustomerRecordSize not)) ifTrue: [self error: self class invalidCustomerRegisterErrorDescription].
+	(self isCustomer and: (	self hasValidCustomerRecordFormat not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:50:22'!
+hasValidAddressRecordSize
+
+	^ record size = 6! !
+!CustomerImporter methodsFor: 'as yet unclassified' stamp: 'edrr 6/25/2022 20:50:22' prior: 50520660!
+assertAddressRecordSize
+
+	^ (self isAddress and: (self hasValidAddressRecordSize not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription]! !
+
+!methodRemoval: CustomerImporter #hasValidAddressSize stamp: 'edrr 6/25/2022 20:50:22'!
+hasValidAddressSize
+
+	^ record size = 6!
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:50:38'!
+hasValidAddressRecordFormat
+
+	^ (line asBag occurrencesOf: $,) = 5! !
+!CustomerImporter methodsFor: 'as yet unclassified' stamp: 'edrr 6/25/2022 20:50:38' prior: 50520696!
+assertAddressRecordFormat
+
+	^ (self isAddress and: (	self hasValidAddressRecordFormat not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+
+!methodRemoval: CustomerImporter #hasValidAddressRecord stamp: 'edrr 6/25/2022 20:50:38'!
+hasValidAddressRecord
+
+	^ (line asBag occurrencesOf: $,) = 5!
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:51:19'!
+assertCustomerRecordSize
+
+	^ (self isCustomer and: (self hasValidCustomerRecordSize not)) ifTrue: [self error: self class invalidCustomerRegisterErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:51:19' prior: 50520771!
+assertCustomerRecordIsValid
+
+	self assertCustomerRecordSize.
+	(self isCustomer and: (	self hasValidCustomerRecordFormat not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:51:41'!
+assertCustomerRecordFormat
+
+	^ (self isCustomer and: (	self hasValidCustomerRecordFormat not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:51:41' prior: 50520828!
+assertCustomerRecordIsValid
+
+	self assertCustomerRecordSize.
+	self assertCustomerRecordFormat! !
+
+----QUIT----(25 June 2022 20:56:52) CuisUniversity-5301.image priorSource: 6002664!
