@@ -5,86 +5,84 @@ TestCase subclass: #ImportTest
 	poolDictionaries: ''
 	category: 'CustomerImporter'!
 
-!ImportTest methodsFor: 'tests' stamp: 'HAW 5/22/2022 18:17:51'!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:06:45'!
 test01Import
 
-	CustomerImporter valueFrom: self validImportData into: session..
+	CustomerImporter valueFrom: self validImportData into: session.
 
 	self assertImportedRightNumberOfCustomers.
 	self assertPepeSanchezWasImportedCorrecty.
 	self assertJuanPerezWasImportedCorrectly ! !
 
-!ImportTest methodsFor: 'tests' stamp: 'edrr 6/23/2022 20:19:43'!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:16:39'!
 test02InvalidCustomerType
+		
+	self assertCustomerImporterWithData: self invalidCustomerImportData 
+		messageError: CustomerImporter invalidRecordTypeErrorDescription 
+		then: [self assert: (session selectAllOfType: Customer) isEmpty].! !
 
-	self should: [CustomerImporter valueFrom: self invalidCustomerImportData into: session.] 
-		raise: Error - MessageNotUnderstood
-		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter invalidRecordTypeErrorDescription.
-			self assert: (session selectAllOfType: Customer) isEmpty ].! !
-
-!ImportTest methodsFor: 'tests' stamp: 'edrr 6/23/2022 20:19:39'!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:17:34'!
 test03InvalidAddressType
 
-	self should: [CustomerImporter valueFrom: self invalidAddressImportData into: session.] 
-		raise: Error - MessageNotUnderstood
-		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter invalidRecordTypeErrorDescription.
-			self assert: (session selectAllOfType: Address) isEmpty].! !
+	self assertCustomerImporterWithData: self invalidAddressImportData
+		messageError: CustomerImporter invalidRecordTypeErrorDescription
+		then: [self assert: (session selectAllOfType: Address) isEmpty]! !
 
-!ImportTest methodsFor: 'tests' stamp: 'edrr 6/23/2022 20:21:25'!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:18:34'!
 test04EmptyRecord
 	
-	self should: [CustomerImporter valueFrom: self emptyLineImportData into: session.] 
-		raise: Error - MessageNotUnderstood
-		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter emptyRecordErrorDescription.
-			self assert: (session selectAllOfType: Customer) isEmpty].! !
+	self assertCustomerImporterWithData: self emptyLineImportData
+		messageError: CustomerImporter emptyRecordErrorDescription
+		then: [self assert: (session selectAllOfType: Customer) isEmpty]! !
 
-!ImportTest methodsFor: 'tests' stamp: 'edrr 6/23/2022 20:44:19'!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:19:26'!
 test05IncompleteCustomer
 	
-	self should: [CustomerImporter valueFrom: self incompleteCustomerImportData into: session.] 
-		raise: Error - MessageNotUnderstood
-		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter invalidCustomerRegisterErrorDescription.
-			self assert: (session selectAllOfType: Customer) isEmpty].! !
+	self assertCustomerImporterWithData: self incompleteCustomerImportData
+		messageError: CustomerImporter invalidCustomerRegisterErrorDescription
+		then: [self assert: (session selectAllOfType: Customer) isEmpty]! !
 
-!ImportTest methodsFor: 'tests' stamp: 'edrr 6/23/2022 20:50:28'!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:22:45'!
 test06IncompleteAddress
 	
-	self should: [CustomerImporter valueFrom: self incompleteAddressImportData into: session.] 
-		raise: Error - MessageNotUnderstood
-		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter invalidAddressRegisterErrorDescription.
-			self assert: (session selectAllOfType: Address) isEmpty].! !
+	self assertCustomerImporterWithData: self incompleteAddressImportData
+		messageError: CustomerImporter invalidAddressRegisterErrorDescription
+		then: [self assert: (session selectAllOfType: Address) isEmpty].! !
 
-!ImportTest methodsFor: 'tests' stamp: 'edrr 6/23/2022 20:44:38'!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:23:29'!
 test07TooManyCustomerFields
 	
-	self should: [CustomerImporter valueFrom: self exceedCustomerImportData into: session.] 
-		raise: Error - MessageNotUnderstood
-		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter invalidCustomerRegisterErrorDescription.
-			self assert: (session selectAllOfType: Customer) isEmpty].! !
+	self assertCustomerImporterWithData: self exceedCustomerImportData
+		messageError: CustomerImporter invalidCustomerRegisterErrorDescription
+		then: [self assert: (session selectAllOfType: Customer) isEmpty].! !
 
-!ImportTest methodsFor: 'tests' stamp: 'edrr 6/23/2022 20:47:37'!
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:24:17'!
 test08TooManyAddressFields
 	
-	self should: [CustomerImporter valueFrom: self exceedAddressImportData into: session.] 
-		raise: Error - MessageNotUnderstood
-		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter invalidAddressRegisterErrorDescription.
-			self assert: (session selectAllOfType: Address) isEmpty].! !
+	self assertCustomerImporterWithData: self exceedAddressImportData
+		messageError: CustomerImporter invalidAddressRegisterErrorDescription
+		then: [self assert: (session selectAllOfType: Address) isEmpty].! !
 
-!ImportTest methodsFor: 'tests' stamp: 'jeo 6/25/2022 19:18:52'!
-test09EmptyFields
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:25:11'!
+test09CustomerWithEmptyFields
 	
-	self should: [CustomerImporter valueFrom: self emptyFieldsImportData into: session.] 
-		raise: Error - MessageNotUnderstood
-		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter emptyFieldsErrorDescription.
-			self assert: (session selectAllOfType: Customer) isEmpty].! !
+	self assertCustomerImporterWithData: self customerEmptyFieldsImportData
+		messageError: CustomerImporter emptyFieldsErrorDescription
+		then: [self assert: (session selectAllOfType: Customer) isEmpty].! !
 
-!ImportTest methodsFor: 'tests' stamp: 'edrr 6/23/2022 21:02:59'!
-test10AddressWithoutCustomer
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:25:54'!
+test10AddressWithEmptyFields
 	
-	self should: [CustomerImporter valueFrom: self onlyAddressImportData into: session.] 
-		raise: Error - MessageNotUnderstood
-		withExceptionDo: [:anError | self assert: anError messageText = CustomerImporter addressWithoutCustomerErrorDescription.
-			self assert: (session selectAllOfType: Customer) isEmpty].! !
+	self assertCustomerImporterWithData: self addressEmptyFieldsImportData
+		messageError: CustomerImporter emptyFieldsErrorDescription
+		then: [self assert: (session selectAllOfType: Address) isEmpty]. ! !
+
+!ImportTest methodsFor: 'tests' stamp: 'edrr 6/25/2022 20:26:36'!
+test11AddressWithoutCustomer
+	
+	self assertCustomerImporterWithData: self onlyAddressImportData
+		messageError: CustomerImporter addressWithoutCustomerErrorDescription
+		then: [self assert: (session selectAllOfType: Customer) isEmpty].! !
 
 
 !ImportTest methodsFor: 'assertions' stamp: 'HAW 5/22/2022 18:22:05'!
@@ -100,6 +98,14 @@ assertAddressOf: importedCustomer at: aStreetName hasNumber: aNumber town: aTown
 	self assert: aProvince equals: importedAddress province.
 
 	! !
+
+!ImportTest methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:15:18'!
+assertCustomerImporterWithData: data messageError: aMessageError then: aBlock
+
+	^ self should: [CustomerImporter valueFrom: data into: session.] 
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [:anError | self assert: anError messageText = aMessageError.
+			aBlock value]! !
 
 !ImportTest methodsFor: 'assertions' stamp: 'HAW 5/22/2022 18:27:57'!
 assertCustomerWithIdentificationType: anIdType number: anIdNumber hasFirstName: aFirstName lastName: aLastName
@@ -167,8 +173,15 @@ customerWithIdentificationType: anIdType number: anIdNumber
 		ofType: Customer) anyOne! !
 
 
-!ImportTest methodsFor: 'test data' stamp: 'jeo 6/25/2022 19:23:54'!
-emptyFieldsImportData
+!ImportTest methodsFor: 'test data' stamp: 'edrr 6/25/2022 20:03:53'!
+addressEmptyFieldsImportData
+
+	^ ReadStream on:
+'C,Pepe,Sanchez,D,22333444
+A,,,San Martin,3322,Olivos,1636,BsAs'! !
+
+!ImportTest methodsFor: 'test data' stamp: 'edrr 6/25/2022 20:02:30'!
+customerEmptyFieldsImportData
 
 	^ ReadStream on:
 'C,,,Pepe,Sanchez,D,22333444'! !
@@ -385,18 +398,32 @@ initializeFrom: aReadStream into: aSession
 	readStream := aReadStream.! !
 
 
-!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/23/2022 19:32:19'!
+!CustomerImporter methodsFor: 'evaluating' stamp: 'jeo 6/25/2022 19:20:30'!
+value
+
+	[ self hasRecordToImport ] whileTrue: [ 
+		self createRecord.
+		self importRecord.].
+
+	! !
+
+
+!CustomerImporter methodsFor: 'evaluating-private' stamp: 'edrr 6/25/2022 20:42:38'!
 createRecord
 
-	record := line findTokens: $,! !
+	record := line findTokens: $,.
+	
+	self assertRecordNotEmpty.
+	self assertCustomerRecordIsValid.
+	self assertAddressRecordIsValid.! !
 
-!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/23/2022 19:38:25'!
+!CustomerImporter methodsFor: 'evaluating-private' stamp: 'edrr 6/23/2022 19:38:25'!
 hasRecordToImport
 
 	line := readStream nextLine. 
 	^line notNil! !
 
-!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/23/2022 19:37:30'!
+!CustomerImporter methodsFor: 'evaluating-private' stamp: 'edrr 6/23/2022 19:37:30'!
 importAddress
 
 	newAddress := Address new.
@@ -407,7 +434,7 @@ importAddress
 			newAddress zipCode: record fifth asNumber .
 			newAddress province: record sixth! !
 
-!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/23/2022 19:36:10'!
+!CustomerImporter methodsFor: 'evaluating-private' stamp: 'edrr 6/23/2022 19:36:10'!
 importCustomer
 
 	newCustomer := Customer new.
@@ -417,29 +444,94 @@ importCustomer
 			newCustomer identificationNumber: record fifth.
 			session persist: newCustomer! !
 
-!CustomerImporter methodsFor: 'evaluating' stamp: 'edrr 6/23/2022 21:02:12'!
+!CustomerImporter methodsFor: 'evaluating-private' stamp: 'edrr 6/25/2022 20:39:21'!
 importRecord
- 
-	record isEmpty ifTrue: [self error: self class emptyRecordErrorDescription].
-	(record first = 'C' and: ((record size = 5) not)) ifTrue: [self error: self class invalidCustomerRegisterErrorDescription].
-	(record first = 'A' and: ((record size = 6) not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription].
 	
-	(record first = 'C') ifTrue: [ ^self importCustomer ].
-
-	(record first = 'A') ifTrue: [  
-		newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription].
-		^self importAddress ].
+	self isCustomer ifTrue: [^self importCustomer].
 	
-	self error: self class invalidRecordTypeErrorDescription.! !
+	self isAddress ifTrue: [
+		self assertAddressHasCustomer.
+		^self importAddress].
+	
+	self raiseInvalidTypeError.! !
 
-!CustomerImporter methodsFor: 'evaluating' stamp: 'jeo 6/25/2022 19:20:30'!
-value
+!CustomerImporter methodsFor: 'evaluating-private' stamp: 'edrr 6/25/2022 20:37:06'!
+isAddress
 
-	[ self hasRecordToImport ] whileTrue: [ 
-		self createRecord.
-		self importRecord.].
+	^record first = 'A'.! !
 
-	! !
+!CustomerImporter methodsFor: 'evaluating-private' stamp: 'edrr 6/25/2022 20:37:41'!
+isCustomer
+
+	^record first = 'C'.! !
+
+!CustomerImporter methodsFor: 'evaluating-private' stamp: 'edrr 6/25/2022 20:39:21'!
+raiseInvalidTypeError
+
+	^ self error: self class invalidRecordTypeErrorDescription! !
+
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:38:36'!
+assertAddressHasCustomer
+
+	^ newCustomer isNil ifTrue: [self error: self class addressWithoutCustomerErrorDescription]! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:50:38'!
+assertAddressRecordFormat
+
+	^ (self isAddress and: (	self hasValidAddressRecordFormat not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:47:50'!
+assertAddressRecordIsValid
+
+	self assertAddressRecordSize.
+	self assertAddressRecordFormat! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:50:22'!
+assertAddressRecordSize
+
+	^ (self isAddress and: (self hasValidAddressRecordSize not)) ifTrue: [self error: self class invalidAddressRegisterErrorDescription]! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:51:41'!
+assertCustomerRecordFormat
+
+	^ (self isCustomer and: (	self hasValidCustomerRecordFormat not)) ifTrue: [self error: self class emptyFieldsErrorDescription]! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:51:41'!
+assertCustomerRecordIsValid
+
+	self assertCustomerRecordSize.
+	self assertCustomerRecordFormat! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:51:19'!
+assertCustomerRecordSize
+
+	^ (self isCustomer and: (self hasValidCustomerRecordSize not)) ifTrue: [self error: self class invalidCustomerRegisterErrorDescription]! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:40:59'!
+assertRecordNotEmpty
+
+	^ record isEmpty ifTrue: [self error: self class emptyRecordErrorDescription]! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:50:38'!
+hasValidAddressRecordFormat
+
+	^ (line asBag occurrencesOf: $,) = 5! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:50:22'!
+hasValidAddressRecordSize
+
+	^ record size = 6! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:49:57'!
+hasValidCustomerRecordFormat
+
+	^ (line asBag occurrencesOf: $,) = 4! !
+
+!CustomerImporter methodsFor: 'assertions' stamp: 'edrr 6/25/2022 20:49:18'!
+hasValidCustomerRecordSize
+
+	^ record size = 5! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
