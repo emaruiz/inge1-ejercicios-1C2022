@@ -1,0 +1,74 @@
+
+
+----STARTUP---- (27 June 2022 21:07:19) as /home/clinux01/Documentos/linux64 (4)/CuisUniversity-5301.image!
+
+
+----End fileIn of /home/clinux01/Documentos/linux64 (4)/CustomerImporter.st----!
+
+Smalltalk at: #env put: 'a'!
+
+Smalltalk at: #env put: #dev!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 21:10:02'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 21:10:02'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 21:10:02'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 21:10:02'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 21:10:02'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 21:10:02'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 21:10:02'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 21:10:02'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 21:10:02'!
+PASSED!
+
+Smalltalk at: #env put: #int!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 21:10:17'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 21:10:17'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 21:10:18'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 21:10:18'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 21:10:18'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 21:10:18'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 21:10:19'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 21:10:19'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 21:10:19'!
+PASSED!
+!Environment class methodsFor: 'instance creation' stamp: 'edrr 6/27/2022 21:17:43' prior: 50520061!
+current
+	|env|
+	
+	env := Smalltalk at: #env ifAbsent: [self error: self class enviromentNotDefinedErrorDescription.].
+	^env new initialize.! !
+
+----QUIT----(27 June 2022 21:19:30) CuisUniversity-5301.image priorSource: 6002664!

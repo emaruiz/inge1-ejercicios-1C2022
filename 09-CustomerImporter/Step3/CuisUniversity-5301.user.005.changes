@@ -1,0 +1,49 @@
+
+
+----STARTUP---- (27 June 2022 20:59:30) as /home/clinux01/Documentos/linux64 (3)/CuisUniversity-5301.image!
+
+
+Smalltalk at: 'env' put: 'a'.!
+
+Smalltalk at: 'env' put: 'a'.!
+
+Smalltalk at: 'env'.!
+
+Smalltalk at: 'env'.!
+
+----End fileIn of /home/clinux01/Documentos/linux64 (3)/Packages/TerseGuide.pck.st----!
+
+Smalltalk at: #CuisGlobal put: 'Cuis entry'.!
+
+Smalltalk at: #CuisGlobal.					!
+
+Smalltalk at: #env put: 'a'.!
+!Environment methodsFor: 'customerSystem' stamp: 'edrr 6/27/2022 21:04:21' prior: 50522746!
+customerSystem
+	env := Smalltalk at: #env ifAbsent: [self error: self class enviromentNotDefinedErrorDescription.].
+	env = #dev ifTrue: [^TransientCustomerSystem new].
+	env = #int ifTrue: [^PersistentCustomerSystem new].
+	self error: self class enviromentNotConfiguredErrorDescription.! !
+!Environment class methodsFor: 'error descriptions' stamp: 'edrr 6/27/2022 21:04:32'!
+enviromentNotConfiguredErrorDescription
+	self shouldBeImplemented.! !
+!Environment class methodsFor: 'error descriptions' stamp: 'edrr 6/27/2022 21:04:51' prior: 50525714!
+enviromentNotConfiguredErrorDescription
+	^'environment not configured'! !
+!Environment class methodsFor: 'error descriptions' stamp: 'edrr 6/27/2022 21:05:11'!
+environmentNotConfiguredErrorDescription
+	^'environment not configured'! !
+!Environment methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 21:05:11' prior: 50525702!
+customerSystem
+	env := Smalltalk at: #env ifAbsent: [self error: self class enviromentNotDefinedErrorDescription.].
+	env = #dev ifTrue: [^TransientCustomerSystem new].
+	env = #int ifTrue: [^PersistentCustomerSystem new].
+	self error: self class environmentNotConfiguredErrorDescription.! !
+
+!methodRemoval: Environment class #enviromentNotConfiguredErrorDescription stamp: 'edrr 6/27/2022 21:05:11'!
+enviromentNotConfiguredErrorDescription
+	^'environment not configured'!
+
+----SNAPSHOT----(27 June 2022 21:06:03) CuisUniversity-5301.image priorSource: 6115778!
+
+----QUIT----(27 June 2022 21:06:05) CuisUniversity-5301.image priorSource: 6211127!

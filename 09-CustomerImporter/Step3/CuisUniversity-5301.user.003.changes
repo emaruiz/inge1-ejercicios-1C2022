@@ -1,0 +1,1367 @@
+
+
+----STARTUP---- (27 June 2022 19:30:53) as /home/clinux01/Documentos/linux64 (3)/CuisUniversity-5301.image!
+
+
+----End fileIn of /home/clinux01/Documentos/2022-1c/09-CustomerImporter/Step2/CustomerImporter-60.st----!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:31:25'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:31:26'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:31:26'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:31:26'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:31:26'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:31:27'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:31:27'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:31:27'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:31:27'!
+PASSED!
+
+!classDefinition: #ImportTest category: 'CustomerImporter' stamp: 'edrr 6/27/2022 19:37:43'!
+TestCase subclass: #ImportTest
+	instanceVariableNames: 'session system'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classDefinition: #PersistentCustomerSystem category: 'CustomerImporter' stamp: 'edrr 6/27/2022 19:37:50'!
+Object subclass: #PersistentCustomerSystem
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!ImportTest methodsFor: 'setUp/tearDown' stamp: 'edrr 6/27/2022 19:37:40' prior: 50519445 overrides: 16961394!
+setUp
+
+	system := PersistentCustomerSystem new.
+	session := DataBaseSession for: (Array with: Address with: Customer).
+	session beginTransaction.
+! !
+!CustomerImporter class methodsFor: 'importing' stamp: 'edrr 6/27/2022 19:39:03'!
+valueFrom: aReadStream into: aSession using: aSystem 
+
+	^(self from: aReadStream into: aSession) value! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:39:03' prior: 50519431!
+shouldFailImporting: aReadStream messageText: anErrorMessageText asserting: anAssertionBlock
+
+	self
+		should: [ CustomerImporter valueFrom: aReadStream into: session using: system. ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anErrorMessageText equals: anError messageText.
+			anAssertionBlock value ]
+
+	! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:39:03' prior: 50519252!
+test01ValidDataIsImportedCorrectly
+
+	CustomerImporter valueFrom: self validImportData into: session using: system..
+
+	self assertImportedRightNumberOfCustomers.
+	self assertPepeSanchezWasImportedCorrecty.
+	self assertJuanPerezWasImportedCorrectly ! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:39:03' prior: 50519262!
+test02CanNotImportAddressWithoutCustomer
+
+	self
+		should: [ CustomerImporter valueFrom: self addressWithoutCustomerData into: session using: system. ]
+		raise: Error - MessageNotUnderstood
+		withMessageText: CustomerImporter canNotImportAddressWithoutCustomerErrorDescription
+
+	! !
+
+!methodRemoval: CustomerImporter class #valueFrom:into: stamp: 'edrr 6/27/2022 19:39:03'!
+valueFrom: aReadStream into: aSession
+
+	^(self from: aReadStream into: aSession) value!
+!CustomerImporter class methodsFor: 'instance creation' stamp: 'edrr 6/27/2022 19:39:47'!
+from: aReadStream into: aSession using: aSystem 
+	^self new initializeFrom: aReadStream into: aSession! !
+!CustomerImporter class methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:39:47' prior: 50519952!
+valueFrom: aReadStream into: aSession using: aSystem 
+
+	^(self from: aReadStream into: aSession using: aSystem) value! !
+
+!methodRemoval: CustomerImporter class #from:into: stamp: 'edrr 6/27/2022 19:39:47'!
+from: aReadStream into: aSession
+	^self new initializeFrom: aReadStream into: aSession!
+!CustomerImporter methodsFor: 'initialization' stamp: 'edrr 6/27/2022 19:40:36'!
+initializeFrom: aReadStream into: aSession using: aSystem 
+	session := aSession.
+	readStream := aReadStream.! !
+!CustomerImporter class methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:40:36' prior: 50520002!
+from: aReadStream into: aSession using: aSystem 
+	^self new initializeFrom: aReadStream into: aSession using: aSystem! !
+
+!methodRemoval: CustomerImporter #initializeFrom:into: stamp: 'edrr 6/27/2022 19:40:36'!
+initializeFrom: aReadStream into: aSession
+	session := aSession.
+	readStream := aReadStream.!
+
+!classDefinition: #CustomerImporter category: 'CustomerImporter' stamp: 'edrr 6/27/2022 19:41:04'!
+Object subclass: #CustomerImporter
+	instanceVariableNames: 'session readStream newCustomer line record system'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!CustomerImporter methodsFor: 'initialization' stamp: 'edrr 6/27/2022 19:41:01' prior: 50520021!
+initializeFrom: aReadStream into: aSession using: aSystem 
+	session := aSession.
+	readStream := aReadStream.
+	system := aSystem.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:41:12'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:41:13'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:41:13'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:41:13'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:41:14'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:41:14'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:41:14'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:41:14'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:41:14'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:41:15'!
+PASSED!
+
+!classDefinition: #PersistentCustomerSystem category: 'CustomerImporter' stamp: 'edrr 6/27/2022 19:42:44'!
+Object subclass: #PersistentCustomerSystem
+	instanceVariableNames: 'system'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!PersistentCustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 19:42:42'!
+customerWithIdentificationType: anIdType number: anIdNumber
+
+	^ (system
+		select: [ :aCustomer | aCustomer identificationType = anIdType and: [ aCustomer identificationNumber = anIdNumber ]]
+		ofType: Customer) anyOne! !
+!ImportTest methodsFor: 'customer' stamp: 'edrr 6/27/2022 19:43:32' prior: 50519456!
+customerWithIdentificationType: anIdType number: anIdNumber
+
+	^ system customerWithIdentificationType: anIdType number: anIdNumber.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:43:41'!
+ERROR!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:43:42'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:43:42'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:43:42'!
+ERROR!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:43:42'!
+ERROR!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:43:42'!
+ERROR!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:43:42'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:43:43'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:43:43'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:43:53'!
+ERROR!
+!PersistentCustomerSystem methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:46:20' overrides: 16920235!
+initialize
+	system := DataBaseSession for: (Array with: Address with: Customer).! !
+
+!classDefinition: #PersistentCustomerSystem category: 'CustomerImporter' stamp: 'edrr 6/27/2022 19:46:28'!
+Object subclass: #PersistentCustomerSystem
+	instanceVariableNames: 'session'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!PersistentCustomerSystem methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:46:28' prior: 50520153 overrides: 16920235!
+initialize
+	session := DataBaseSession for: (Array with: Address with: Customer).! !
+!PersistentCustomerSystem methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:46:28' prior: 50520100!
+customerWithIdentificationType: anIdType number: anIdNumber
+
+	^ (session
+		select: [ :aCustomer | aCustomer identificationType = anIdType and: [ aCustomer identificationNumber = anIdNumber ]]
+		ofType: Customer) anyOne! !
+!ImportTest methodsFor: 'setUp/tearDown' stamp: 'edrr 6/27/2022 19:46:56' prior: 50519944 overrides: 16961394!
+setUp
+
+	system := PersistentCustomerSystem new.
+	session := system session.
+	session beginTransaction.
+! !
+!PersistentCustomerSystem methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:47:08'!
+session
+	self shouldBeImplemented.
+	^session! !
+!PersistentCustomerSystem methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:47:14' prior: 50520193!
+session
+
+	^session! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:47:16'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:47:18'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:47:19'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:47:19'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:47:19'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:47:19'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:47:19'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:47:20'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:47:20'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:47:20'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:47:21'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:47:21'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:47:21'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:47:21'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:47:22'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:47:22'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:47:22'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:47:22'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:47:22'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:47:28'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:47:29'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:47:29'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:47:29'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:47:29'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:47:30'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:47:30'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:47:30'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:47:30'!
+PASSED!
+!PersistentCustomerSystem methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:48:13'!
+numberOfCustomers
+
+	^ (session selectAllOfType: Customer) size! !
+!ImportTest methodsFor: 'customer' stamp: 'edrr 6/27/2022 19:48:36' prior: 50519466!
+numberOfCustomers
+
+	^ system numberOfCustomers.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:48:39'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:48:39'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:48:40'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:48:40'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:48:40'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:48:40'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:48:41'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:48:41'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:48:41'!
+PASSED!
+!PersistentCustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 19:49:58'!
+stop
+	session close.! !
+!PersistentCustomerSystem methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:50:25'!
+commitTransactions
+	session commit.! !
+!ImportTest methodsFor: 'setUp/tearDown' stamp: 'edrr 6/27/2022 19:50:47' prior: 50519452 overrides: 16961402!
+tearDown
+
+	system commitTransactions.
+	system stop.
+	! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:50:50'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:50:50'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:50:50'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:50:51'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:50:51'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:50:51'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:50:51'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:50:52'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:50:52'!
+PASSED!
+!PersistentCustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 19:51:42'!
+start
+	session beginTransaction! !
+!ImportTest methodsFor: 'setUp/tearDown' stamp: 'edrr 6/27/2022 19:51:54' prior: 50520186 overrides: 16961394!
+setUp
+
+	system := PersistentCustomerSystem new.
+	session := system session.
+	system start.
+! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:51:56'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:51:56'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:51:56'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:51:57'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:51:57'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:51:57'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:51:57'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:51:58'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:51:58'!
+PASSED!
+
+!methodRemoval: ImportTest #customerWithIdentificationType:number: stamp: 'edrr 6/27/2022 19:54:02'!
+customerWithIdentificationType: anIdType number: anIdNumber
+
+	^ system customerWithIdentificationType: anIdType number: anIdNumber.!
+!ImportTest methodsFor: 'assertions' stamp: 'edrr 6/27/2022 19:54:02' prior: 50519383!
+assertImportedOneCustomerWithoutAddress
+
+	| importedCustomer |
+
+	self assert: 1 equals: self numberOfCustomers.
+	importedCustomer :=  system customerWithIdentificationType: 'D' number: '22333444'.
+	self assert: importedCustomer isAddressesEmpty
+	! !
+!ImportTest methodsFor: 'assertions' stamp: 'edrr 6/27/2022 19:54:02' prior: 50519364!
+assertCustomerWithIdentificationType: anIdType number: anIdNumber hasFirstName: aFirstName lastName: aLastName
+
+	| importedCustomer |
+
+	importedCustomer :=  system customerWithIdentificationType: anIdType number: anIdNumber.
+
+	self assert: aFirstName equals: importedCustomer firstName.
+	self assert: aLastName equals: importedCustomer lastName.
+	self assert: anIdType equals: importedCustomer identificationType.
+	self assert: anIdNumber equals: importedCustomer identificationNumber.
+
+	^importedCustomer
+
+	! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:54:10'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:54:10'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:54:10'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:54:11'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:54:11'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:54:11'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:54:11'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:54:11'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:54:12'!
+PASSED!
+
+!methodRemoval: ImportTest #numberOfCustomers stamp: 'edrr 6/27/2022 19:54:54'!
+numberOfCustomers
+
+	^ system numberOfCustomers.!
+!ImportTest methodsFor: 'assertions' stamp: 'edrr 6/27/2022 19:54:55' prior: 50519410!
+assertNoCustomerWasImported
+
+	^ self assert: 0 equals: ( system numberOfCustomers).! !
+!ImportTest methodsFor: 'assertions' stamp: 'edrr 6/27/2022 19:54:55' prior: 50519393!
+assertImportedRightNumberOfCustomers
+
+	^ self assert: 2 equals: ( system numberOfCustomers).! !
+!ImportTest methodsFor: 'assertions' stamp: 'edrr 6/27/2022 19:54:55' prior: 50520441!
+assertImportedOneCustomerWithoutAddress
+
+	| importedCustomer |
+
+	self assert: 1 equals: ( system numberOfCustomers).
+	importedCustomer :=  system customerWithIdentificationType: 'D' number: '22333444'.
+	self assert: importedCustomer isAddressesEmpty
+	! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:55:10'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:55:10'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:55:10'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:55:11'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:55:11'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:55:11'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:55:11'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:55:11'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:55:11'!
+PASSED!
+!ImportTest methodsFor: 'assertions' stamp: 'edrr 6/27/2022 19:55:49' prior: 50520519!
+assertImportedOneCustomerWithoutAddress
+
+	| importedCustomer |
+
+	self assert: 1 equals: system numberOfCustomers.
+	importedCustomer :=  system customerWithIdentificationType: 'D' number: '22333444'.
+	self assert: importedCustomer isAddressesEmpty
+	! !
+!ImportTest methodsFor: 'assertions' stamp: 'edrr 6/27/2022 19:56:00' prior: 50520513!
+assertImportedRightNumberOfCustomers
+
+	^ self assert: 2 equals: system numberOfCustomers.! !
+!ImportTest methodsFor: 'assertions' stamp: 'edrr 6/27/2022 19:56:06' prior: 50520507!
+assertNoCustomerWasImported
+
+	^ self assert: 0 equals: system numberOfCustomers.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 19:56:27'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 19:56:27'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 19:56:28'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 19:56:28'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 19:56:28'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 19:56:28'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 19:56:29'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 19:56:29'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 19:56:29'!
+PASSED!
+!CustomerImporter methodsFor: 'initialization' stamp: 'edrr 6/27/2022 19:59:02' prior: 50520050!
+initializeFrom: aReadStream into: aSession using: aSystem 
+	
+	readStream := aReadStream.
+	system := aSystem.! !
+!CustomerImporter methodsFor: 'initialization' stamp: 'edrr 6/27/2022 19:59:19'!
+initializeFrom: aReadStream using: aSystem 
+	
+	readStream := aReadStream.
+	system := aSystem.! !
+!CustomerImporter class methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:59:19' prior: 50520028!
+from: aReadStream into: aSession using: aSystem 
+	^self new initializeFrom: aReadStream using: aSystem! !
+
+!methodRemoval: CustomerImporter #initializeFrom:into:using: stamp: 'edrr 6/27/2022 19:59:19'!
+initializeFrom: aReadStream into: aSession using: aSystem 
+	
+	readStream := aReadStream.
+	system := aSystem.!
+!CustomerImporter class methodsFor: 'instance creation' stamp: 'edrr 6/27/2022 19:59:35'!
+from: aReadStream using: aSystem 
+	^self new initializeFrom: aReadStream using: aSystem! !
+!CustomerImporter class methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:59:35' prior: 50520009!
+valueFrom: aReadStream into: aSession using: aSystem 
+
+	^(self from: aReadStream using: aSystem) value! !
+
+!methodRemoval: CustomerImporter class #from:into:using: stamp: 'edrr 6/27/2022 19:59:35'!
+from: aReadStream into: aSession using: aSystem 
+	^self new initializeFrom: aReadStream using: aSystem!
+!CustomerImporter class methodsFor: 'importing' stamp: 'edrr 6/27/2022 19:59:46'!
+valueFrom: aReadStream using: aSystem 
+
+	^(self from: aReadStream using: aSystem) value! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:59:46' prior: 50519959!
+shouldFailImporting: aReadStream messageText: anErrorMessageText asserting: anAssertionBlock
+
+	self
+		should: [ CustomerImporter valueFrom: aReadStream using: system. ]
+		raise: Error - MessageNotUnderstood
+		withExceptionDo: [ :anError |
+			self assert: anErrorMessageText equals: anError messageText.
+			anAssertionBlock value ]
+
+	! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:59:46' prior: 50519984!
+test02CanNotImportAddressWithoutCustomer
+
+	self
+		should: [ CustomerImporter valueFrom: self addressWithoutCustomerData using: system. ]
+		raise: Error - MessageNotUnderstood
+		withMessageText: CustomerImporter canNotImportAddressWithoutCustomerErrorDescription
+
+	! !
+!ImportTest methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 19:59:46' prior: 50519973!
+test01ValidDataIsImportedCorrectly
+
+	CustomerImporter valueFrom: self validImportData using: system..
+
+	self assertImportedRightNumberOfCustomers.
+	self assertPepeSanchezWasImportedCorrecty.
+	self assertJuanPerezWasImportedCorrectly ! !
+
+!methodRemoval: CustomerImporter class #valueFrom:into:using: stamp: 'edrr 6/27/2022 19:59:46'!
+valueFrom: aReadStream into: aSession using: aSystem 
+
+	^(self from: aReadStream using: aSystem) value!
+!ImportTest methodsFor: 'setUp/tearDown' stamp: 'edrr 6/27/2022 20:00:03' prior: 50520395 overrides: 16961394!
+setUp
+
+	system := PersistentCustomerSystem new.
+	system start.
+! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:00:09'!
+ERROR!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:00:09'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:00:09'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:00:09'!
+ERROR!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:00:09'!
+ERROR!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:00:09'!
+ERROR!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:00:09'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:00:09'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:00:09'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:00:18'!
+ERROR!
+!CustomerImporter methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:00:59'!
+addCustomer
+
+	^ session persist: newCustomer! !
+!CustomerImporter methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:00:59' prior: 50519680!
+importCustomer
+
+	self assertValidCustomerRecord.
+
+	newCustomer := Customer new.
+	newCustomer firstName: record second.
+	newCustomer lastName: record third.
+	newCustomer identificationType: record fourth.
+	newCustomer identificationNumber: record fifth.
+	self addCustomer! !
+!CustomerImporter methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:01:35'!
+addCustomer: aCustomer
+
+	^ session persist: newCustomer! !
+!CustomerImporter methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 20:01:35' prior: 50520758!
+importCustomer
+
+	self assertValidCustomerRecord.
+
+	newCustomer := Customer new.
+	newCustomer firstName: record second.
+	newCustomer lastName: record third.
+	newCustomer identificationType: record fourth.
+	newCustomer identificationNumber: record fifth.
+	self addCustomer: newCustomer! !
+
+!methodRemoval: CustomerImporter #addCustomer stamp: 'edrr 6/27/2022 20:01:35'!
+addCustomer
+
+	^ session persist: newCustomer!
+!CustomerImporter methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:01:48' prior: 50520775!
+importCustomer
+
+	self assertValidCustomerRecord.
+
+	newCustomer := Customer new.
+	newCustomer firstName: record second.
+	newCustomer lastName: record third.
+	newCustomer identificationType: record fourth.
+	newCustomer identificationNumber: record fifth.
+	self addCustomer: newCustomer.! !
+!CustomerImporter methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:01:57' prior: 50520769!
+addCustomer: aCustomer
+
+	^ session persist: aCustomer! !
+!PersistentCustomerSystem methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 20:02:12'!
+addCustomer: aCustomer
+
+	^ session persist: aCustomer! !
+!CustomerImporter methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:02:30' prior: 50520791!
+importCustomer
+
+	self assertValidCustomerRecord.
+
+	newCustomer := Customer new.
+	newCustomer firstName: record second.
+	newCustomer lastName: record third.
+	newCustomer identificationType: record fourth.
+	newCustomer identificationNumber: record fifth.
+	system addCustomer: newCustomer.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:02:31'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:02:34'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:02:34'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:02:34'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:02:34'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:02:34'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:02:35'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:02:35'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:02:36'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:02:36'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:02:41'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:02:41'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:02:41'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:02:41'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:02:42'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:02:42'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:02:42'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:02:42'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:02:42'!
+PASSED!
+
+!methodRemoval: CustomerImporter #addCustomer: stamp: 'edrr 6/27/2022 20:03:45'!
+addCustomer: aCustomer
+
+	^ session persist: aCustomer!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:03:50'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:03:51'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:03:51'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:03:51'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:03:51'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:03:52'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:03:52'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:03:52'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:03:52'!
+PASSED!
+
+!classDefinition: #CustomerImporter category: 'CustomerImporter' stamp: 'edrr 6/27/2022 20:04:09'!
+Object subclass: #CustomerImporter
+	instanceVariableNames: 'readStream newCustomer line record system'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classDefinition: #ImportTest category: 'CustomerImporter' stamp: 'edrr 6/27/2022 20:04:17'!
+TestCase subclass: #ImportTest
+	instanceVariableNames: 'system'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classDefinition: #CustomerSystem category: 'CustomerImporter' stamp: 'edrr 6/27/2022 20:05:44'!
+Object subclass: #CustomerSystem
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classDefinition: #PersistentCustomerSystem category: 'CustomerImporter' stamp: 'edrr 6/27/2022 20:05:44'!
+CustomerSystem subclass: #PersistentCustomerSystem
+	instanceVariableNames: 'session'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!methodRemoval: PersistentCustomerSystem #session stamp: 'edrr 6/27/2022 20:06:27'!
+session
+
+	^session!
+!CustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 20:06:47'!
+addCustomer: aCustomer
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 20:07:01'!
+commitTransactions
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 20:07:14'!
+customerWithIdentificationType: anIdType number: anIdNumber
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 20:07:29'!
+numberOfCustomers
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 20:07:42'!
+start
+	! !
+!CustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 20:07:54'!
+stop
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'as yet unclassified' stamp: 'edrr 6/27/2022 20:08:01' prior: 50520982!
+start
+	self subclassResponsibility.! !
+
+!classDefinition: #TransientCustomerSystem category: 'CustomerImporter' stamp: 'edrr 6/27/2022 20:10:11'!
+Object subclass: #TransientCustomerSystem
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!ImportTest methodsFor: 'setUp/tearDown' stamp: 'edrr 6/27/2022 20:10:04' prior: 50520713 overrides: 16961394!
+setUp
+
+	system := TransientCustomerSystem new.
+	system start.
+! !
+
+CustomerSystem subclass: #TransientCustomerSystem
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classDefinition: #TransientCustomerSystem category: 'CustomerImporter' stamp: 'edrr 6/27/2022 20:10:28'!
+CustomerSystem subclass: #TransientCustomerSystem
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!methodRemoval: CustomerSystem #addCustomer: stamp: 'edrr 6/27/2022 20:12:09'!
+addCustomer: aCustomer
+	self subclassResponsibility.!
+
+!methodRemoval: CustomerSystem #commitTransactions stamp: 'edrr 6/27/2022 20:12:10'!
+commitTransactions
+	self subclassResponsibility.!
+
+!methodRemoval: CustomerSystem #customerWithIdentificationType:number: stamp: 'edrr 6/27/2022 20:12:13'!
+customerWithIdentificationType: anIdType number: anIdNumber
+	self subclassResponsibility.!
+
+!methodRemoval: CustomerSystem #numberOfCustomers stamp: 'edrr 6/27/2022 20:12:15'!
+numberOfCustomers
+	self subclassResponsibility.!
+
+!methodRemoval: CustomerSystem #start stamp: 'edrr 6/27/2022 20:12:16'!
+start
+	self subclassResponsibility.!
+
+!methodRemoval: CustomerSystem #stop stamp: 'edrr 6/27/2022 20:12:18'!
+stop
+	self subclassResponsibility.!
+!TransientCustomerSystem methodsFor: 'system' stamp: 'edrr 6/27/2022 20:12:45'!
+start
+	self shouldBeImplemented.! !
+!TransientCustomerSystem methodsFor: 'system' stamp: 'edrr 6/27/2022 20:13:03' prior: 50521047!
+start
+	! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:13:05'!
+ERROR!
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:13:12'!
+addCustomer: aCustomer 
+	self shouldBeImplemented.! !
+
+!classDefinition: #TransientCustomerSystem category: 'CustomerImporter' stamp: 'edrr 6/27/2022 20:13:26'!
+CustomerSystem subclass: #TransientCustomerSystem
+	instanceVariableNames: 'customers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:13:24' prior: 50521059!
+addCustomer: aCustomer 
+	customers add: aCustomer.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:13:28'!
+ERROR!
+!TransientCustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 20:13:54' overrides: 16920235!
+initialize
+	customers := OrderedCollection new.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:13:59'!
+ERROR!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:14:54'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:14:54'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:14:54'!
+ERROR!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:14:56'!
+ERROR!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:15:10'!
+ERROR!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:15:10'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:15:10'!
+ERROR!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:15:10'!
+ERROR!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:15:10'!
+ERROR!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:15:10'!
+ERROR!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:15:10'!
+ERROR!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:15:10'!
+ERROR!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:15:10'!
+ERROR!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:15:37'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:15:37'!
+PASSED!
+!TransientCustomerSystem methodsFor: 'transactions' stamp: 'edrr 6/27/2022 20:15:51'!
+commitTransactions
+	self shouldBeImplemented.! !
+!TransientCustomerSystem methodsFor: 'transactions' stamp: 'edrr 6/27/2022 20:15:53' prior: 50521194!
+commitTransactions
+	! !
+!TransientCustomerSystem methodsFor: 'system' stamp: 'edrr 6/27/2022 20:16:20'!
+stop
+	self shouldBeImplemented.! !
+!TransientCustomerSystem methodsFor: 'system' stamp: 'edrr 6/27/2022 20:16:33' prior: 50521203!
+stop
+	customers := nil.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:16:39'!
+ERROR!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:16:39'!
+ERROR!
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:16:47'!
+numberOfCustomers
+	self shouldBeImplemented.! !
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:16:56' prior: 50521218!
+numberOfCustomers
+	^customers size.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:16:57'!
+ERROR!
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:17:09'!
+customerWithIdentificationType: aString number: aString2 
+	self shouldBeImplemented.! !
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:18:02' prior: 50521230!
+customerWithIdentificationType: anIdType number: anIdNumber 
+	^ (customers 
+		select: [ :aCustomer | aCustomer identificationType = anIdType and: [ aCustomer identificationNumber = anIdNumber ]]
+		ofType: Customer) anyOne! !
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:18:24' prior: 50521236!
+customerWithIdentificationType: anIdType number: anIdNumber 
+	^ (customers 
+		select: [ :aCustomer | aCustomer identificationType = anIdType and: [ aCustomer identificationNumber = anIdNumber ]]) anyOne! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:18:26'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:18:33'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:18:37'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:18:37'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:18:37'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:18:37'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:18:37'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:18:37'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:18:37'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:18:37'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:18:37'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:18:41'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:18:41'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:18:41'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:18:41'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:18:41'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:18:41'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:18:41'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:18:41'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:18:41'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:18:46'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:18:46'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:18:46'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:18:46'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:18:46'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:18:46'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:18:46'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:18:46'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:18:46'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:18:55'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:18:55'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:18:55'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:18:55'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:18:55'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:18:55'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:18:55'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:18:55'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:18:55'!
+PASSED!
+!TransientCustomerSystem methodsFor: 'system' stamp: 'edrr 6/27/2022 20:19:13' prior: 50521052!
+start
+	customers := OrderedCollection new.! !
+
+!methodRemoval: TransientCustomerSystem #initialize stamp: 'edrr 6/27/2022 20:19:38'!
+initialize
+	customers := OrderedCollection new.!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:19:43'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:19:43'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:19:43'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:19:43'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:19:43'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:19:43'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:19:43'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:19:43'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:19:43'!
+PASSED!
+!ImportTest methodsFor: 'setUp/tearDown' stamp: 'edrr 6/27/2022 20:20:13' prior: 50521003 overrides: 16961394!
+setUp
+
+	system := PersistentCustomerSystem new.
+	system start.
+! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:20:14'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:20:15'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:20:15'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:20:15'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:20:15'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:20:16'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:20:16'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:20:16'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:20:16'!
+PASSED!
+!TransientCustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 20:21:49' overrides: 16920235!
+initialize
+	customers := OrderedCollection new.! !
+!TransientCustomerSystem methodsFor: 'system' stamp: 'edrr 6/27/2022 20:22:00' prior: 50521392!
+start
+	! !
+!CustomerSystem methodsFor: 'nil' stamp: 'edrr 6/27/2022 20:23:10'!
+start
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'system' stamp: 'edrr 6/27/2022 20:23:24'!
+stop
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:23:43'!
+addCustomer: aCustomer 
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:23:59'!
+customerWithIdentificationType: anIdType number: anIdNumber 
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:24:13'!
+numberOfCustomers
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'transactions' stamp: 'edrr 6/27/2022 20:24:28'!
+commitTransactions
+	self subclassResponsibility.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:25:09'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:25:09'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:25:10'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:25:10'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:25:10'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:25:10'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:25:11'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:25:11'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:25:11'!
+PASSED!
+!ImportTest methodsFor: 'setUp/tearDown' stamp: 'edrr 6/27/2022 20:25:39' prior: 50521434 overrides: 16961394!
+setUp
+
+	system := TransientCustomerSystem new.
+	system start.
+! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:25:40'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:25:40'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:25:40'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:25:40'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:25:40'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:25:40'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:25:40'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:25:40'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:25:40'!
+PASSED!

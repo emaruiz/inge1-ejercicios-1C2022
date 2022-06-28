@@ -1,0 +1,414 @@
+
+
+----STARTUP---- (27 June 2022 20:26:38) as /home/clinux01/Documentos/linux64 (3)/CuisUniversity-5301.image!
+
+
+----End fileIn of /home/clinux01/Documentos/linux64 (3)/CustomerImporter.st----!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:27:27'!
+ERROR!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:27:27'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:27:27'!
+ERROR!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:27:27'!
+ERROR!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:27:27'!
+ERROR!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:27:27'!
+ERROR!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:27:27'!
+ERROR!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:27:27'!
+ERROR!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:27:27'!
+ERROR!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:27:30'!
+ERROR!
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:27:41'!
+numberOfCustomers
+	self shouldBeImplemented.! !
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:27:51' prior: 50522352!
+numberOfCustomers
+	^customers size.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:27:52'!
+ERROR!
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:28:01'!
+customerWithIdentificationType: aString number: aString2 
+	self shouldBeImplemented.! !
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:28:26' prior: 50522364!
+customerWithIdentificationType: anIdType number: anIdNumber 
+	^ (customers 
+		select: [ :aCustomer | aCustomer identificationType = anIdType and: [ aCustomer identificationNumber = anIdNumber ]]
+		ofType: Customer) anyOne! !
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:28:32' prior: 50522370!
+customerWithIdentificationType: anIdType number: anIdNumber 
+	^ (customers 
+		select: [ :aCustomer | aCustomer identificationType = anIdType and: [ aCustomer identificationNumber = anIdNumber ]]) anyOne! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:28:33'!
+PASSED!
+!TransientCustomerSystem methodsFor: 'transactions' stamp: 'edrr 6/27/2022 20:28:54'!
+commitTransactions
+	self shouldBeImplemented.! !
+!TransientCustomerSystem methodsFor: 'transactions' stamp: 'edrr 6/27/2022 20:28:56' prior: 50522394!
+commitTransactions
+	! !
+!TransientCustomerSystem methodsFor: 'system' stamp: 'edrr 6/27/2022 20:29:04'!
+stop
+	self shouldBeImplemented.! !
+!TransientCustomerSystem methodsFor: 'system' stamp: 'edrr 6/27/2022 20:29:11' prior: 50522403!
+stop
+	customers := nil.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:29:16'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:29:24'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:29:24'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:29:24'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:29:24'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:29:24'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:29:24'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:29:24'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:29:24'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:29:24'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:29:26'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:29:26'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:29:26'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:29:26'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:29:26'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:29:26'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:29:26'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:29:26'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:29:26'!
+PASSED!
+!CustomerSystem methodsFor: 'system' stamp: 'edrr 6/27/2022 20:30:24'!
+start
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'system' stamp: 'edrr 6/27/2022 20:30:39'!
+stop
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:31:07'!
+addCustomer: aCustomer 
+	self subclassResponsibility .! !
+!CustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:31:10' prior: 50522545!
+addCustomer: aCustomer 
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:31:24'!
+customerWithIdentificationType: anIdType number: anIdNumber 
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'customer' stamp: 'edrr 6/27/2022 20:31:46'!
+numberOfCustomers
+	self subclassResponsibility.! !
+!CustomerSystem methodsFor: 'transactions' stamp: 'edrr 6/27/2022 20:32:12'!
+commitTransactions
+	self subclassResponsibility.! !
+
+----SNAPSHOT----(27 June 2022 20:32:28) CuisUniversity-5301.image priorSource: 6002664!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:32:34'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:32:34'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:32:34'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:32:34'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:32:34'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:32:34'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:32:34'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:32:34'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:32:34'!
+PASSED!
+
+----SNAPSHOT----(27 June 2022 20:32:47) CuisUniversity-5301.image priorSource: 6109395!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:33:10'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:33:10'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:33:10'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:33:10'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:33:10'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:33:10'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:33:10'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:33:10'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:33:10'!
+PASSED!
+!ImportTest methodsFor: 'setUp/tearDown' stamp: 'edrr 6/27/2022 20:33:21' prior: 50521788 overrides: 16961394!
+setUp
+
+	system := PersistentCustomerSystem new.
+	system start.
+! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'edrr 6/27/2022 20:33:26'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'edrr 6/27/2022 20:33:27'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'edrr 6/27/2022 20:33:27'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'edrr 6/27/2022 20:33:27'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'edrr 6/27/2022 20:33:27'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'edrr 6/27/2022 20:33:28'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'edrr 6/27/2022 20:33:28'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'edrr 6/27/2022 20:33:28'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'edrr 6/27/2022 20:33:28'!
+PASSED!
+
+!classDefinition: #Environment category: 'CustomerImporter' stamp: 'edrr 6/27/2022 20:36:40'!
+Object subclass: #Environment
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!ImportTest methodsFor: 'setUp/tearDown' stamp: 'edrr 6/27/2022 20:36:33' prior: 50522640 overrides: 16961394!
+setUp
+
+	system := Environment current customerSystem.
+	system start.
+! !
+!Environment class methodsFor: 'instance creation' stamp: 'edrr 6/27/2022 20:37:15'!
+current
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeCurrent! !
+!Environment class methodsFor: 'instance creation' stamp: 'edrr 6/27/2022 20:37:24' prior: 50522690!
+current
+
+	^self new initializeCurrent! !
+!Environment methodsFor: 'initialization' stamp: 'edrr 6/27/2022 20:37:38'!
+initializeCurrent
+	self shouldBeImplemented.! !
+!Environment methodsFor: 'initialization' stamp: 'edrr 6/27/2022 20:37:42' prior: 50522702!
+initializeCurrent
+	! !
+!Environment methodsFor: 'customerSystem' stamp: 'edrr 6/27/2022 20:37:58'!
+customerSystem
+	self shouldBeImplemented.! !
+
+!classDefinition: #Environment category: 'CustomerImporter' stamp: 'edrr 6/27/2022 20:39:49'!
+Object subclass: #Environment
+	instanceVariableNames: 'env'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!Environment methodsFor: 'customerSystem' stamp: 'edrr 6/27/2022 20:39:46' prior: 50522711!
+customerSystem
+	env := Smalltalk at: 'env'. ! !
+!Environment methodsFor: 'customerSystem' stamp: 'edrr 6/27/2022 20:41:13' prior: 50522723!
+customerSystem
+	env := Smalltalk at: 'env'.
+	env = #dev ifTrue: [^TransientCustomerSystem new].
+	env = #int ifTrue: [^PersistentCustomerSystem new].! !
+!Environment methodsFor: 'customerSystem' stamp: 'edrr 6/27/2022 20:43:46' prior: 50522728!
+customerSystem
+	env := Smalltalk at: 'env'.
+	env = #dev ifTrue: [^TransientCustomerSystem new].
+	env = #int ifTrue: [^PersistentCustomerSystem new].
+	self error: self class enviromentNotDefinedErrorDescription.! !
+!Environment methodsFor: 'customerSystem' stamp: 'edrr 6/27/2022 20:46:37' prior: 50522736!
+customerSystem
+	env := Smalltalk at: 'env' ifAbsent: [self error: self class enviromentNotDefinedErrorDescription.].
+	env = #dev ifTrue: [^TransientCustomerSystem new].
+	env = #int ifTrue: [^PersistentCustomerSystem new].
+	self error: self class enviromentNotConfiguredErrorDescription.! !
+!Environment class methodsFor: 'error descriptions' stamp: 'edrr 6/27/2022 20:46:56'!
+enviromentNotDefinedErrorDescription
+	self shouldBeImplemented.! !
+!Environment class methodsFor: 'error descriptions' stamp: 'edrr 6/27/2022 20:47:17' prior: 50522758!
+enviromentNotDefinedErrorDescription
+	^'enviroment not defined'! !
+
+----SNAPSHOT----(27 June 2022 20:49:18) CuisUniversity-5301.image priorSource: 6110512!
+
+Smalltalk at: 'env' put: #a!
+
+Smalltalk at: 'env'!
+
+Smalltalk!
+
+Smalltalk!
+
+Smalltalk at: 'env' !
+
+Smalltalk at: 'env' put: 'a'!
+
+Smalltalk at: 'env'!
+
+Smalltalk at: 'env'!
+
+Smalltalk at: 'env' put: 'a'.!
+
+Smalltalk at: 'env' put: 'a'.!
+
+Smalltalk at: 'env'!
+
+Smalltalk at: 'env' put: 'a'.!
+
+Smalltalk at: 'env'!
+
+y := Dictionary new.!
+
+y at: 'env' put: 'a'.!
+
+y at: 'env'!
+
+Smalltalk at: 'env' put: 'a'.!
+
+Smalltalk at: 'env'.!
+
+Smalltalk at: 'env' put: #A.!
+
+Smalltalk at: 'env' put: #A.!
+
+Smalltalk at: 'env'.!
+!SystemDictionary methodsFor: 'dictionary access' stamp: 'edrr 6/27/2022 20:58:50' prior: 16951830 overrides: 16842157!
+at: aKey put: anObject 
+	"Override from Dictionary to check Undeclared and fix up
+	references to undeclared variables."
+
+	| association |
+	(self includesKey: aKey) ifFalse: [
+		self flushClassNameCache.
+
+		"Update existing association if there is one."
+		(Undeclared includesKey: aKey) ifTrue: [
+			association _ self declare: aKey from: Undeclared.
+			association value: anObject.
+			^ anObject ]].
+
+	"Update existing association if there is one."
+	^super at: aKey put: anObject! !

@@ -1,0 +1,2 @@
+1)Desacoplar la base de datos. Solucion: crear sistema persistent y transit que modelan conexion a la base de datos y trabajar con objetos en memoria.
+2)Permitir correr en diferentes entornos sin cambiar codigo (desarrollo e integración). Solucion: crear abstraccion de enviroment y setear las variables de entorno en el diccionario smalltalk.

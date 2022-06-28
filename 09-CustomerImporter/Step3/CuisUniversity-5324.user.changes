@@ -1,0 +1,603 @@
+
+
+----QUIT----(28 June 2022 10:51:03) CuisUniversity-5324.image priorSource: 3389678!
+
+----STARTUP---- (28 June 2022 10:51:03) as /Users/hernan/Documents/Cuis/5.0-64Bits/Cuis-University-Installer/CuisUniversity-5324.image!
+
+
+----QUIT----(28 June 2022 10:51:03) CuisUniversity-5324.image priorSource: 7600809!
+
+----STARTUP---- (28 June 2022 17:34:45) as /home/javier/Documents/UBA Exactas/Actual/8_Ingenieria de Software I/1_Practica/CUIS_2/CuisUniversity-5324.image!
+
+
+----SNAPSHOT----(28 June 2022 17:35:01) CuisUniversity-5324.image priorSource: 7601032!
+
+----End fileIn of /home/javier/Documents/UBA Exactas/Actual/8_Ingenieria de Software I/1_Practica/CUIS_2/CustomerImporter.st----!
+
+TestCase subclass: #EnvironmentTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classDefinition: #EnvironmentTest category: 'CustomerImporter' stamp: 'jeo 6/28/2022 17:36:29'!
+TestCase subclass: #EnvironmentTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classRemoval: #Environment stamp: 'jeo 6/28/2022 17:37:26'!
+Object subclass: #Environment
+	instanceVariableNames: 'env'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classRemoval: #DataBaseSession stamp: 'jeo 6/28/2022 17:37:27'!
+Object subclass: #DataBaseSession
+	instanceVariableNames: 'configuration tables id'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classRemoval: #TransientCustomerSystem stamp: 'jeo 6/28/2022 17:37:28'!
+CustomerSystem subclass: #TransientCustomerSystem
+	instanceVariableNames: 'customers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classRemoval: #PersistentCustomerSystem stamp: 'jeo 6/28/2022 17:37:28'!
+CustomerSystem subclass: #PersistentCustomerSystem
+	instanceVariableNames: 'session'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classRemoval: #CustomerSystem stamp: 'jeo 6/28/2022 17:37:29'!
+Object subclass: #CustomerSystem
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classRemoval: #CustomerImporter stamp: 'jeo 6/28/2022 17:37:30'!
+Object subclass: #CustomerImporter
+	instanceVariableNames: 'readStream newCustomer line record system'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classRemoval: #Customer stamp: 'jeo 6/28/2022 17:37:30'!
+Object subclass: #Customer
+	instanceVariableNames: 'id firstName lastName identificationType identificationNumber addresses'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classRemoval: #Address stamp: 'jeo 6/28/2022 17:37:31'!
+Object subclass: #Address
+	instanceVariableNames: 'id streetName streetNumber town zipCode province'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classRemoval: #ImportTest stamp: 'jeo 6/28/2022 17:37:32'!
+TestCase subclass: #ImportTest
+	instanceVariableNames: 'system'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classRemoval: #EnvironmentTest stamp: 'jeo 6/28/2022 17:37:33'!
+TestCase subclass: #EnvironmentTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+----End fileIn of /home/javier/Documents/UBA Exactas/Actual/8_Ingenieria de Software I/1_Practica/CUIS_2/CustomerImporter.st----!
+
+Smalltalk at: #env put: #dev!
+
+Environment subclass: #EnvironmentDev
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classDefinition: #EnvironmentDev category: 'CustomerImporter' stamp: 'jeo 6/28/2022 17:51:48'!
+Environment subclass: #EnvironmentDev
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!EnvironmentDev methodsFor: 'no messages' stamp: 'jeo 6/28/2022 17:52:16' overrides: 50570919!
+customerSystem
+	^TransientCustomerSystem new.! !
+
+Environment subclass: #EnvironmentInt
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classDefinition: #EnvironmentInt category: 'CustomerImporter' stamp: 'jeo 6/28/2022 17:52:34'!
+Environment subclass: #EnvironmentInt
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!EnvironmentInt methodsFor: 'no messages' stamp: 'jeo 6/28/2022 17:53:23' overrides: 50570919!
+customerSystem
+	^PersistentCustomerSystem new.
+	! !
+!Environment methodsFor: 'customerSystem' stamp: 'jeo 6/28/2022 17:53:50' prior: 50570919!
+customerSystem
+	self subclassResponsibility! !
+!Environment class methodsFor: 'instance creation' stamp: 'jeo 6/28/2022 17:57:15' prior: 50570939!
+current
+	| env |
+	env := Smalltalk at: #env ifAbsent: [self error: self class enviromentNotDefinedErrorDescription.].
+	env = #dev ifTrue: [^EnvironmentDev new initialize].
+	env = #int ifTrue: [^EnvironmentInt new initialize].
+	self error: self class environmentNotConfiguredErrorDescription.! !
+!Environment class methodsFor: 'instance creation' stamp: 'jeo 6/28/2022 17:57:39' prior: 50571002!
+current
+	| env |
+	env := Smalltalk at: #env ifAbsent: [self error: self enviromentNotDefinedErrorDescription.].
+	env = #dev ifTrue: [^EnvironmentDev new initialize].
+	env = #int ifTrue: [^EnvironmentInt new initialize].
+	self error: self environmentNotConfiguredErrorDescription.! !
+
+!methodRemoval: Environment #initializeCurrent stamp: 'jeo 6/28/2022 17:58:14'!
+initializeCurrent
+	!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 17:58:19'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 17:58:19'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 17:58:19'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 17:58:19'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 17:58:19'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 17:58:19'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 17:58:19'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 17:58:19'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 17:58:19'!
+PASSED!
+
+Smalltalk at: #env put: #int!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 17:58:34'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 17:58:34'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 17:58:34'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 17:58:34'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 17:58:35'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 17:58:35'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 17:58:35'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 17:58:35'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 17:58:35'!
+PASSED!
+
+Smalltalk at: #env put: EnvironmentDev!
+!Environment class methodsFor: 'instance creation' stamp: 'jeo 6/28/2022 18:00:18' prior: 50571015!
+current
+	| env |
+	env := Smalltalk at: #env ifAbsent: [self error: self enviromentNotDefinedErrorDescription.].
+	^env new initialize.
+	"env = #dev ifTrue: [^EnvironmentDev new initialize].
+	env = #int ifTrue: [^EnvironmentInt new initialize].
+	self error: self environmentNotConfiguredErrorDescription."! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 18:00:19'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 18:00:19'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 18:00:19'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 18:00:19'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 18:00:19'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 18:00:19'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 18:00:19'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 18:00:19'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 18:00:19'!
+PASSED!
+!Environment class methodsFor: 'instance creation' stamp: 'jeo 6/28/2022 18:02:02' prior: 50571097!
+current
+	| env |
+	env := Smalltalk at: #env ifAbsent: [self error: self enviromentNotDefinedErrorDescription.].
+	^env new initialize.! !
+!Environment class methodsFor: 'instance creation' stamp: 'jeo 6/28/2022 18:08:28' prior: 50571142!
+current
+	| env |
+	env := Smalltalk at: #env ifAbsent: [self error: self enviromentNotDefinedErrorDescription.].
+	(self subclasses includes: env) ifFalse: [self error: self environmentNotConfiguredErrorDescription].
+	^env new initialize.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 18:08:35'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 18:08:35'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 18:08:35'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 18:08:35'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 18:08:35'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 18:08:35'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 18:08:35'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 18:08:35'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 18:08:35'!
+PASSED!
+
+Smalltalk at: #env put: 'HOLA'!
+!TransientCustomerSystem methodsFor: 'customer' stamp: 'jeo 6/28/2022 18:13:13' prior: 50570776 overrides: 50570678!
+customerWithIdentificationType: anIdType number: anIdNumber 
+	^ customers 
+		detect: [ :aCustomer | aCustomer identificationType = anIdType and: [ aCustomer identificationNumber = anIdNumber ]]! !
+!ImportTest methodsFor: 'tests' stamp: 'jeo 6/28/2022 18:14:31' prior: 50570130!
+test01ValidDataIsImportedCorrectly
+
+	CustomerImporter valueFrom: self validImportData using: system.
+
+	self assertImportedRightNumberOfCustomers.
+	self assertPepeSanchezWasImportedCorrecty.
+	self assertJuanPerezWasImportedCorrectly ! !
+
+Smalltalk at: #env put: EnvironmentInt!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 18:15:45'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 18:15:45'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 18:15:45'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 18:15:45'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 18:15:46'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 18:15:46'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 18:15:46'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 18:15:46'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 18:15:46'!
+PASSED!
+
+Smalltalk at: #env put: EnvironmentDev!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 18:15:57'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 18:15:57'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 18:15:57'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 18:15:57'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 18:15:57'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 18:15:57'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 18:15:57'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 18:15:57'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 18:15:57'!
+PASSED!
+
+Smalltalk at: #env put: Object!
+
+----SNAPSHOT----(28 June 2022 18:16:42) CuisUniversity-5324.image priorSource: 7601276!
+
+----SNAPSHOT----(28 June 2022 18:20:39) CuisUniversity-5324.image priorSource: 7668180!
+
+Environment subclass: #EnvironmentNotConfigured
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+
+!classDefinition: #EnvironmentNotConfigured category: 'CustomerImporter' stamp: 'jeo 6/28/2022 18:25:45'!
+Environment subclass: #EnvironmentNotConfigured
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!Environment class methodsFor: 'instance creation' stamp: 'jeo 6/28/2022 18:26:13' prior: 50571150!
+current
+	| env |
+	env := Smalltalk at: #env ifAbsent: [self error: self enviromentNotDefinedErrorDescription.].
+	(self subclasses includes: env) ifFalse: [env := EnvironmentNotConfigured].
+	^env new initialize.! !
+!EnvironmentNotConfigured methodsFor: 'no messages' stamp: 'jeo 6/28/2022 18:26:59' overrides: 50570997!
+customerSystem
+	self error: self class environmentNotConfiguredErrorDescription.! !
+
+----SNAPSHOT----(28 June 2022 18:28:23) CuisUniversity-5324.image priorSource: 7668269!
+
+Smalltalk at: #env put: EnvironmentDev!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 18:28:36'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 18:28:36'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 18:28:36'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 18:28:36'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 18:28:36'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 18:28:36'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 18:28:36'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 18:28:36'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 18:28:36'!
+PASSED!
+
+----SNAPSHOT----(28 June 2022 18:28:45) CuisUniversity-5324.image priorSource: 7669299!
+!Environment class methodsFor: 'instance creation' stamp: 'jeo 6/28/2022 18:48:25' prior: 50571301!
+current
+	| env |
+	env := Smalltalk at: #env ifAbsent: [self error: self enviromentNotDefinedErrorDescription.].
+	(self subclasses includes: env) ifFalse: [self error: self environmentNotConfiguredErrorDescription].
+	^env new initialize.! !
+
+!classRemoval: #EnvironmentNotConfigured stamp: 'jeo 6/28/2022 18:48:31'!
+Environment subclass: #EnvironmentNotConfigured
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'CustomerImporter'!
+!Environment class methodsFor: 'instance creation' stamp: 'jeo 6/28/2022 18:49:39' prior: 50571356!
+current
+	| env |
+	env := Smalltalk at: #env ifAbsent: [self error: self enviromentNotDefinedErrorDescription.].
+	self subclasses detect: [:subclass | subclass isTypeOf: env ] ifNone: [self error: self environmentNotConfiguredErrorDescription].
+	^env new initialize.! !
+!EnvironmentDev class methodsFor: 'no messages' stamp: 'jeo 6/28/2022 18:50:01'!
+isTypeOf: aSymbol
+	! !
+!EnvironmentDev class methodsFor: 'as yet unclassified' stamp: 'jeo 6/28/2022 18:50:12' prior: 50571385!
+isTypeOf: aSymbol
+	^ aSymbol = #dev! !
+!EnvironmentInt class methodsFor: 'no messages' stamp: 'jeo 6/28/2022 18:50:28'!
+isTypeOf: aSymbol
+	^ aSymbol = #int! !
+
+Smalltalk at: #env put: #dev!
+!Environment class methodsFor: 'instance creation' stamp: 'jeo 6/28/2022 18:51:24' prior: 50571374!
+current
+	| env current |
+	env := Smalltalk at: #env ifAbsent: [self error: self enviromentNotDefinedErrorDescription.].
+	current := self subclasses detect: [:subclass | subclass isTypeOf: env ] ifNone: [self error: self environmentNotConfiguredErrorDescription].
+	^current new initialize.! !
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 18:51:28'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 18:51:28'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 18:51:28'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 18:51:28'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 18:51:28'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 18:51:28'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 18:51:28'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 18:51:28'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 18:51:28'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 18:51:39'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 18:51:39'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 18:51:39'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 18:51:39'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 18:51:39'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 18:51:39'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 18:51:39'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 18:51:39'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 18:51:39'!
+PASSED!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 18:51:43'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 18:51:43'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 18:51:43'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 18:51:43'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 18:51:43'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 18:51:43'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 18:51:43'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 18:51:43'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 18:51:43'!
+PASSED!
+
+Smalltalk at: #env put: #int!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 18:51:56'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 18:51:57'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 18:51:57'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 18:51:57'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 18:51:57'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 18:51:58'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 18:51:58'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 18:51:58'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 18:51:58'!
+PASSED!
+
+Smalltalk at: #env put: #hola!
+!Environment class methodsFor: 'nil' stamp: 'jeo 6/28/2022 18:53:03'!
+isTypeOf: aSymbol
+
+	self subclassResponsibility! !
+
+Smalltalk at: #env put: #dev!
+
+!testRun: #ImportTest #test01ValidDataIsImportedCorrectly stamp: 'jeo 6/28/2022 18:54:21'!
+PASSED!
+
+!testRun: #ImportTest #test02CanNotImportAddressWithoutCustomer stamp: 'jeo 6/28/2022 18:54:21'!
+PASSED!
+
+!testRun: #ImportTest #test03DoesNotImportRecordsStartingWithCButMoreCharacters stamp: 'jeo 6/28/2022 18:54:21'!
+PASSED!
+
+!testRun: #ImportTest #test04DoesNotImportRecordsStartingWithAButMoreCharacters stamp: 'jeo 6/28/2022 18:54:21'!
+PASSED!
+
+!testRun: #ImportTest #test05CanNotImportAddressRecordWithLessThanSixFields stamp: 'jeo 6/28/2022 18:54:21'!
+PASSED!
+
+!testRun: #ImportTest #test06CanNotImportAddressRecordWithMoreThanSixFields stamp: 'jeo 6/28/2022 18:54:21'!
+PASSED!
+
+!testRun: #ImportTest #test07CanNotImportCustomerRecordWithLessThanFiveFields stamp: 'jeo 6/28/2022 18:54:21'!
+PASSED!
+
+!testRun: #ImportTest #test08CanNotImportCustomerRecordWithMoreThanFiveFields stamp: 'jeo 6/28/2022 18:54:21'!
+PASSED!
+
+!testRun: #ImportTest #test09CannotImportEmptyLine stamp: 'jeo 6/28/2022 18:54:21'!
+PASSED!
+
+----SNAPSHOT----(28 June 2022 18:54:29) CuisUniversity-5324.image priorSource: 7670448!
